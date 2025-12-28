@@ -239,6 +239,44 @@ definitions:
       status:
         type: string
     type: object
+  requestModel.Customer:
+    properties:
+      address:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      name:
+        type: string
+      phoneNumber:
+        type: string
+      whatsappNumber:
+        type: string
+    type: object
+  requestModel.Enquiry:
+    properties:
+      customerId:
+        type: integer
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      notes:
+        type: string
+      referredBy:
+        type: string
+      referrerPhoneNumber:
+        type: string
+      source:
+        type: string
+      status:
+        type: string
+      subject:
+        type: string
+    type: object
   requestModel.Login:
     properties:
       email:
@@ -268,6 +306,59 @@ definitions:
         type: string
       useDefault:
         type: boolean
+    type: object
+  requestModel.Measurement:
+    properties:
+      customerId:
+        type: integer
+      dressType:
+        type: string
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      measurementBy:
+        type: string
+      measurementDate:
+        type: string
+      measurements:
+        items:
+          type: integer
+        type: array
+    type: object
+  requestModel.Order:
+    properties:
+      customerId:
+        type: integer
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      orderItems:
+        items:
+          $ref: '#/definitions/requestModel.OrderItem'
+        type: array
+      status:
+        type: string
+    type: object
+  requestModel.OrderItem:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      measurementId:
+        type: integer
+      orderId:
+        type: integer
+      price:
+        type: number
+      quantity:
+        type: integer
+      total:
+        type: number
     type: object
   requestModel.SwitchBranch:
     properties:
@@ -409,6 +500,119 @@ definitions:
         type: integer
       name:
         type: string
+    type: object
+  responseModel.Customer:
+    properties:
+      address:
+        type: string
+      email:
+        type: string
+      enquiries:
+        items:
+          $ref: '#/definitions/responseModel.Enquiry'
+        type: array
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      measurements:
+        items:
+          $ref: '#/definitions/responseModel.Measurement'
+        type: array
+      name:
+        type: string
+      orders:
+        items:
+          $ref: '#/definitions/responseModel.Order'
+        type: array
+      phoneNumber:
+        type: string
+      whatsappNumber:
+        type: string
+    type: object
+  responseModel.Enquiry:
+    properties:
+      customer:
+        $ref: '#/definitions/responseModel.Customer'
+      customerId:
+        type: integer
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      notes:
+        type: string
+      referredBy:
+        type: string
+      referrerPhoneNumber:
+        type: string
+      source:
+        type: string
+      status:
+        type: string
+      subject:
+        type: string
+    type: object
+  responseModel.Measurement:
+    properties:
+      customer:
+        $ref: '#/definitions/responseModel.Customer'
+      customerId:
+        type: integer
+      dressType:
+        type: string
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      measurementBy:
+        type: string
+      measurementDate:
+        type: string
+      measurements:
+        items:
+          type: integer
+        type: array
+    type: object
+  responseModel.Order:
+    properties:
+      customer:
+        $ref: '#/definitions/responseModel.Customer'
+      customerId:
+        type: integer
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      orderItems:
+        items:
+          $ref: '#/definitions/responseModel.OrderItem'
+        type: array
+      status:
+        type: string
+    type: object
+  responseModel.OrderItem:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      measurement:
+        $ref: '#/definitions/responseModel.Measurement'
+      measurementId:
+        type: integer
+      order:
+        $ref: '#/definitions/responseModel.Order'
+      orderId:
+        type: integer
+      price:
+        type: number
+      quantity:
+        type: integer
+      total:
+        type: number
     type: object
   responseModel.User:
     properties:
@@ -635,6 +839,258 @@ paths:
       summary: Autocomplete for channels
       tags:
       - Channel
+  /customer:
+    get:
+      consumes:
+      - application/json
+      description: Get all active customers
+      parameters:
+      - description: search
+        in: query
+        name: search
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.Customer'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get all active customers
+      tags:
+      - Customer
+    post:
+      consumes:
+      - application/json
+      description: Saves an instance of Customer
+      parameters:
+      - description: customer
+        in: body
+        name: customer
+        required: true
+        schema:
+          $ref: '#/definitions/requestModel.Customer'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Save Customer
+      tags:
+      - Customer
+  /customer/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes an instance of Customer
+      parameters:
+      - description: customer id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Delete Customer
+      tags:
+      - Customer
+    get:
+      consumes:
+      - application/json
+      description: Get an instance of Customer
+      parameters:
+      - description: Customer id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.Customer'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get a specific Customer
+      tags:
+      - Customer
+    put:
+      consumes:
+      - application/json
+      description: Updates an instance of Customer
+      parameters:
+      - description: customer
+        in: body
+        name: customer
+        required: true
+        schema:
+          $ref: '#/definitions/requestModel.Customer'
+      - description: Customer id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Update Customer
+      tags:
+      - Customer
+  /enquiry:
+    get:
+      consumes:
+      - application/json
+      description: Get all active enquiries
+      parameters:
+      - description: search
+        in: query
+        name: search
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.Enquiry'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get all active enquiries
+      tags:
+      - Enquiry
+    post:
+      consumes:
+      - application/json
+      description: Saves an instance of Enquiry
+      parameters:
+      - description: enquiry
+        in: body
+        name: enquiry
+        required: true
+        schema:
+          $ref: '#/definitions/requestModel.Enquiry'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Save Enquiry
+      tags:
+      - Enquiry
+  /enquiry/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes an instance of Enquiry
+      parameters:
+      - description: enquiry id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Delete Enquiry
+      tags:
+      - Enquiry
+    get:
+      consumes:
+      - application/json
+      description: Get an instance of Enquiry
+      parameters:
+      - description: Enquiry id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.Enquiry'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get a specific Enquiry
+      tags:
+      - Enquiry
+    put:
+      consumes:
+      - application/json
+      description: Updates an instance of Enquiry
+      parameters:
+      - description: enquiry
+        in: body
+        name: enquiry
+        required: true
+        schema:
+          $ref: '#/definitions/requestModel.Enquiry'
+      - description: Enquiry id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Update Enquiry
+      tags:
+      - Enquiry
   /health:
     get:
       description: get string by ID
@@ -774,6 +1230,384 @@ paths:
       summary: Get Master Config by Name
       tags:
       - MasterConfig
+  /measurement:
+    get:
+      consumes:
+      - application/json
+      description: Get all active measurements
+      parameters:
+      - description: search
+        in: query
+        name: search
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.Measurement'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get all active measurements
+      tags:
+      - Measurement
+    post:
+      consumes:
+      - application/json
+      description: Saves an instance of Measurement
+      parameters:
+      - description: measurement
+        in: body
+        name: measurement
+        required: true
+        schema:
+          $ref: '#/definitions/requestModel.Measurement'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Save Measurement
+      tags:
+      - Measurement
+  /measurement/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes an instance of Measurement
+      parameters:
+      - description: measurement id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Delete Measurement
+      tags:
+      - Measurement
+    get:
+      consumes:
+      - application/json
+      description: Get an instance of Measurement
+      parameters:
+      - description: Measurement id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.Measurement'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get a specific Measurement
+      tags:
+      - Measurement
+    put:
+      consumes:
+      - application/json
+      description: Updates an instance of Measurement
+      parameters:
+      - description: measurement
+        in: body
+        name: measurement
+        required: true
+        schema:
+          $ref: '#/definitions/requestModel.Measurement'
+      - description: Measurement id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Update Measurement
+      tags:
+      - Measurement
+  /order:
+    get:
+      consumes:
+      - application/json
+      description: Get all active orders
+      parameters:
+      - description: search
+        in: query
+        name: search
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.Order'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get all active orders
+      tags:
+      - Order
+    post:
+      consumes:
+      - application/json
+      description: Saves an instance of Order
+      parameters:
+      - description: order
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/requestModel.Order'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Save Order
+      tags:
+      - Order
+  /order-item:
+    get:
+      consumes:
+      - application/json
+      description: Get all active order items
+      parameters:
+      - description: search
+        in: query
+        name: search
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.OrderItem'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get all active order items
+      tags:
+      - OrderItem
+    post:
+      consumes:
+      - application/json
+      description: Saves an instance of OrderItem
+      parameters:
+      - description: orderItem
+        in: body
+        name: orderItem
+        required: true
+        schema:
+          $ref: '#/definitions/requestModel.OrderItem'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Save OrderItem
+      tags:
+      - OrderItem
+  /order-item/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes an instance of OrderItem
+      parameters:
+      - description: orderItem id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Delete OrderItem
+      tags:
+      - OrderItem
+    get:
+      consumes:
+      - application/json
+      description: Get an instance of OrderItem
+      parameters:
+      - description: OrderItem id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.OrderItem'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get a specific OrderItem
+      tags:
+      - OrderItem
+    put:
+      consumes:
+      - application/json
+      description: Updates an instance of OrderItem
+      parameters:
+      - description: orderItem
+        in: body
+        name: orderItem
+        required: true
+        schema:
+          $ref: '#/definitions/requestModel.OrderItem'
+      - description: OrderItem id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Update OrderItem
+      tags:
+      - OrderItem
+  /order/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes an instance of Order
+      parameters:
+      - description: order id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Delete Order
+      tags:
+      - Order
+    get:
+      consumes:
+      - application/json
+      description: Get an instance of Order
+      parameters:
+      - description: Order id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.Order'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get a specific Order
+      tags:
+      - Order
+    put:
+      consumes:
+      - application/json
+      description: Updates an instance of Order
+      parameters:
+      - description: order
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/requestModel.Order'
+      - description: Order id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Update Order
+      tags:
+      - Order
   /user:
     get:
       consumes:

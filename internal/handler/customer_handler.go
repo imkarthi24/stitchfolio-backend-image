@@ -28,9 +28,9 @@ func ProvideCustomerHandler(svc service.CustomerService) *CustomerHandler {
 //	@Description	Saves an instance of Customer
 //	@Tags			Customer
 //	@Accept			json
-//	@Success		201		{object}	response.Response
-//	@Failure		400		{object}	response.Response
-//	@Failure		501		{object}	response.Response
+//	@Success		201			{object}	response.Response
+//	@Failure		400			{object}	response.Response
+//	@Failure		501			{object}	response.Response
 //	@Param			customer	body		requestModel.Customer	true	"customer"
 //	@Router			/customer [post]
 func (h CustomerHandler) SaveCustomer(ctx *gin.Context) {
@@ -58,9 +58,9 @@ func (h CustomerHandler) SaveCustomer(ctx *gin.Context) {
 //	@Description	Updates an instance of Customer
 //	@Tags			Customer
 //	@Accept			json
-//	@Success		201		{object}	response.Response
-//	@Failure		400		{object}	response.Response
-//	@Failure		501		{object}	response.Response
+//	@Success		201			{object}	response.Response
+//	@Failure		400			{object}	response.Response
+//	@Failure		501			{object}	response.Response
 //	@Param			customer	body		requestModel.Customer	true	"customer"
 //	@Param			id			path		int						true	"Customer id"
 //	@Router			/customer/{id} [put]
