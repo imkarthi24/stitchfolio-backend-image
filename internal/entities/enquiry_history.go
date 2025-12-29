@@ -27,7 +27,7 @@ type EnquiryHistory struct {
 }
 
 func (EnquiryHistory) TableName() string {
-	return "EnquiryHistories"
+	return "stitch.EnquiryHistories"
 }
 
 func (EnquiryHistory) TableNameForQuery() string {

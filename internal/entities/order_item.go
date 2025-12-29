@@ -9,10 +9,10 @@ type OrderItem struct {
 	Total       float64 `json:"total"`
 
 	OrderId uint   `json:"orderId"`
-	Order   *Order `gorm:"foreignKey:OrderId" json:"order"`
+	Order   *Order `gorm:"-" json:"-"`
 
 	MeasurementId *uint        `json:"measurementId"`
-	Measurement   *Measurement `gorm:"foreignKey:MeasurementId" json:"measurement"`
+	Measurement   *Measurement `gorm:"-" json:"-"`
 }
 
 func (OrderItem) TableName() string {

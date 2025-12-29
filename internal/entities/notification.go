@@ -21,7 +21,7 @@ type Notification struct {
 }
 
 func (Notification) TableName() string {
-	return "Notifications"
+	return "stitch.Notifications"
 }
 
 func (Notification) TableNameForQuery() string {

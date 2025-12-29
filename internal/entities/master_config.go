@@ -16,7 +16,7 @@ type MasterConfig struct {
 }
 
 func (MasterConfig) TableName() string {
-	return "MasterConfigs"
+	return "stitch.MasterConfigs"
 }
 
 func (MasterConfig) TableNameForQuery() string {
