@@ -14,7 +14,7 @@ type Order struct {
 
 	Status OrderStatus `json:"status"`
 
-	CustomerId uint      `json:"customerId"`
+	CustomerId *uint     `json:"customerId"`
 	Customer   *Customer `gorm:"foreignKey:CustomerId" json:"customer"`
 
 	OrderItems []OrderItem `gorm:"foreignKey:OrderId;constraint:OnDelete:CASCADE" json:"orderItems"`

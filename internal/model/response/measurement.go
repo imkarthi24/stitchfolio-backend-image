@@ -11,6 +11,6 @@ type Measurement struct {
 	DressType       string          `json:"dressType,omitempty"`
 	Measurements    json.RawMessage `json:"measurements,omitempty"`
 
-	CustomerId uint      `json:"customerId,omitempty"`
+	CustomerId *uint     `json:"customerId,omitempty"`
 	Customer   *Customer `json:"customer,omitempty"`
 }

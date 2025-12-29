@@ -67,7 +67,7 @@ type Measurement struct {
 	DressType       string    `json:"dressType"`
 	Measurements    JSON      `gorm:"type:jsonb" json:"measurements"`
 
-	CustomerId uint      `json:"customerId"`
+	CustomerId *uint     `json:"customerId"`
 	Customer   *Customer `gorm:"foreignKey:CustomerId" json:"customer"`
 }
 

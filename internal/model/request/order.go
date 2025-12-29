@@ -6,7 +6,7 @@ type Order struct {
 
 	Status string `json:"status,omitempty"`
 
-	CustomerId uint `json:"customerId,omitempty"`
+	CustomerId *uint `json:"customerId,omitempty"`
 
 	OrderItems []OrderItem `json:"orderItems,omitempty"`
 }
@@ -22,5 +22,5 @@ type OrderItem struct {
 
 	OrderId uint `json:"orderId,omitempty"`
 
-	MeasurementId uint `json:"measurementId,omitempty"`
+	MeasurementId *uint `json:"measurementId,omitempty"`
 }
