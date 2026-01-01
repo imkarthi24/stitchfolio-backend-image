@@ -20,7 +20,7 @@ type Channel struct {
 }
 
 func (Channel) TableName() string {
-	return "Channels"
+	return "stitch.Channels"
 }
 
 func (Channel) TableNameForQuery() string {

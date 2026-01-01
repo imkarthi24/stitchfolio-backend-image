@@ -68,7 +68,7 @@ type Measurement struct {
 	Measurements    JSON      `gorm:"type:jsonb" json:"measurements"`
 
 	CustomerId *uint     `json:"customerId"`
-	Customer   *Customer `gorm:"foreignKey:CustomerId" json:"customer"`
+	Customer   *Customer `gorm:"-" json:"-"`
 }
 
 func (Measurement) TableName() string {

@@ -12,7 +12,7 @@ type UserChannelDetail struct {
 }
 
 func (UserChannelDetail) TableName() string {
-	return "UserChannelDetails"
+	return "stitch.UserChannelDetails"
 }
 
 func (UserChannelDetail) TableNameForQuery() string {

@@ -13,7 +13,7 @@ type EmailNotification struct {
 }
 
 func (EmailNotification) TableName() string {
-	return "EmailNotifications"
+	return "stitch.EmailNotifications"
 }
 
 func (EmailNotification) TableNameForQuery() string {

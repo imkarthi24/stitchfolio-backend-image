@@ -35,7 +35,7 @@ type User struct {
 }
 
 func (User) TableName() string {
-	return "Users"
+	return "stitch.Users"
 }
 
 func (User) TableNameForQuery() string {
