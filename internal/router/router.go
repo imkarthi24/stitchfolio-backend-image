@@ -108,6 +108,7 @@ func InitRouter(handler baseHandler.BaseHandler, srvConfig config.ServerConfig) 
 		masterConfigEndpoints := appRouter.Group("masterConfig", router.VerifyJWT(srvConfig.JwtSecretKey))
 		{
 			masterConfigEndpoints.POST("", handler.MasterConfigHandler.Create)
+			masterConfigEndpoints.POST("values", handler.MasterConfigHandler.GetMultipleValues)
 
 			masterConfigEndpoints.PUT(":id", handler.MasterConfigHandler.Update)
 

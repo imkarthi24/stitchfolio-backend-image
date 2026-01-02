@@ -21,7 +21,7 @@ type Order struct {
 }
 
 func (Order) TableName() string {
-	return "Orders"
+	return "stitch.Orders"
 }
 
 func (Order) TableNameForQuery() string {

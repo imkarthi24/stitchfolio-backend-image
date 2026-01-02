@@ -20,6 +20,7 @@ type MasterConfigService interface {
 	Get(ctx *context.Context, id uint) (*responseModel.MasterConfig, *errs.XError)
 	Browse(ctx *context.Context, query string) ([]responseModel.MasterConfig, *errs.XError)
 	GetByName(ctx *context.Context, name string) (string, *errs.XError)
+	GetMultipleValues(ctx *context.Context, names []string) (map[string]string, *errs.XError)
 }
 
 type masterConfigService struct {
@@ -140,4 +141,21 @@ func (svc *masterConfigService) Browse(ctx *context.Context, query string) ([]re
 	}
 
 	return respMasterConfig, nil
+}
+
+func (svc *masterConfigService) GetMultipleValues(ctx *context.Context, names []string) (map[string]string, *errs.XError) {
+	result := make(map[string]string)
+
+	for _, name := range names {
+		value, err := svc.GetByName(ctx, name)
+		if err != nil {
+			// If there's an error, we can either skip it or set empty string
+			// Setting empty string to ensure all requested keys are in the response
+			result[name] = ""
+			continue
+		}
+		result[name] = value
+	}
+
+	return result, nil
 }

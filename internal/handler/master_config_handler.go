@@ -156,3 +156,32 @@ func (h MasterConfigHandler) Browse(ctx *gin.Context) {
 
 	h.dataResp.DefaultSuccessResponse(config).FormatAndSend(&context, ctx, http.StatusOK)
 }
+
+// Get Multiple Master Config Values
+//
+//	@Summary		Get Multiple Master Config Values
+//	@Description	Get multiple master config values by their names (format: "Type.Name")
+//	@Tags			MasterConfig
+//	@Accept			json
+//	@Success		200		{object}	response.DataResponse
+//	@Failure		400		{object}	response.Response
+//	@Param			names	body		[]string	true	"Array of config names (e.g., [\"a.b\", \"a.c\", \"x.a\"])"
+//	@Router			/masterConfig/values [post]
+func (h MasterConfigHandler) GetMultipleValues(ctx *gin.Context) {
+	context := util.CopyContextFromGin(ctx)
+	var names []string
+	err := ctx.BindJSON(&names)
+	if err != nil {
+		x := errs.NewXError(errs.INVALID_REQUEST, errs.MALFORMED_REQUEST, err)
+		h.resp.DefaultFailureResponse(x).FormatAndSend(&context, ctx, http.StatusBadRequest)
+		return
+	}
+
+	values, errr := h.masterConfigSvc.GetMultipleValues(&context, names)
+	if errr != nil {
+		h.resp.DefaultFailureResponse(errr).FormatAndSend(&context, ctx, http.StatusBadRequest)
+		return
+	}
+
+	h.dataResp.DefaultSuccessResponse(values).FormatAndSend(&context, ctx, http.StatusOK)
+}

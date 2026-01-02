@@ -48,12 +48,12 @@ func (mr *measurementRepository) Get(ctx *context.Context, id uint) (*entities.M
 }
 
 func (mr *measurementRepository) GetAll(ctx *context.Context, search string) ([]entities.Measurement, *errs.XError) {
-	measurements := new([]entities.Measurement)
-	res := mr.txn.Txn(ctx).Find(measurements)
+	var measurements []entities.Measurement
+	res := mr.txn.Txn(ctx).Model(&entities.Measurement{}).Find(&measurements)
 	if res.Error != nil {
 		return nil, errs.NewXError(errs.DATABASE, "Unable to find measurements", res.Error)
 	}
-	return *measurements, nil
+	return measurements, nil
 }
 
 func (mr *measurementRepository) Delete(ctx *context.Context, id uint) *errs.XError {

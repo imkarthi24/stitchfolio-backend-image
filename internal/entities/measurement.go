@@ -72,7 +72,7 @@ type Measurement struct {
 }
 
 func (Measurement) TableName() string {
-	return "Measurements"
+	return "stitch.Measurements"
 }
 
 func (Measurement) TableNameForQuery() string {
