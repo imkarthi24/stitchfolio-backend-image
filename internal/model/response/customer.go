@@ -14,3 +14,10 @@ type Customer struct {
 	Measurements []Measurement `json:"measurements,omitempty"`
 	Orders       []Order       `json:"orders,omitempty"`
 }
+
+type CustomerAutoComplete struct {
+	CustomerID  uint   `json:"customerId,omitempty"`
+	Name        string `json:"name,omitempty"`
+	Email       string `json:"email,omitempty"`
+	PhoneNumber string `json:"phoneNumber,omitempty"`
+}

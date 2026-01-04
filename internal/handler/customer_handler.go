@@ -156,3 +156,28 @@ func (h CustomerHandler) Delete(ctx *gin.Context) {
 
 	h.resp.SuccessResponse("Delete Success").FormatAndSend(&context, ctx, http.StatusOK)
 }
+
+// Autocomplete for customers
+//
+//	@Summary		Autocomplete for customers
+//	@Description	Autocomplete for customers
+//	@Tags			Customer
+//	@Accept			json
+//	@Success		200		{object}	responseModel.CustomerAutoComplete
+//	@Failure		400		{object}	response.DataResponse
+//	@Param			search	query		string	false	"search"
+//	@Router			/customer/autocomplete [get]
+func (h CustomerHandler) AutocompleteCustomer(ctx *gin.Context) {
+	context := util.CopyContextFromGin(ctx)
+
+	search := ctx.Query("search")
+	search = util.EncloseWithSingleQuote(search)
+
+	customers, errr := h.customerSvc.AutocompleteCustomer(&context, search)
+	if errr != nil {
+		h.resp.DefaultFailureResponse(errr).FormatAndSend(&context, ctx, http.StatusBadRequest)
+		return
+	}
+
+	h.dataResp.DefaultSuccessResponse(customers).FormatAndSend(&context, ctx, http.StatusOK)
+}

@@ -541,6 +541,17 @@ definitions:
       whatsappNumber:
         type: string
     type: object
+  responseModel.CustomerAutoComplete:
+    properties:
+      customerId:
+        type: integer
+      email:
+        type: string
+      name:
+        type: string
+      phoneNumber:
+        type: string
+    type: object
   responseModel.Enquiry:
     properties:
       customer:
@@ -978,6 +989,28 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
       summary: Update Customer
+      tags:
+      - Customer
+  /customer/autocomplete:
+    get:
+      consumes:
+      - application/json
+      description: Autocomplete for customers
+      parameters:
+      - description: search
+        in: query
+        name: search
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.CustomerAutoComplete'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Autocomplete for customers
       tags:
       - Customer
   /enquiry:

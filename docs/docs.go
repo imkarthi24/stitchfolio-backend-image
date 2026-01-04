@@ -359,6 +359,40 @@ const docTemplate = `{
                 }
             }
         },
+        "/customer/autocomplete": {
+            "get": {
+                "description": "Autocomplete for customers",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Autocomplete for customers",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "search",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.CustomerAutoComplete"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.DataResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/customer/{id}": {
             "get": {
                 "description": "Get an instance of Customer",
@@ -2950,6 +2984,23 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "whatsappNumber": {
+                    "type": "string"
+                }
+            }
+        },
+        "responseModel.CustomerAutoComplete": {
+            "type": "object",
+            "properties": {
+                "customerId": {
+                    "type": "integer"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phoneNumber": {
                     "type": "string"
                 }
             }

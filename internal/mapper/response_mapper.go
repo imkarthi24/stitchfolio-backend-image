@@ -275,7 +275,7 @@ func (m *responseMapper) Measurement(e *entities.Measurement) (*responseModel.Me
 	return &responseModel.Measurement{
 		ID:              e.ID,
 		IsActive:        e.IsActive,
-		MeasurementDate: util.DateTimeToStringOrDefault(&e.MeasurementDate, time.DateOnly),
+		MeasurementDate: util.DateTimeToStringOrDefault(e.MeasurementDate, time.DateOnly),
 		MeasurementBy:   e.MeasurementBy,
 		DressType:       e.DressType,
 		Measurements:    json.RawMessage(e.Measurements),

@@ -126,6 +126,7 @@ func InitRouter(handler baseHandler.BaseHandler, srvConfig config.ServerConfig) 
 		{
 			customerEndpoints.POST("", handler.CustomerHandler.SaveCustomer)
 			customerEndpoints.PUT(":id", handler.CustomerHandler.UpdateCustomer)
+			customerEndpoints.GET("autocomplete", handler.CustomerHandler.AutocompleteCustomer)
 			customerEndpoints.GET(":id", handler.CustomerHandler.Get)
 			customerEndpoints.GET("", handler.CustomerHandler.GetAllCustomers)
 			customerEndpoints.DELETE(":id", handler.CustomerHandler.Delete)

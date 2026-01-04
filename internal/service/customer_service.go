@@ -16,6 +16,7 @@ type CustomerService interface {
 	Get(*context.Context, uint) (*responseModel.Customer, *errs.XError)
 	GetAll(*context.Context, string) ([]responseModel.Customer, *errs.XError)
 	Delete(*context.Context, uint) *errs.XError
+	AutocompleteCustomer(*context.Context, string) ([]responseModel.CustomerAutoComplete, *errs.XError)
 }
 
 type customerService struct {
@@ -94,4 +95,23 @@ func (svc customerService) Delete(ctx *context.Context, id uint) *errs.XError {
 		return err
 	}
 	return nil
+}
+
+func (svc customerService) AutocompleteCustomer(ctx *context.Context, search string) ([]responseModel.CustomerAutoComplete, *errs.XError) {
+	customers, err := svc.customerRepo.AutocompleteCustomer(ctx, search)
+	if err != nil {
+		return nil, err
+	}
+
+	res := make([]responseModel.CustomerAutoComplete, 0)
+	for _, customer := range customers {
+		res = append(res, responseModel.CustomerAutoComplete{
+			CustomerID:  customer.ID,
+			Name:        customer.Name,
+			Email:       customer.Email,
+			PhoneNumber: customer.PhoneNumber,
+		})
+	}
+
+	return res, nil
 }

@@ -136,10 +136,10 @@ func (j *JSON) UnmarshalJSON(data []byte) error {
 type Measurement struct {
 	*Model `mapstructure:",squash"`
 
-	MeasurementDate time.Time `json:"measurementDate"`
-	MeasurementBy   string    `json:"measurementBy"`
-	DressType       string    `json:"dressType"`
-	Measurements    JSON      `gorm:"type:jsonb" json:"measurements"`
+	MeasurementDate *time.Time `json:"measurementDate"`
+	MeasurementBy   string     `json:"measurementBy"`
+	DressType       string     `json:"dressType"`
+	Measurements    JSON       `gorm:"type:jsonb" json:"measurements"`
 
 	CustomerId *uint     `json:"customerId"`
 	Customer   *Customer `gorm:"foreignKey:CustomerId" json:"customer"`

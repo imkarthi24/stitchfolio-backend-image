@@ -5,6 +5,7 @@ import (
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
 	"github.com/imkarthi24/sf-backend/internal/repository/common"
+	"github.com/imkarthi24/sf-backend/internal/repository/scopes"
 	"github.com/imkarthi24/sf-backend/pkg/db"
 	"github.com/imkarthi24/sf-backend/pkg/errs"
 )
@@ -48,12 +49,17 @@ func (er *enquiryRepository) Get(ctx *context.Context, id uint) (*entities.Enqui
 }
 
 func (er *enquiryRepository) GetAll(ctx *context.Context, search string) ([]entities.Enquiry, *errs.XError) {
-	enquiries := new([]entities.Enquiry)
-	res := er.txn.Txn(ctx).Preload("Customer").Find(enquiries)
+	var enquiries []entities.Enquiry
+	res := er.txn.Txn(ctx).
+		Scopes(scopes.Channel(), scopes.IsActive()).
+		Scopes(scopes.ILike(search, "subject", "notes", "status")).
+		Scopes(db.Paginate(ctx)).
+		Preload("Customer").
+		Find(&enquiries)
 	if res.Error != nil {
 		return nil, errs.NewXError(errs.DATABASE, "Unable to find enquiries", res.Error)
 	}
-	return *enquiries, nil
+	return enquiries, nil
 }
 
 func (er *enquiryRepository) Delete(ctx *context.Context, id uint) *errs.XError {

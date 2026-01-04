@@ -6,6 +6,7 @@ import (
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
 	"github.com/imkarthi24/sf-backend/internal/repository/common"
+	"github.com/imkarthi24/sf-backend/internal/repository/scopes"
 	"github.com/imkarthi24/sf-backend/pkg/db"
 	"github.com/imkarthi24/sf-backend/pkg/errs"
 	"gorm.io/gorm"
@@ -17,8 +18,8 @@ type CustomerRepository interface {
 	Get(*context.Context, uint) (*entities.Customer, *errs.XError)
 	GetAll(*context.Context, string) ([]entities.Customer, *errs.XError)
 	Delete(*context.Context, uint) *errs.XError
-	CustomerAutoComplete(*context.Context, string) ([]entities.Customer, *errs.XError)
 	GetByPhoneNumber(*context.Context, string) (*entities.Customer, *errs.XError)
+	AutocompleteCustomer(*context.Context, string) ([]entities.Customer, *errs.XError)
 }
 
 type customerRepository struct {
@@ -53,7 +54,13 @@ func (cr *customerRepository) Get(ctx *context.Context, id uint) (*entities.Cust
 
 func (cr *customerRepository) GetAll(ctx *context.Context, search string) ([]entities.Customer, *errs.XError) {
 	var customers []entities.Customer
-	res := cr.txn.Txn(ctx).Model(&entities.Customer{}).Preload("Enquiries").Preload("Measurements").Preload("Orders").Find(&customers)
+	res := cr.txn.Txn(ctx).Model(&entities.Customer{}).
+		Scopes(scopes.Channel("E"), scopes.IsActive("E")).
+		Scopes(scopes.ILike(search, "name", "email", "phone_number")).
+		Where("EXISTS (SELECT 1 FROM \"Orders\" WHERE customer_id = E.id)").
+		Scopes(db.Paginate(ctx)).
+		Preload("Orders").Preload("Measurements").Preload("Enquiries").
+		Find(&customers)
 	if res.Error != nil {
 		return nil, errs.NewXError(errs.DATABASE, "Unable to find customers", res.Error)
 	}
@@ -69,15 +76,6 @@ func (cr *customerRepository) Delete(ctx *context.Context, id uint) *errs.XError
 	return nil
 }
 
-func (cr *customerRepository) CustomerAutoComplete(ctx *context.Context, search string) ([]entities.Customer, *errs.XError) {
-	customers := new([]entities.Customer)
-	res := cr.txn.Txn(ctx).Where("name LIKE ?", "%"+search+"%").Find(customers)
-	if res.Error != nil {
-		return nil, errs.NewXError(errs.DATABASE, "Unable to find customers", res.Error)
-	}
-	return *customers, nil
-}
-
 func (cr *customerRepository) GetByPhoneNumber(ctx *context.Context, phoneNumber string) (*entities.Customer, *errs.XError) {
 	if phoneNumber == "" {
 		return nil, nil
@@ -91,4 +89,17 @@ func (cr *customerRepository) GetByPhoneNumber(ctx *context.Context, phoneNumber
 		return nil, errs.NewXError(errs.DATABASE, "Unable to find customer by phone number", res.Error)
 	}
 	return &customer, nil
+}
+
+func (cr *customerRepository) AutocompleteCustomer(ctx *context.Context, search string) ([]entities.Customer, *errs.XError) {
+	var customers []entities.Customer
+	res := cr.txn.Txn(ctx).
+		Scopes(scopes.Channel(), scopes.IsActive()).
+		Scopes(scopes.ILike(search, "name", "email", "phone_number")).
+		Select("id", "name", "email", "phone_number").
+		Find(&customers)
+	if res.Error != nil {
+		return nil, errs.NewXError(errs.DATABASE, "Unable to find customers for autocomplete", res.Error)
+	}
+	return customers, nil
 }

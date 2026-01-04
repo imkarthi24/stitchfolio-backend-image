@@ -1,6 +1,8 @@
 package requestModel
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 type Measurement struct {
 	ID       uint `json:"id,omitempty"`
