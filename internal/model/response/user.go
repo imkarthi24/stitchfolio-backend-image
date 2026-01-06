@@ -19,6 +19,8 @@ type User struct {
 	LastLoginTime       *time.Time `json:"lastLoginTime,omitempty"`
 	LoginFailureCounter int16      `json:"loginFailureCounter,omitempty"`
 	ResetPasswordString *string    `json:"resetPasswordString,omitempty"`
+	Experience          string     `json:"experience,omitempty"`
+	Department          string     `json:"department,omitempty"`
 
 	UserChannelDetails []UserChannelDetail `json:"userChannelDetails,omitempty"`
 }

@@ -90,6 +90,8 @@ func (m *responseMapper) User(usr *entities.User) (*responseModel.User, error) {
 		IsLoggedIn:          usr.IsLoggedIn,
 		LastLoginTime:       usr.LastLoginTime,
 		LoginFailureCounter: usr.LoginFailureCounter,
+		Experience:          usr.Experience,
+		Department:          usr.Department,
 	}, nil
 }
 

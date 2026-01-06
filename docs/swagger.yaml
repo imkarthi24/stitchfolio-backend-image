@@ -54,11 +54,6 @@ definitions:
       DEV: to be used by developer, only read access in PROD
       SUPERADMIN: to be used for the owner of the application (customer)
       SYSTEM_ADMIN: to be used for managing system only,not exposed
-    x-enum-descriptions:
-    - to be used for managing system only,not exposed
-    - to be used by developer, only read access in PROD
-    - to be used for the owner of the application (customer)
-    - to be used by the application administrator
     x-enum-varnames:
     - SYSTEM_ADMIN
     - DEV
@@ -77,7 +72,11 @@ definitions:
         type: string
       createdById:
         type: integer
+      department:
+        type: string
       email:
+        type: string
+      experience:
         type: string
       extension:
         type: string
@@ -202,24 +201,6 @@ definitions:
       STORAGE: Storage Error
       UNANTICIPATED: Unanticipated error.
       VALIDATION: Input validation error.
-    x-enum-descriptions:
-    - Unclassified error. This value is not printed in the error message.
-    - Invalid operation for this type of item.
-    - External I/O error such as network failure.
-    - Item already exists.
-    - Item does not exist.
-    - Information withheld.
-    - Internal error or inconsistency.
-    - Link target does not exist.
-    - Error from database.
-    - Input validation error.
-    - Unanticipated error.
-    - Invalid Request
-    - SMTP Error
-    - SMTP Error
-    - Storage Error
-    - Insufficient Access
-    - Duplicate Transaction
     x-enum-varnames:
     - OTHER
     - INVALID
@@ -407,7 +388,11 @@ definitions:
     type: object
   requestModel.User:
     properties:
+      department:
+        type: string
       email:
+        type: string
+      experience:
         type: string
       extension:
         type: string
@@ -671,7 +656,11 @@ definitions:
     type: object
   responseModel.User:
     properties:
+      department:
+        type: string
       email:
+        type: string
+      experience:
         type: string
       extension:
         type: string

@@ -54,6 +54,8 @@ func (m mapper) User(e requestModel.User) (*entities.User, error) {
 		LastLoginTime:       loginTime,
 		LoginFailureCounter: int16(e.LoginFailureCounter),
 		ResetPasswordString: e.ResetPasswordString,
+		Experience:          e.Experience,
+		Department:          e.Department,
 		UserChannelDetails:  userChannelDetails,
 	}, nil
 }

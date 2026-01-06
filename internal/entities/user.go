@@ -30,6 +30,9 @@ type User struct {
 	LoginFailureCounter int16      `json:"loginFailureCounter,omitempty"`
 	ResetPasswordString *string    `json:"resetPasswordString"`
 
+	Experience string `json:"experience"`
+	Department string `json:"department"`
+
 	//References
 	UserChannelDetails []UserChannelDetail `json:"userChannelDetails,omitempty"`
 }

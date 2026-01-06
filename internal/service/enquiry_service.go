@@ -53,6 +53,7 @@ func (svc enquiryService) SaveEnquiry(ctx *context.Context, enquiry requestModel
 				PhoneNumber:    enquiry.PhoneNumber,
 				WhatsappNumber: enquiry.WhatsappNumber,
 				Address:        enquiry.Address,
+				IsActive:       false,
 			}
 			dbCustomer, mapErr := svc.mapper.Customer(customerRequest)
 			if mapErr != nil {

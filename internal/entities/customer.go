@@ -18,7 +18,7 @@ type Customer struct {
 }
 
 func (Customer) TableName() string {
-	return "Customers"
+	return "stitch.Customers"
 }
 
 func (Customer) TableNameForQuery() string {
