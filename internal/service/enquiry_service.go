@@ -65,6 +65,12 @@ func (svc enquiryService) SaveEnquiry(ctx *context.Context, enquiry requestModel
 				return createErr
 			}
 			customerId = &dbCustomer.ID
+
+			dbCustomer.IsActive = false
+			updateErr := svc.customerRepo.Update(ctx, dbCustomer)
+			if updateErr != nil {
+				return updateErr
+			}
 		}
 	} else if enquiry.CustomerId != nil {
 		customerId = enquiry.CustomerId
