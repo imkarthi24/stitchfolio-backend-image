@@ -59,28 +59,26 @@ func (a *App) Shutdown(ctx *context.Context, checkErr func(err error)) {
 func (a *App) Migrate(ctx *context.Context, checkErr func(err error)) {
 
 	entityList := []interface{}{
-		// entities.User{},
-		// entities.Channel{},
-		// entities.Notification{},
-
-		// entities.MasterConfig{},
-		// entities.EmailNotification{},
-		// entities.WhatsappNotification{},
-
-		// entities.Enquiry{},
-		// entities.EnquiryHistory{},
-		entities.Customer{}, // Keep this so GORM knows about it for foreign key relationships
-		//entities.Order{},
-		//entities.OrderItem{},
-		entities.Measurement{},
+		// &entities.User{},
+		// &entities.Channel{},
+		// &entities.Notification{},
+		// &entities.MasterConfig{},
+		// &entities.EmailNotification{},
+		// &entities.WhatsappNotification{},
+		// &entities.Enquiry{},
+		// &entities.EnquiryHistory{},
+		// &entities.Customer{},
+		// &entities.Order{},
+		// &entities.OrderItem{},
+		&entities.Measurement{},
 	}
 	for _, entity := range entityList {
-		_ = a.ChitDb.Exec("SET search_path TO stitch")
-		err := a.ChitDb.AutoMigrate(&entity)
+		// pass entity directly (it's already a pointer to a struct)
+		err := a.ChitDb.AutoMigrate(entity)
 		if err != nil {
 			fmt.Printf("Migration error for %T: %v\n", entity, err)
+			checkErr(err)
 		}
-		checkErr(err)
 	}
 
 }
