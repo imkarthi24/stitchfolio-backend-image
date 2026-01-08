@@ -3,7 +3,8 @@ package entities
 type Customer struct {
 	*Model `mapstructure:",squash"`
 
-	Name           string `json:"name"`
+	FirstName      string `json:"firstName"`
+	LastName       string `json:"lastName"`
 	Email          string `json:"email"`
 	PhoneNumber    string `json:"phoneNumber"`
 	WhatsappNumber string `json:"whatsappNumber"`

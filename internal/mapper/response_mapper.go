@@ -241,7 +241,8 @@ func (m *responseMapper) Customer(e *entities.Customer) (*responseModel.Customer
 	return &responseModel.Customer{
 		ID:             e.ID,
 		IsActive:       e.IsActive,
-		Name:           e.Name,
+		FirstName:      e.FirstName,
+		LastName:       e.LastName,
 		Email:          e.Email,
 		PhoneNumber:    e.PhoneNumber,
 		WhatsappNumber: e.WhatsappNumber,

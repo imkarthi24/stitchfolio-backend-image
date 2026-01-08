@@ -56,7 +56,7 @@ func (cr *customerRepository) GetAll(ctx *context.Context, search string) ([]ent
 	var customers []entities.Customer
 	res := cr.txn.Txn(ctx).Table(entities.Customer{}.TableNameForQuery()).
 		Scopes(scopes.Channel(), scopes.IsActive()).
-		Scopes(scopes.ILike(search, "name", "email", "phone_number")).
+		Scopes(scopes.ILike(search, "first_name", "last_name", "email", "phone_number")).
 		// Where("EXISTS (SELECT 1 FROM \"stitch\".\"Orders\" WHERE customer_id = E.id)").
 		Scopes(db.Paginate(ctx)).
 		// Preload("Orders").Preload("Measurements").Preload("Enquiries").
@@ -95,8 +95,8 @@ func (cr *customerRepository) AutocompleteCustomer(ctx *context.Context, search 
 	var customers []entities.Customer
 	res := cr.txn.Txn(ctx).
 		Scopes(scopes.Channel(), scopes.IsActive()).
-		Scopes(scopes.ILike(search, "name", "email", "phone_number")).
-		Select("id", "name", "email", "phone_number").
+		Scopes(scopes.ILike(search, "first_name", "last_name", "email", "phone_number")).
+		Select("id", "first_name", "last_name", "email", "phone_number").
 		Find(&customers)
 	if res.Error != nil {
 		return nil, errs.NewXError(errs.DATABASE, "Unable to find customers for autocomplete", res.Error)

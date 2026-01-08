@@ -165,7 +165,8 @@ func (m *mapper) UserChannelDetails(items []requestModel.UserChannelDetail) ([]e
 func (m *mapper) Customer(e requestModel.Customer) (*entities.Customer, error) {
 	return &entities.Customer{
 		Model:          &entities.Model{ID: e.ID, IsActive: e.IsActive},
-		Name:           e.Name,
+		FirstName:      e.FirstName,
+		LastName:       e.LastName,
 		Email:          e.Email,
 		PhoneNumber:    e.PhoneNumber,
 		WhatsappNumber: e.WhatsappNumber,

@@ -4,7 +4,8 @@ type Customer struct {
 	ID       uint `json:"id,omitempty"`
 	IsActive bool `json:"isActive,omitempty"`
 
-	Name           string `json:"name,omitempty"`
+	FirstName      string `json:"firstName,omitempty"`
+	LastName       string `json:"lastName,omitempty"`
 	Email          string `json:"email,omitempty"`
 	PhoneNumber    string `json:"phoneNumber,omitempty"`
 	WhatsappNumber string `json:"whatsappNumber,omitempty"`

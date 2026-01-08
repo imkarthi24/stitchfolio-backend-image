@@ -107,7 +107,8 @@ func (svc customerService) AutocompleteCustomer(ctx *context.Context, search str
 	for _, customer := range customers {
 		res = append(res, responseModel.CustomerAutoComplete{
 			CustomerID:  customer.ID,
-			Name:        customer.Name,
+			FirstName:   customer.FirstName,
+			LastName:    customer.LastName,
 			Email:       customer.Email,
 			PhoneNumber: customer.PhoneNumber,
 		})

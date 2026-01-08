@@ -48,7 +48,8 @@ func (svc enquiryService) SaveEnquiry(ctx *context.Context, enquiry requestModel
 			customerId = &existingCustomer.ID
 		} else {
 			customerRequest := requestModel.Customer{
-				Name:           enquiry.Name,
+				FirstName:      enquiry.FirstName,
+				LastName:       enquiry.LastName,
 				Email:          enquiry.Email,
 				PhoneNumber:    enquiry.PhoneNumber,
 				WhatsappNumber: enquiry.WhatsappNumber,

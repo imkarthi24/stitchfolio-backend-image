@@ -59,7 +59,7 @@ func (a *App) Shutdown(ctx *context.Context, checkErr func(err error)) {
 func (a *App) Migrate(ctx *context.Context, checkErr func(err error)) {
 
 	entityList := []interface{}{
-		&entities.User{},
+		// &entities.User{},
 		// &entities.Channel{},
 		// &entities.Notification{},
 		// &entities.MasterConfig{},
@@ -67,7 +67,7 @@ func (a *App) Migrate(ctx *context.Context, checkErr func(err error)) {
 		// &entities.WhatsappNotification{},
 		// &entities.Enquiry{},
 		// &entities.EnquiryHistory{},
-		// &entities.Customer{},
+		&entities.Customer{},
 		// &entities.Order{},
 		// &entities.OrderItem{},
 		// &entities.Measurement{},
