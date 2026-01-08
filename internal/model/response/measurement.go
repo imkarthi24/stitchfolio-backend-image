@@ -14,11 +14,13 @@ type Measurement struct {
 	DressType       string          `json:"dressType,omitempty"`
 	Measurements    json.RawMessage `json:"measurements,omitempty"`
 
-	CustomerId *uint     `json:"customerId,omitempty"`
-	Customer   *Customer `json:"customer,omitempty"`
+	CustomerId   *uint     `json:"customerId,omitempty"`
+	Customer     *Customer `json:"customer,omitempty"`
+	CustomerName string    `json:"customerName,omitempty"`
 
-	MeasurementTakenById *uint `json:"measurementTakenById,omitempty"`
-	MeasurementTakenBy   *User `json:"measurementTakenBy,omitempty"`
+	MeasurementTakenById *uint  `json:"measurementTakenById,omitempty"`
+	MeasurementTakenBy   *User  `json:"measurementTakenBy,omitempty"`
+	MeasurementByName    string `json:"measurementByName,omitempty"`
 
 	UpdatedAt   *time.Time `json:"updatedAt,omitempty"`
 	UpdatedById *uint      `json:"updatedById,omitempty"`
