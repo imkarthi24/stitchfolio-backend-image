@@ -18,9 +18,9 @@ type Measurement struct {
 	Customer     *Customer `json:"customer,omitempty"`
 	CustomerName string    `json:"customerName,omitempty"`
 
-	MeasurementTakenById *uint  `json:"measurementTakenById,omitempty"`
-	MeasurementTakenBy   *User  `json:"measurementTakenBy,omitempty"`
-	MeasurementByName    string `json:"measurementByName,omitempty"`
+	MeasurementTakenById *uint `json:"measurementTakenById,omitempty"`
+	// MeasurementTakenBy   *User  `json:"measurementTakenBy,omitempty"`
+	MeasurementTakenBy string `json:"measurementTakenBy,omitempty"`
 
 	UpdatedAt   *time.Time `json:"updatedAt,omitempty"`
 	UpdatedById *uint      `json:"updatedById,omitempty"`

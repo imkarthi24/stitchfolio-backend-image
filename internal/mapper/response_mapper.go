@@ -281,20 +281,20 @@ func (m *responseMapper) Measurement(e *entities.Measurement) (*responseModel.Me
 	}
 
 	return &responseModel.Measurement{
-		ID:                   e.ID,
-		IsActive:             e.IsActive,
-		MeasurementDate:      util.DateTimeToStringOrDefault(e.MeasurementDate, time.DateOnly),
-		MeasurementBy:        e.MeasurementBy,
-		DressType:            e.DressType,
-		Measurements:         json.RawMessage(e.Measurements),
-		CustomerId:           e.CustomerId,
-		Customer:             customer,
+		ID:              e.ID,
+		IsActive:        e.IsActive,
+		MeasurementDate: util.DateTimeToStringOrDefault(e.MeasurementDate, time.DateOnly),
+		MeasurementBy:   e.MeasurementBy,
+		DressType:       e.DressType,
+		Measurements:    json.RawMessage(e.Measurements),
+		CustomerId:      e.CustomerId,
+		// Customer:             customer,
 		MeasurementTakenById: e.MeasurementTakenById,
-		MeasurementTakenBy:   measurementTakenBy,
-		UpdatedAt:            e.UpdatedAt,
-		UpdatedById:          e.UpdatedById,
-		CustomerName:         customer.FirstName + " " + customer.LastName,
-		MeasurementByName:    measurementTakenBy.FirstName + " " + measurementTakenBy.LastName,
+		// MeasurementTakenBy:   measurementTakenBy,
+		UpdatedAt:          e.UpdatedAt,
+		UpdatedById:        e.UpdatedById,
+		CustomerName:       customer.FirstName + " " + customer.LastName,
+		MeasurementTakenBy: measurementTakenBy.FirstName + " " + measurementTakenBy.LastName,
 	}, nil
 }
 
