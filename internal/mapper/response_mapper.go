@@ -293,6 +293,8 @@ func (m *responseMapper) Measurement(e *entities.Measurement) (*responseModel.Me
 		MeasurementTakenBy:   measurementTakenBy,
 		UpdatedAt:            e.UpdatedAt,
 		UpdatedById:          e.UpdatedById,
+		CustomerName:         customer.FirstName + " " + customer.LastName,
+		MeasurementByName:    measurementTakenBy.FirstName + " " + measurementTakenBy.LastName,
 	}, nil
 }
 
