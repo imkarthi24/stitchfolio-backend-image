@@ -2775,14 +2775,11 @@ const docTemplate = `{
                 "address": {
                     "type": "string"
                 },
-                "customerID": {
-                    "description": "Customer fields",
-                    "type": "integer"
-                },
                 "customerId": {
                     "type": "integer"
                 },
                 "customerIsActive": {
+                    "description": "Customer fields",
                     "type": "boolean"
                 },
                 "email": {
