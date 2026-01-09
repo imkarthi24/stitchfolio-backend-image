@@ -135,7 +135,7 @@ func (svc enquiryService) UpdateEnquiryAndCustomer(ctx *context.Context, request
 
 	var dbCustomer *entities.Customer
 	customerRequest := requestModel.Customer{
-		ID:             request.CustomerID,
+		ID:             0,
 		IsActive:       request.CustomerIsActive,
 		FirstName:      request.FirstName,
 		LastName:       request.LastName,
@@ -143,6 +143,11 @@ func (svc enquiryService) UpdateEnquiryAndCustomer(ctx *context.Context, request
 		PhoneNumber:    request.PhoneNumber,
 		WhatsappNumber: request.WhatsappNumber,
 		Address:        request.Address,
+	}
+
+	// Use CustomerId if provided, otherwise use existing enquiry's customer
+	if request.CustomerId != nil && *request.CustomerId != 0 {
+		customerRequest.ID = *request.CustomerId
 	}
 
 	if customerRequest.ID != 0 {

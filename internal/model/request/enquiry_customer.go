@@ -14,7 +14,6 @@ type UpdateEnquiryAndCustomer struct {
 	ReferrerPhoneNumber string `json:"referrerPhoneNumber,omitempty"`
 
 	// Customer fields
-	CustomerID       uint   `json:"customerID,omitempty"`
 	CustomerIsActive bool   `json:"customerIsActive,omitempty"`
 	FirstName        string `json:"firstName,omitempty"`
 	LastName         string `json:"lastName,omitempty"`
