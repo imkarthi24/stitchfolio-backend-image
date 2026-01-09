@@ -668,19 +668,39 @@ definitions:
     type: object
   responseModel.Order:
     properties:
+      createdAt:
+        type: string
       customer:
         $ref: '#/definitions/responseModel.Customer'
       customerId:
         type: integer
+      customerName:
+        description: first_name + last_name
+        type: string
       id:
         type: integer
       isActive:
         type: boolean
+      notes:
+        type: string
       orderItems:
         items:
           $ref: '#/definitions/responseModel.OrderItem'
         type: array
+      orderQuantity:
+        description: sum of quantity from order items
+        type: integer
+      orderTakenBy:
+        description: first_name + last_name
+        type: string
+      orderTakenById:
+        type: integer
+      orderValue:
+        description: sum of total from order items
+        type: number
       status:
+        type: string
+      updatedAt:
         type: string
     type: object
   responseModel.OrderItem:

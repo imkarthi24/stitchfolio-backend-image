@@ -315,10 +315,10 @@ func (m *responseMapper) Order(e *entities.Order) (*responseModel.Order, error) 
 		return nil, nil
 	}
 
-	customer, err := m.Customer(e.Customer)
-	if err != nil {
-		return nil, err
-	}
+	// customer, err := m.Customer(e.Customer)
+	// if err != nil {
+	// 	return nil, err
+	// }
 
 	orderItems, err := m.OrderItems(e.OrderItems)
 	if err != nil {
@@ -335,12 +335,12 @@ func (m *responseMapper) Order(e *entities.Order) (*responseModel.Order, error) 
 	}
 
 	return &responseModel.Order{
-		ID:             e.ID,
-		IsActive:       e.IsActive,
-		Status:         string(e.Status),
-		Notes:          e.Notes,
-		CustomerId:     e.CustomerId,
-		Customer:       customer,
+		ID:         e.ID,
+		IsActive:   e.IsActive,
+		Status:     string(e.Status),
+		Notes:      e.Notes,
+		CustomerId: e.CustomerId,
+		// Customer:       customer,
 		CustomerName:   e.Customer.FirstName + " " + e.Customer.LastName,
 		OrderTakenById: e.OrderTakenById,
 		OrderTakenBy:   e.OrderTakenBy.FirstName + " " + e.OrderTakenBy.LastName,

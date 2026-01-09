@@ -3178,11 +3178,18 @@ const docTemplate = `{
         "responseModel.Order": {
             "type": "object",
             "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
                 "customer": {
                     "$ref": "#/definitions/responseModel.Customer"
                 },
                 "customerId": {
                     "type": "integer"
+                },
+                "customerName": {
+                    "description": "first_name + last_name",
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -3190,13 +3197,34 @@ const docTemplate = `{
                 "isActive": {
                     "type": "boolean"
                 },
+                "notes": {
+                    "type": "string"
+                },
                 "orderItems": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/responseModel.OrderItem"
                     }
                 },
+                "orderQuantity": {
+                    "description": "sum of quantity from order items",
+                    "type": "integer"
+                },
+                "orderTakenBy": {
+                    "description": "first_name + last_name",
+                    "type": "string"
+                },
+                "orderTakenById": {
+                    "type": "integer"
+                },
+                "orderValue": {
+                    "description": "sum of total from order items",
+                    "type": "number"
+                },
                 "status": {
+                    "type": "string"
+                },
+                "updatedAt": {
                     "type": "string"
                 }
             }
