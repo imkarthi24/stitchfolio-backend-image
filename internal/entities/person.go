@@ -12,9 +12,9 @@ type Person struct {
 }
 
 func (Person) TableName() string {
-	return "stitch.Persons"
+	return "Persons"
 }
 
 func (Person) TableNameForQuery() string {
-	return "\"stitch\".\"Persons\" E"
+	return "\"Persons\" E"
 }

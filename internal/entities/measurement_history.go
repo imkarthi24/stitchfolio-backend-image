@@ -29,9 +29,9 @@ type MeasurementHistory struct {
 }
 
 func (MeasurementHistory) TableName() string {
-	return "stitch.MeasurementHistories"
+	return "MeasurementHistories"
 }
 
 func (MeasurementHistory) TableNameForQuery() string {
-	return "\"stitch\".\"MeasurementHistories\" E"
+	return "\"MeasurementHistories\" E"
 }

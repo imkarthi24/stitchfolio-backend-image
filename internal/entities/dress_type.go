@@ -8,9 +8,9 @@ type DressType struct {
 }
 
 func (DressType) TableName() string {
-	return "stitch.DressTypes"
+	return "DressTypes"
 }
 
 func (DressType) TableNameForQuery() string {
-	return "\"stitch\".\"DressTypes\" E"
+	return "\"DressTypes\" E"
 }

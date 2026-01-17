@@ -28,6 +28,7 @@ func (a *App) Start(ctx *context.Context, checkErr func(err error)) {
 	go func(ctx *context.Context) {
 
 		//App startup essentials
+		// entities.InitSchema(a.AppConfig.Database.Schema)
 		pkgLog.InitLogger(a.NewRelic)
 		config_cache.InitMasterConfig(a.MasterConfigRepository)
 
