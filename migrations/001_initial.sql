@@ -6,7 +6,7 @@
 -- ====================================
 
 CREATE TABLE IF NOT EXISTS stitch."Channels" (
-  id BIGSERIAL,
+  id BIGSERIAL NOT NULL,
   created_at TEXT,
   updated_at TEXT,
   is_active BOOL DEFAULT true,
@@ -14,13 +14,13 @@ CREATE TABLE IF NOT EXISTS stitch."Channels" (
   updated_by_id INTEGER,
   channel_id INTEGER,
   name TEXT,
-  status STRING NOT NULL DEFAULT ACTIVE,
+  status TEXT NOT NULL DEFAULT 'ACTIVE',
   owner_user_id INTEGER,
   PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS stitch."Customers" (
-  id BIGSERIAL,
+  id BIGSERIAL NOT NULL,
   created_at TEXT,
   updated_at TEXT,
   is_active BOOL DEFAULT true,
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS stitch."Customers" (
 );
 
 CREATE TABLE IF NOT EXISTS stitch."DressTypes" (
-  id BIGSERIAL,
+  id BIGSERIAL NOT NULL,
   created_at TEXT,
   updated_at TEXT,
   is_active BOOL DEFAULT true,
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS stitch."DressTypes" (
 );
 
 CREATE TABLE IF NOT EXISTS stitch."EmailNotifications" (
-  id BIGSERIAL,
+  id BIGSERIAL NOT NULL,
   created_at TEXT,
   updated_at TEXT,
   is_active BOOL DEFAULT true,
@@ -66,20 +66,20 @@ CREATE TABLE IF NOT EXISTS stitch."EmailNotifications" (
 );
 
 CREATE TABLE IF NOT EXISTS stitch."EnquiryHistories" (
-  id BIGSERIAL,
+  id BIGSERIAL NOT NULL,
   created_at TEXT,
   updated_at TEXT,
   is_active BOOL DEFAULT true,
   created_by_id INTEGER,
   updated_by_id INTEGER,
   channel_id INTEGER,
-  status STRING,
+  status TEXT,
   employee_comment TEXT,
   customer_comment TEXT,
   visiting_date TEXT,
   call_back_date TEXT,
   enquiry_date TEXT,
-  response_status STRING,
+  response_status TEXT,
   enquiry_id INTEGER,
   employee_id INTEGER,
   performed_at TEXT NOT NULL,
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS stitch."EnquiryHistories" (
 );
 
 CREATE TABLE IF NOT EXISTS stitch."Enquiries" (
-  id BIGSERIAL,
+  id BIGSERIAL NOT NULL,
   created_at TEXT,
   updated_at TEXT,
   is_active BOOL DEFAULT true,
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS stitch."Enquiries" (
   updated_by_id INTEGER,
   channel_id INTEGER,
   subject TEXT,
-  status STRING NOT NULL,
+  status TEXT NOT NULL,
   notes TEXT,
   source TEXT,
   referred_by TEXT,
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS stitch."Enquiries" (
 );
 
 CREATE TABLE IF NOT EXISTS stitch."MasterConfigs" (
-  id BIGSERIAL,
+  id BIGSERIAL NOT NULL,
   created_at TEXT,
   updated_at TEXT,
   is_active BOOL DEFAULT true,
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS stitch."MasterConfigs" (
 );
 
 CREATE TABLE IF NOT EXISTS stitch."Measurements" (
-  id BIGSERIAL,
+  id BIGSERIAL NOT NULL,
   created_at TEXT,
   updated_at TEXT,
   is_active BOOL DEFAULT true,
@@ -140,14 +140,14 @@ CREATE TABLE IF NOT EXISTS stitch."Measurements" (
 );
 
 CREATE TABLE IF NOT EXISTS stitch."MeasurementHistories" (
-  id BIGSERIAL,
+  id BIGSERIAL NOT NULL,
   created_at TEXT,
   updated_at TEXT,
   is_active BOOL DEFAULT true,
   created_by_id INTEGER,
   updated_by_id INTEGER,
   channel_id INTEGER,
-  action STRING NOT NULL,
+  action TEXT NOT NULL,
   old_values JSONB,
   measurement_id INTEGER,
   performed_at TEXT NOT NULL,
@@ -156,30 +156,30 @@ CREATE TABLE IF NOT EXISTS stitch."MeasurementHistories" (
 );
 
 CREATE TABLE IF NOT EXISTS stitch."Notifications" (
-  id BIGSERIAL,
+  id BIGSERIAL NOT NULL,
   created_at TEXT,
   updated_at TEXT,
   is_active BOOL DEFAULT true,
   created_by_id INTEGER,
   updated_by_id INTEGER,
   channel_id INTEGER,
-  status STRING NOT NULL DEFAULT PENDING,
+  status TEXT NOT NULL DEFAULT 'PENDING',
   source_entity TEXT,
   entity_id INTEGER,
   PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS stitch."OrderHistories" (
-  id BIGSERIAL,
+  id BIGSERIAL NOT NULL,
   created_at TEXT,
   updated_at TEXT,
   is_active BOOL DEFAULT true,
   created_by_id INTEGER,
   updated_by_id INTEGER,
   channel_id INTEGER,
-  action STRING NOT NULL,
+  action TEXT NOT NULL,
   changed_fields TEXT,
-  status STRING,
+  status TEXT,
   expected_delivery_date TEXT,
   delivered_date TEXT,
   order_item_id INTEGER,
@@ -191,7 +191,7 @@ CREATE TABLE IF NOT EXISTS stitch."OrderHistories" (
 );
 
 CREATE TABLE IF NOT EXISTS stitch."Orders" (
-  id BIGSERIAL,
+  id BIGSERIAL NOT NULL,
   created_at TEXT,
   updated_at TEXT,
   is_active BOOL DEFAULT true,
@@ -208,7 +208,7 @@ CREATE TABLE IF NOT EXISTS stitch."Orders" (
 );
 
 CREATE TABLE IF NOT EXISTS stitch."OrderItems" (
-  id BIGSERIAL,
+  id BIGSERIAL NOT NULL,
   created_at TEXT,
   updated_at TEXT,
   is_active BOOL DEFAULT true,
@@ -228,7 +228,7 @@ CREATE TABLE IF NOT EXISTS stitch."OrderItems" (
 );
 
 CREATE TABLE IF NOT EXISTS stitch."Persons" (
-  id BIGSERIAL,
+  id BIGSERIAL NOT NULL,
   created_at TEXT,
   updated_at TEXT,
   is_active BOOL DEFAULT true,
@@ -241,7 +241,7 @@ CREATE TABLE IF NOT EXISTS stitch."Persons" (
 );
 
 CREATE TABLE IF NOT EXISTS stitch."UserChannelDetails" (
-  id BIGSERIAL,
+  id BIGSERIAL NOT NULL,
   created_at TEXT,
   updated_at TEXT,
   is_active BOOL DEFAULT true,
@@ -254,7 +254,7 @@ CREATE TABLE IF NOT EXISTS stitch."UserChannelDetails" (
 );
 
 CREATE TABLE IF NOT EXISTS stitch."UserConfigs" (
-  id BIGSERIAL,
+  id BIGSERIAL NOT NULL,
   created_at TEXT,
   updated_at TEXT,
   is_active BOOL DEFAULT true,
@@ -267,7 +267,7 @@ CREATE TABLE IF NOT EXISTS stitch."UserConfigs" (
 );
 
 CREATE TABLE IF NOT EXISTS stitch."Users" (
-  id BIGSERIAL,
+  id BIGSERIAL NOT NULL,
   created_at TEXT,
   updated_at TEXT,
   is_active BOOL DEFAULT true,
@@ -280,7 +280,7 @@ CREATE TABLE IF NOT EXISTS stitch."Users" (
   phone_number TEXT NOT NULL UNIQUE,
   email TEXT NOT NULL UNIQUE,
   password TEXT NOT NULL,
-  role STRING NOT NULL,
+  role TEXT NOT NULL,
   is_login_disabled BOOLEAN,
   is_logged_in BOOLEAN,
   last_login_time TEXT,
@@ -292,7 +292,7 @@ CREATE TABLE IF NOT EXISTS stitch."Users" (
 );
 
 CREATE TABLE IF NOT EXISTS stitch."WhatsappNotifications" (
-  id BIGSERIAL,
+  id BIGSERIAL NOT NULL,
   created_at TEXT,
   updated_at TEXT,
   is_active BOOL DEFAULT true,

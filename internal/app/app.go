@@ -61,26 +61,26 @@ func (a *App) Migrate(ctx *context.Context, checkErr func(err error)) {
 	migrator := migrator.NewMigrator(a.StitchDB)
 
 	entityList := []interface{}{
-		// &entities.Channel{},
-		// &entities.Customer{},
-		// &entities.DressType{},
-		// &entities.EmailNotification{},
-		// &entities.EnquiryHistory{},
-		// &entities.Enquiry{},
-		// &entities.MasterConfig{},
-		// &entities.Measurement{},
-		// &entities.MeasurementHistory{},
-		// &entities.Notification{},
-		// &entities.OrderHistory{},
-		// &entities.Order{},
-		// &entities.OrderItem{},
+		&entities.Channel{},
+		&entities.Customer{},
+		&entities.DressType{},
+		&entities.EmailNotification{},
+		&entities.EnquiryHistory{},
+		&entities.Enquiry{},
+		&entities.MasterConfig{},
+		&entities.Measurement{},
+		&entities.MeasurementHistory{},
+		&entities.Notification{},
+		&entities.OrderHistory{},
+		&entities.Order{},
+		&entities.OrderItem{},
 		&entities.Person{},
-		// &entities.UserChannelDetail{},
-		// &entities.UserConfig{},
-		// &entities.User{},
-		// &entities.WhatsappNotification{},
+		&entities.UserChannelDetail{},
+		&entities.UserConfig{},
+		&entities.User{},
+		&entities.WhatsappNotification{},
 	}
 
-	//migrator.Migrate(entityList, checkErr)
-	migrator.GenerateAlterMigration(entityList, "002_person_entity_update")
+	migrator.Migrate(entityList, checkErr)
+	//migrator.GenerateAlterMigration(entityList, "002_person_entity_update")
 }
