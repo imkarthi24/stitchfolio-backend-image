@@ -1,6 +1,10 @@
 package entities
 
-import "time"
+import (
+	"time"
+
+	entitiy_types "github.com/imkarthi24/sf-backend/internal/entities/types"
+)
 
 type OrderHistoryAction string
 
@@ -29,8 +33,8 @@ type OrderHistory struct {
 	ExpectedDeliveryDate *time.Time   `json:"expectedDeliveryDate,omitempty"`
 	DeliveredDate        *time.Time   `json:"deliveredDate,omitempty"`
 
-	OrderItemId   *uint `json:"orderItemId,omitempty"`
-	OrderItemData *JSON `gorm:"type:jsonb" json:"orderItemData,omitempty"`
+	OrderItemId   *uint               `json:"orderItemId,omitempty"`
+	OrderItemData *entitiy_types.JSON `gorm:"type:jsonb" json:"orderItemData,omitempty"`
 
 	OrderId uint   `json:"orderId"`
 	Order   *Order `gorm:"foreignKey:OrderId" json:"order"`

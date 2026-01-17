@@ -41,12 +41,10 @@ type OrderItem struct {
 	ExpectedDeliveryDate *time.Time `json:"expectedDeliveryDate,omitempty"`
 	DeliveredDate        *time.Time `json:"deliveredDate,omitempty"`
 
-	PersonId      *uint      `json:"personId,omitempty"`
-	Person        *Person    `json:"person,omitempty"`
+	PersonId      *uint        `json:"personId,omitempty"`
+	Person        *Person      `json:"person,omitempty"`
 	MeasurementId *uint        `json:"measurementId,omitempty"`
 	Measurement   *Measurement `json:"measurement,omitempty"`
-	DressTypeId   *uint      `json:"dressTypeId,omitempty"`
-	DressType     *DressType `json:"dressType,omitempty"`
 
 	OrderId uint   `json:"orderId,omitempty"`
 	Order   *Order `json:"order,omitempty"`

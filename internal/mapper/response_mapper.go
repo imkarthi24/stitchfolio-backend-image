@@ -202,7 +202,6 @@ func (m *responseMapper) EnquiryHistory(e *entities.EnquiryHistory) (*responseMo
 	return &responseModel.EnquiryHistory{
 		ID:              e.ID,
 		IsActive:        e.IsActive,
-		Action:          string(e.Action),
 		Status:          statusStr,
 		EmployeeComment: e.EmployeeComment,
 		CustomerComment: e.CustomerComment,
@@ -383,7 +382,7 @@ func (m *responseMapper) Measurement(e *entities.Measurement) (*responseModel.Me
 	return &responseModel.Measurement{
 		ID:          e.ID,
 		IsActive:    e.IsActive,
-		Values:      json.RawMessage(e.Values),
+		Values:      json.RawMessage(e.Value),
 		PersonId:    &e.PersonId,
 		Person:      person,
 		PersonName:  personName,
@@ -484,11 +483,6 @@ func (m *responseMapper) OrderItem(e *entities.OrderItem) (*responseModel.OrderI
 		return nil, err
 	}
 
-	dressType, err := m.DressType(e.DressType)
-	if err != nil {
-		return nil, err
-	}
-
 	return &responseModel.OrderItem{
 		ID:                   e.ID,
 		IsActive:             e.IsActive,
@@ -502,10 +496,9 @@ func (m *responseMapper) OrderItem(e *entities.OrderItem) (*responseModel.OrderI
 		Person:               person,
 		MeasurementId:        e.MeasurementId,
 		Measurement:          measurement,
-		DressTypeId:          e.DressTypeId,
-		DressType:            dressType,
-		OrderId:              e.OrderId,
-		Order:                order,
+
+		OrderId: e.OrderId,
+		Order:   order,
 	}, nil
 }
 
@@ -601,7 +594,6 @@ func (m *responseMapper) MeasurementHistory(e *entities.MeasurementHistory) (*re
 		ID:            e.ID,
 		IsActive:      e.IsActive,
 		Action:        string(e.Action),
-		ChangedValues: e.ChangedValues,
 		OldValues:     oldValues,
 		MeasurementId: e.MeasurementId,
 		Measurement:   measurement,

@@ -1,6 +1,10 @@
 package entities
 
-import "time"
+import (
+	"time"
+
+	entitiy_types "github.com/imkarthi24/sf-backend/internal/entities/types"
+)
 
 type MeasurementHistoryAction string
 
@@ -15,10 +19,7 @@ type MeasurementHistory struct {
 
 	Action MeasurementHistoryAction `gorm:"type:string;not null" json:"action"`
 
-	// Comma-separated list of changed fields (e.g., "measurements,measurementDate")
-	ChangedValues string `json:"changedValues,omitempty"`
-
-	OldValues JSON `gorm:"type:jsonb" json:"oldValues,omitempty"`
+	OldValues entitiy_types.JSON `gorm:"type:jsonb" json:"oldValues,omitempty"`
 
 	MeasurementId uint         `json:"measurementId"`
 	Measurement   *Measurement `gorm:"foreignKey:MeasurementId" json:"measurement"`

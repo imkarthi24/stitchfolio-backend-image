@@ -5,7 +5,6 @@ import "time"
 type EnquiryHistory struct {
 	ID              uint      `json:"id,omitempty"`
 	IsActive        bool      `json:"isActive,omitempty"`
-	Action          string    `json:"action,omitempty"`
 	Status          *string   `json:"status,omitempty"`
 	EmployeeComment string    `json:"employeeComment,omitempty"`
 	CustomerComment string    `json:"customerComment,omitempty"`

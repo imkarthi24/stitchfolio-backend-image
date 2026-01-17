@@ -19,9 +19,6 @@ type OrderItem struct {
 	MeasurementId *uint        `json:"measurementId,omitempty"`
 	Measurement   *Measurement `gorm:"foreignKey:MeasurementId" json:"measurement,omitempty"`
 
-	DressTypeId *uint      `json:"dressTypeId,omitempty"`
-	DressType   *DressType `gorm:"foreignKey:DressTypeId" json:"dressType,omitempty"`
-
 	OrderId uint   `json:"orderId"`
 	Order   *Order `gorm:"foreignKey:OrderId" json:"order"`
 }

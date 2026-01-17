@@ -11,17 +11,8 @@ const (
 	ACCEPTED     ResponseStatus = "ACCEPTED"
 )
 
-type EnquiryHistoryAction string
-
-const (
-	EnquiryHistoryActionStatusChanged EnquiryHistoryAction = "STATUS_CHANGED"
-	EnquiryHistoryActionResponse      EnquiryHistoryAction = "RESPONSE"
-)
-
 type EnquiryHistory struct {
 	*Model `mapstructure:",squash"`
-
-	Action EnquiryHistoryAction `gorm:"type:string" json:"action,omitempty"`
 
 	Status *EnquiryStatus `gorm:"type:string" json:"status,omitempty"`
 
