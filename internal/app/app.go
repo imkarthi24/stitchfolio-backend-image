@@ -10,6 +10,7 @@ import (
 	"github.com/imkarthi24/sf-backend/internal/config"
 	"github.com/imkarthi24/sf-backend/internal/entities"
 	"github.com/imkarthi24/sf-backend/internal/repository"
+	"github.com/imkarthi24/sf-backend/pkg/db/migrator"
 	pkgLog "github.com/imkarthi24/sf-backend/pkg/log"
 	"github.com/newrelic/go-agent/v3/newrelic"
 
@@ -19,7 +20,7 @@ import (
 type App struct {
 	Server                 *gin.Engine
 	AppConfig              config.AppConfig
-	ChitDb                 *gorm.DB
+	StitchDB               *gorm.DB
 	NewRelic               *newrelic.Application
 	MasterConfigRepository repository.MasterConfigRepository
 }
@@ -47,7 +48,7 @@ func (a *App) Start(ctx *context.Context, checkErr func(err error)) {
 }
 
 func (a *App) Shutdown(ctx *context.Context, checkErr func(err error)) {
-	dbConn, err := a.ChitDb.DB()
+	dbConn, err := a.StitchDB.DB()
 	checkErr(err)
 
 	err = dbConn.Close()
@@ -57,28 +58,29 @@ func (a *App) Shutdown(ctx *context.Context, checkErr func(err error)) {
 }
 
 func (a *App) Migrate(ctx *context.Context, checkErr func(err error)) {
+	migrator := migrator.NewMigrator(a.StitchDB)
 
 	entityList := []interface{}{
-		// &entities.User{},
 		// &entities.Channel{},
-		// &entities.Notification{},
-		// &entities.MasterConfig{},
-		// &entities.EmailNotification{},
-		// &entities.WhatsappNotification{},
-		// &entities.Enquiry{},
-		// &entities.EnquiryHistory{},
 		// &entities.Customer{},
-		&entities.Order{},
-		// &entities.OrderItem{},
+		// &entities.DressType{},
+		// &entities.EmailNotification{},
+		// &entities.EnquiryHistory{},
+		// &entities.Enquiry{},
+		// &entities.MasterConfig{},
 		// &entities.Measurement{},
-	}
-	for _, entity := range entityList {
-		// pass entity directly (it's already a pointer to a struct)
-		err := a.ChitDb.AutoMigrate(entity)
-		if err != nil {
-			fmt.Printf("Migration error for %T: %v\n", entity, err)
-			checkErr(err)
-		}
+		// &entities.MeasurementHistory{},
+		// &entities.Notification{},
+		// &entities.OrderHistory{},
+		// &entities.Order{},
+		// &entities.OrderItem{},
+		&entities.Person{},
+		// &entities.UserChannelDetail{},
+		// &entities.UserConfig{},
+		// &entities.User{},
+		// &entities.WhatsappNotification{},
 	}
 
+	//migrator.Migrate(entityList, checkErr)
+	migrator.GenerateAlterMigration(entityList, "002_person_entity_update")
 }

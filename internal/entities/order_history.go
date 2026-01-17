@@ -24,12 +24,12 @@ const (
 type OrderHistory struct {
 	*Model `mapstructure:",squash"`
 
-	Action OrderHistoryAction `gorm:"type:string;not null" json:"action"`
+	Action OrderHistoryAction `gorm:"type:text;not null" json:"action"`
 
 	// Comma-separated list of changed fields (e.g., "status,expectedDeliveryDate")
 	ChangedFields string `json:"changedFields,omitempty"`
 
-	Status               *OrderStatus `gorm:"type:string" json:"status,omitempty"`
+	Status               *OrderStatus `gorm:"type:text" json:"status,omitempty"`
 	ExpectedDeliveryDate *time.Time   `json:"expectedDeliveryDate,omitempty"`
 	DeliveredDate        *time.Time   `json:"deliveredDate,omitempty"`
 

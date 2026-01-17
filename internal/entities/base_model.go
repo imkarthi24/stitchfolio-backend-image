@@ -8,7 +8,7 @@ import (
 )
 
 type Model struct {
-	ID          uint       `gorm:"primarykey" json:"ID,omitempty"`
+	ID          uint       `gorm:"not null;primarykey" json:"ID,omitempty"`
 	CreatedAt   *time.Time `gorm:"<-:create" json:"createdAt,omitempty"`
 	UpdatedAt   *time.Time `json:"updatedAt,omitempty"`
 	IsActive    bool       `gorm:"default:true;type:bool" json:"isActive"`

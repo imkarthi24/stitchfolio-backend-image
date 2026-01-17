@@ -87,7 +87,7 @@ func InitApp(ctx *context.Context) (*app.App, error) {
 	appApp := &app.App{
 		Server:                 engine,
 		AppConfig:              appConfig,
-		ChitDb:                 gormDB,
+		StitchDB:               gormDB,
 		NewRelic:               application,
 		MasterConfigRepository: masterConfigRepository,
 	}

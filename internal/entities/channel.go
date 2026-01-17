@@ -12,7 +12,7 @@ const (
 type Channel struct {
 	*Model `mapstructure:",squash"`
 	Name   string        `json:"name,omitempty"`
-	Status ChannelStatus `gorm:"default:'ACTIVE';type:string;not null" json:"status,omitempty"`
+	Status ChannelStatus `gorm:"default:'ACTIVE';type:text;not null" json:"status,omitempty"`
 
 	//Reference
 	OwnerUserID uint  `json:"ownerUserId,omitempty"`

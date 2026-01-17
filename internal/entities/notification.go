@@ -11,7 +11,7 @@ const (
 
 type Notification struct {
 	*Model
-	Status       NotificationStatus `gorm:"default:'PENDING';type:string;not null" json:"status,omitempty"`
+	Status       NotificationStatus `gorm:"default:'PENDING';type:text;not null" json:"status,omitempty"`
 	SourceEntity string             `json:"sourceEntity,omitempty"`
 	EntityId     uint               `json:"entityId,omitempty"`
 

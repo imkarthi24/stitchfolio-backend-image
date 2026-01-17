@@ -14,14 +14,14 @@ const (
 type EnquiryHistory struct {
 	*Model `mapstructure:",squash"`
 
-	Status *EnquiryStatus `gorm:"type:string" json:"status,omitempty"`
+	Status *EnquiryStatus `gorm:"type:text" json:"status,omitempty"`
 
 	EmployeeComment string         `json:"employeeComment,omitempty"`
 	CustomerComment string         `json:"customerComment,omitempty"`
 	VisitingDate    *time.Time     `json:"visitingDate,omitempty"`
 	CallBackDate    *time.Time     `json:"callBackDate,omitempty"`
 	EnquiryDate     *time.Time     `json:"enquiryDate,omitempty"`
-	ResponseStatus  ResponseStatus `gorm:"type:string" json:"responseStatus,omitempty"`
+	ResponseStatus  ResponseStatus `gorm:"type:text" json:"responseStatus,omitempty"`
 
 	EnquiryId  uint  `json:"enquiryId,omitempty"`
 	EmployeeId uint  `json:"employeeId,omitempty"`

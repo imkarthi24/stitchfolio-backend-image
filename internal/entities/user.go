@@ -26,7 +26,7 @@ type User struct {
 	PhoneNumber         string     `gorm:"unique;not null" json:"phoneNumber,omitempty"`
 	Email               string     `gorm:"unique;not null" json:"email,omitempty"`
 	Password            string     `gorm:"not null" json:"-"`
-	Role                RoleType   `gorm:"type:string;not null" json:"role,omitempty"`
+	Role                RoleType   `gorm:"type:text;not null" json:"role,omitempty"`
 	IsLoginDisabled     bool       `json:"isLoginDisabled"`
 	IsLoggedIn          bool       `json:"isLoggedIn"`
 	LastLoginTime       *time.Time `json:"lastLoginTime,omitempty"`

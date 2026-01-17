@@ -13,7 +13,7 @@ type Enquiry struct {
 	*Model `mapstructure:",squash"`
 
 	Subject string        `json:"subject"`
-	Status  EnquiryStatus `gorm:"type:string;not null" json:"status"`
+	Status  EnquiryStatus `gorm:"type:text;not null" json:"status"`
 	Notes   string        `json:"notes"`
 
 	Source              string `json:"source,omitempty"`
