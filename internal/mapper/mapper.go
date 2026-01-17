@@ -131,7 +131,6 @@ func (mapper) EnquiryHistory(e requestModel.EnquiryHistory) (*entities.EnquiryHi
 
 	return &entities.EnquiryHistory{
 		Model:           &entities.Model{ID: e.ID, IsActive: e.IsActive},
-		Action:          entities.EnquiryHistoryAction(e.Action),
 		Status:          status,
 		EmployeeComment: e.EmployeeComment,
 		CustomerComment: e.CustomerComment,

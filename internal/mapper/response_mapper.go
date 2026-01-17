@@ -202,7 +202,6 @@ func (m *responseMapper) EnquiryHistory(e *entities.EnquiryHistory) (*responseMo
 	return &responseModel.EnquiryHistory{
 		ID:              e.ID,
 		IsActive:        e.IsActive,
-		Action:          string(e.Action),
 		Status:          statusStr,
 		EmployeeComment: e.EmployeeComment,
 		CustomerComment: e.CustomerComment,
