@@ -83,10 +83,12 @@ func (a *App) Migrate(ctx *context.Context, checkErr func(err error)) {
 
 	//************************//
 	/*
-	 0.Use Migrate only for initial migration
+	 0. Use Migrate only for initial migration
 	 1. Make changes to entity files
 	 2. Provide proper migration name in GenerateAlterMigration with incremented number and snake case eg:" 002_person_entity_update"
-	 3. Use GenerateAlterMigration to generate alter migration file
+	 4. Only uncomment entity which is changed in entityList to generate minimal alter migration file
+	 5. Comment back the GenerateAlterMigration line after generating migration file to avoid overwriting
+	 6. Use GenerateAlterMigration to generate alter migration file
 	*/
 	//************************//
 

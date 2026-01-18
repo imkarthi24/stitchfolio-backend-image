@@ -175,6 +175,8 @@ func getPostgresType(field *schema.Field) string {
 		return "TEXT"
 	case "time.Time":
 		return "TIMESTAMPTZ"
+	case "*time.Time":
+		return "TIMESTAMPTZ"
 	case "[]byte":
 		return "BYTEA"
 	default:

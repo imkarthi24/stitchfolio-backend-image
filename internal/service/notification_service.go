@@ -10,6 +10,7 @@ import (
 	requestModel "github.com/imkarthi24/sf-backend/internal/model/request"
 	"github.com/imkarthi24/sf-backend/internal/repository"
 	"github.com/imkarthi24/sf-backend/pkg/errs"
+	"github.com/imkarthi24/sf-backend/pkg/service/email"
 	"github.com/imkarthi24/sf-backend/pkg/util"
 )
 
@@ -102,7 +103,7 @@ func createEmailNotification(notif requestModel.EmaiNotification) (*entities.Ema
 
 	if notif.EmailContent != nil {
 
-		_, body, err := util.BuildEmailBody(*notif.EmailContent)
+		_, body, err := email.BuildEmailBody(*notif.EmailContent)
 		if err != nil {
 			return nil, err
 		}
@@ -128,13 +129,13 @@ func (svc *notificationService) sendEmailNotification(ctx *context.Context, emai
 	var faulted bool
 	for _, notif := range emailNotifs {
 		recipients := []string{notif.ToMailAddress}
-		mail := util.EmailContent{
+		mail := email.EmailContent{
 			To:      recipients,
 			Subject: notif.Subject,
 			Message: &notif.Body,
 		}
 
-		err := util.SendEmail(&svc.smtpConfig, mail)
+		err := email.SendEmail(&svc.smtpConfig, mail)
 		notifStatus := entities.NOTIF_COMPLETED
 		if err != nil {
 			notifStatus = entities.NOTIF_FAULTED

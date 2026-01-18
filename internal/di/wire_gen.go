@@ -8,6 +8,7 @@ package di
 
 import (
 	"context"
+
 	"github.com/google/wire"
 	"github.com/imkarthi24/sf-backend/internal/app"
 	"github.com/imkarthi24/sf-backend/internal/config"
@@ -33,7 +34,8 @@ func InitApp(ctx *context.Context) (*app.App, error) {
 		return nil, err
 	}
 	databaseConfig := appConfig.Database
-	gormDB, err := db.ProvideDatabase(databaseConfig)
+	databaseConnectionParams := ProvideDatabaseConnectionParams(databaseConfig)
+	gormDB, err := db.ProvideDatabase(databaseConnectionParams)
 	if err != nil {
 		return nil, err
 	}
@@ -100,7 +102,8 @@ func InitJobService(ctx *context.Context) (*app.Task, error) {
 		return nil, err
 	}
 	databaseConfig := appConfig.Database
-	gormDB, err := db.ProvideDatabase(databaseConfig)
+	databaseConnectionParams := ProvideDatabaseConnectionParams(databaseConfig)
+	gormDB, err := db.ProvideDatabase(databaseConnectionParams)
 	if err != nil {
 		return nil, err
 	}
@@ -158,7 +161,7 @@ var logSet = wire.NewSet(newreliclog.ProvideNewRelic)
 
 var routerSet = wire.NewSet(router.InitRouter)
 
-var dbSet = wire.NewSet(db.ProvideDatabase, db.ProvideDBTransactionManager)
+var dbSet = wire.NewSet(ProvideDatabaseConnectionParams, db.ProvideDatabase, db.ProvideDBTransactionManager)
 
 var mapperSet = wire.NewSet(mapper.ProvideMapper, mapper.ProvideResponseMapper)
 
@@ -169,3 +172,17 @@ var baseSvc = wire.NewSet(base2.ProvideBaseService)
 var repoSet = wire.NewSet(common.ProvideCustomGormDB, repository.ProvideUserRepository, repository.ProvideNotificationRepository, repository.ProvideChannelRepository, repository.ProvideMasterConfigRepository, repository.ProvideAdminRepository, repository.ProvideCustomerRepository, repository.ProvideEnquiryRepository, repository.ProvideOrderRepository, repository.ProvideOrderItemRepository, repository.ProvideMeasurementRepository, repository.ProvidePersonRepository, repository.ProvideDressTypeRepository, repository.ProvideOrderHistoryRepository, repository.ProvideMeasurementHistoryRepository)
 
 var cronSet = wire.NewSet(cron.ProvideCron)
+
+func ProvideDatabaseConnectionParams(dbConfig config.DatabaseConfig) db.DatabaseConnectionParams {
+	sslMode := "prefer"
+
+	return db.DatabaseConnectionParams{
+		Host:     dbConfig.Host,
+		Port:     dbConfig.Port,
+		Username: dbConfig.Username,
+		DBName:   dbConfig.DBName,
+		Password: dbConfig.Password,
+		SSLMode:  sslMode,
+		Schema:   dbConfig.Schema,
+	}
+}

@@ -1,8 +1,6 @@
 package requestModel
 
-import (
-	"github.com/imkarthi24/sf-backend/pkg/util"
-)
+import "github.com/imkarthi24/sf-backend/pkg/service/email"
 
 type Notification struct {
 	SourceEntity string `json:"sourceEntity,omitempty"`
@@ -14,5 +12,5 @@ type EmaiNotification struct {
 	ToMailAddress string `json:"toMailAddress,omitempty"`
 	Subject       string `json:"subject,omitempty"`
 	Body          string `json:"body,omitempty"`
-	EmailContent  *util.EmailContent
+	EmailContent  *email.EmailContent
 }

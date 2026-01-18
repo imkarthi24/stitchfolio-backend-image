@@ -1,35 +1,17 @@
-package util
+package email
 
 import (
 	"os"
 
-	"github.com/imkarthi24/sf-backend/internal/config"
-
-	"github.com/jordan-wright/email"
+	"github.com/imkarthi24/sf-backend/pkg/util"
+	mail "github.com/jordan-wright/email"
 )
 
-type EmailContent struct {
-	To                   []string
-	Subject              string
-	Message              *string
-	HtmlTemplateFileName *string
-	TextTemplateFileName *string
-	TemplateValueMap     map[string]string
-}
-
-type emailType string
-
-const (
-	NIL  emailType = "_"
-	HTML emailType = "HTML"
-	TEXT emailType = "TEXT"
-)
-
-func SendEmail(config *config.SMTPConfig, mailContent EmailContent) error {
+func SendEmail(config SMTPConfig, mailContent EmailContent) error {
 
 	// hostAddress := fmt.Sprintf("%s:%d", config.Host, config.Port)
 
-	e := email.NewEmail()
+	e := mail.NewEmail()
 	e.Subject = mailContent.Subject
 	e.From = config.UserName
 	e.To = mailContent.To
@@ -61,7 +43,7 @@ func SendEmail(config *config.SMTPConfig, mailContent EmailContent) error {
 
 func BuildEmailBody(mailContent EmailContent) (emailType, []byte, error) {
 
-	if !IsNilOrEmptyString(mailContent.HtmlTemplateFileName) {
+	if !util.IsNilOrEmptyString(mailContent.HtmlTemplateFileName) {
 		htmlTemplateDirectory := "./templates/html_templates/"
 		htmlFile := htmlTemplateDirectory + *mailContent.HtmlTemplateFileName
 		htmlContent, err := readContentFromFile(htmlFile)
@@ -69,11 +51,11 @@ func BuildEmailBody(mailContent EmailContent) (emailType, []byte, error) {
 			return NIL, nil, err
 		}
 
-		htmlContent = ReplaceTemplateValues(htmlContent, mailContent.TemplateValueMap)
+		htmlContent = util.ReplaceTemplateValues(htmlContent, mailContent.TemplateValueMap)
 		return HTML, htmlContent, nil
 	}
 
-	if !IsNilOrEmptyString(mailContent.TextTemplateFileName) {
+	if !util.IsNilOrEmptyString(mailContent.TextTemplateFileName) {
 		htmlTemplateDirectory := "./templates/message_templates/"
 		textFile := htmlTemplateDirectory + *mailContent.TextTemplateFileName
 		textContent, err := readContentFromFile(textFile)
@@ -81,7 +63,7 @@ func BuildEmailBody(mailContent EmailContent) (emailType, []byte, error) {
 			return NIL, nil, err
 		}
 
-		text := ReplaceTemplateValues(textContent, mailContent.TemplateValueMap)
+		text := util.ReplaceTemplateValues(textContent, mailContent.TemplateValueMap)
 		return TEXT, text, nil
 	}
 

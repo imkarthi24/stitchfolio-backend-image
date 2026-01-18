@@ -1,4 +1,3 @@
-// internal/app/schema_differ.go
 package migrator
 
 import (

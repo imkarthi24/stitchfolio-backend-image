@@ -56,7 +56,23 @@ var routerSet = wire.NewSet(
 	router.InitRouter,
 )
 
+func ProvideDatabaseConnectionParams(dbConfig config.DatabaseConfig) db.DatabaseConnectionParams {
+	sslMode := "prefer"
+	// You can add logic here to determine SSL mode based on config if needed
+	
+	return db.DatabaseConnectionParams{
+		Host:     dbConfig.Host,
+		Port:     dbConfig.Port,
+		Username: dbConfig.Username,
+		DBName:   dbConfig.DBName,
+		Password: dbConfig.Password,
+		SSLMode:  sslMode,
+		Schema:   dbConfig.Schema,
+	}
+}
+
 var dbSet = wire.NewSet(
+	ProvideDatabaseConnectionParams,
 	db.ProvideDatabase,
 	db.ProvideDBTransactionManager,
 )

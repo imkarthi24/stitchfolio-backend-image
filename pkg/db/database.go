@@ -6,30 +6,41 @@ import (
 	"os"
 	"time"
 
-	"github.com/imkarthi24/sf-backend/internal/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
 
-func ProvideDatabase(config config.DatabaseConfig) (*gorm.DB, error) {
+type DatabaseConnectionParams struct {
+	Host     string
+	Port     int
+	Username string
+	DBName   string
+	Password string
+	SSLMode  string
+	Schema   string
+}
 
-	host := config.Host
-	port := config.Port
-	userName := config.Username
-	dbname := config.DBName
-	password := config.Password
+func ProvideDatabase(connectionParams DatabaseConnectionParams) (*gorm.DB, error) {
 
-	args := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s sslmode=%s options='-c search_path=%s'", host, port, userName, dbname, password, "prefer", config.Schema)
+	host := connectionParams.Host
+	port := connectionParams.Port
+	userName := connectionParams.Username
+	dbname := connectionParams.DBName
+	password := connectionParams.Password
+	schema := connectionParams.Schema
+	sslMode := connectionParams.SSLMode
+
+	args := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s sslmode=%s search_path=%s", host, port, userName, dbname, password, sslMode, schema)
 
 	connection, err := gorm.Open(postgres.Open(args), &gorm.Config{
 		Logger: logger.New(
 			log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
 			logger.Config{
-				SlowThreshold:             time.Millisecond, // Slow SQL threshold
-				LogLevel:                  logger.Info,      // Log level (Silent, Error, Warn, Info)
-				IgnoreRecordNotFoundError: false,            // Don't ignore ErrRecordNotFound error
-				Colorful:                  true,             // Enable color
+				SlowThreshold:             time.Nanosecond, // Slow SQL threshold
+				LogLevel:                  logger.Info,     // Log level (Silent, Error, Warn, Info)
+				IgnoreRecordNotFoundError: false,           // Don't ignore ErrRecordNotFound error
+				Colorful:                  true,            // Enable color
 			},
 		),
 	})
@@ -40,10 +51,6 @@ func ProvideDatabase(config config.DatabaseConfig) (*gorm.DB, error) {
 	db, err := connection.DB()
 	if err != nil {
 		return nil, fmt.Errorf("Error Connecting to Database : %v", err)
-	}
-
-	if _ = connection.Exec(fmt.Sprintf("SET search_path TO %s", config.Schema)); err != nil {
-		return nil, fmt.Errorf("failed to set search_path: %v", err)
 	}
 
 	if err := db.Ping(); err != nil {
