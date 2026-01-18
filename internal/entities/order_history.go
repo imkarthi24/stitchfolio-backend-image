@@ -45,9 +45,9 @@ type OrderHistory struct {
 }
 
 func (OrderHistory) TableName() string {
-	return "OrderHistories"
+	return "stich.OrderHistories"
 }
 
 func (OrderHistory) TableNameForQuery() string {
-	return "\"OrderHistories\" E"
+	return "\"stich\".\"OrderHistories\" E"
 }

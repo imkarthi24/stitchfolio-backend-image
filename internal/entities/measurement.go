@@ -18,10 +18,10 @@ type Measurement struct {
 }
 
 func (Measurement) TableName() string {
-	return "Measurements"
+	return "stich.Measurements"
 }
 
 func (Measurement) TableNameForQuery() string {
-	return "\"Measurements\" E"
+	return "\"stich\".\"Measurements\" E"
 
 }

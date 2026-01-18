@@ -24,9 +24,9 @@ type OrderItem struct {
 }
 
 func (OrderItem) TableName() string {
-	return "OrderItems"
+	return "stich.OrderItems"
 }
 
 func (OrderItem) TableNameForQuery() string {
-	return "\"OrderItems\" E"
+	return "\"stich\".\"OrderItems\" E"
 }

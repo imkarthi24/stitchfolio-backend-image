@@ -16,11 +16,11 @@ type MasterConfig struct {
 }
 
 func (MasterConfig) TableName() string {
-	return "MasterConfigs"
+	return "stich.MasterConfigs"
 }
 
 func (MasterConfig) TableNameForQuery() string {
-	return "\"MasterConfigs\" E"
+	return "\"stich\".\"MasterConfigs\" E"
 }
 
 // Type.Name  -> CandidateForm.Courses

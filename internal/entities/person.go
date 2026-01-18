@@ -14,9 +14,9 @@ type Person struct {
 }
 
 func (Person) TableName() string {
-	return "Persons"
+	return "stich.Persons"
 }
 
 func (Person) TableNameForQuery() string {
-	return "\"Persons\" E"
+	return "\"stich\".\"Persons\" E"
 }

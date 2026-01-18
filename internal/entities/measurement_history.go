@@ -30,9 +30,9 @@ type MeasurementHistory struct {
 }
 
 func (MeasurementHistory) TableName() string {
-	return "MeasurementHistories"
+	return "stich.MeasurementHistories"
 }
 
 func (MeasurementHistory) TableNameForQuery() string {
-	return "\"MeasurementHistories\" E"
+	return "\"stich\".\"MeasurementHistories\" E"
 }

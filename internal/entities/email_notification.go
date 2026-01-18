@@ -13,9 +13,9 @@ type EmailNotification struct {
 }
 
 func (EmailNotification) TableName() string {
-	return "EmailNotifications"
+	return "stich.EmailNotifications"
 }
 
 func (EmailNotification) TableNameForQuery() string {
-	return "\"EmailNotifications\" E"
+	return "\"stich\".\"EmailNotifications\" E"
 }

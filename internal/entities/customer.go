@@ -19,9 +19,9 @@ type Customer struct {
 }
 
 func (Customer) TableName() string {
-	return "Customers"
+	return "stich.Customers"
 }
 
 func (Customer) TableNameForQuery() string {
-	return "\"Customers\" E"
+	return "\"stich\".\"Customers\" E"
 }

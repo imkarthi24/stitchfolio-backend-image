@@ -21,11 +21,11 @@ type Notification struct {
 }
 
 func (Notification) TableName() string {
-	return "Notifications"
+	return "stich.Notifications"
 }
 
 func (Notification) TableNameForQuery() string {
-	return "\"Notifications\" E"
+	return "\"stich\".\"Notifications\" E"
 }
 
 func (n *Notification) AddEmailNotification(email ...EmailNotification) {
