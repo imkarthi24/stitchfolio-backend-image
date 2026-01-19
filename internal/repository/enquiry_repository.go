@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
-	"github.com/imkarthi24/sf-backend/internal/repository/common"
 	"github.com/imkarthi24/sf-backend/internal/repository/scopes"
 	"github.com/imkarthi24/sf-backend/pkg/db"
 	"github.com/imkarthi24/sf-backend/pkg/errs"
@@ -20,16 +19,15 @@ type EnquiryRepository interface {
 }
 
 type enquiryRepository struct {
-	txn      db.DBTransactionManager
-	customDB common.CustomGormDB
+	GormDAL
 }
 
-func ProvideEnquiryRepository(txn db.DBTransactionManager, customDB common.CustomGormDB) EnquiryRepository {
-	return &enquiryRepository{txn: txn, customDB: customDB}
+func ProvideEnquiryRepository(customDB GormDAL) EnquiryRepository {
+	return &enquiryRepository{GormDAL: customDB}
 }
 
 func (er *enquiryRepository) Create(ctx *context.Context, enquiry *entities.Enquiry) *errs.XError {
-	res := er.txn.Txn(ctx).Create(&enquiry)
+	res := er.WithDB(ctx).Create(&enquiry)
 	if res.Error != nil {
 		return errs.NewXError(errs.DATABASE, "Unable to save enquiry", res.Error)
 	}
@@ -37,25 +35,25 @@ func (er *enquiryRepository) Create(ctx *context.Context, enquiry *entities.Enqu
 }
 
 func (er *enquiryRepository) Update(ctx *context.Context, enquiry *entities.Enquiry) *errs.XError {
-	return er.customDB.Update(ctx, *enquiry)
+	return er.GormDAL.Update(ctx, *enquiry)
 }
 
 func (er *enquiryRepository) UpdateEnquiryAndCustomer(ctx *context.Context, enquiry *entities.Enquiry, customer *entities.Customer) *errs.XError {
 	// Update customer first
 	if customer != nil && customer.ID != 0 {
-		customerErr := er.customDB.Update(ctx, *customer)
+		customerErr := er.GormDAL.Update(ctx, *customer)
 		if customerErr != nil {
 			return customerErr
 		}
 	}
 
 	// Then update enquiry
-	return er.customDB.Update(ctx, *enquiry)
+	return er.GormDAL.Update(ctx, *enquiry)
 }
 
 func (er *enquiryRepository) Get(ctx *context.Context, id uint) (*entities.Enquiry, *errs.XError) {
 	enquiry := entities.Enquiry{}
-	res := er.txn.Txn(ctx).Preload("Customer").Find(&enquiry, id)
+	res := er.WithDB(ctx).Preload("Customer").Find(&enquiry, id)
 	if res.Error != nil {
 		return nil, errs.NewXError(errs.DATABASE, "Unable to find enquiry", res.Error)
 	}
@@ -64,7 +62,7 @@ func (er *enquiryRepository) Get(ctx *context.Context, id uint) (*entities.Enqui
 
 func (er *enquiryRepository) GetAll(ctx *context.Context, search string) ([]entities.Enquiry, *errs.XError) {
 	var enquiries []entities.Enquiry
-	res := er.txn.Txn(ctx).
+	res := er.WithDB(ctx).
 		Scopes(scopes.Channel(), scopes.IsActive()).
 		Scopes(scopes.ILike(search, "subject", "notes", "status")).
 		Scopes(db.Paginate(ctx)).
@@ -78,7 +76,7 @@ func (er *enquiryRepository) GetAll(ctx *context.Context, search string) ([]enti
 
 func (er *enquiryRepository) Delete(ctx *context.Context, id uint) *errs.XError {
 	enquiry := &entities.Enquiry{Model: &entities.Model{ID: id, IsActive: false}}
-	err := er.customDB.Delete(ctx, enquiry)
+	err := er.GormDAL.Delete(ctx, enquiry)
 	if err != nil {
 		return err
 	}

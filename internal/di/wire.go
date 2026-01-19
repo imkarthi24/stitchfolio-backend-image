@@ -17,7 +17,6 @@ import (
 	"github.com/imkarthi24/sf-backend/internal/log/newreliclog"
 	"github.com/imkarthi24/sf-backend/internal/mapper"
 	"github.com/imkarthi24/sf-backend/internal/repository"
-	"github.com/imkarthi24/sf-backend/internal/repository/common"
 	"github.com/imkarthi24/sf-backend/internal/router"
 	"github.com/imkarthi24/sf-backend/internal/service"
 	baseService "github.com/imkarthi24/sf-backend/internal/service/base"
@@ -95,7 +94,7 @@ var baseSvc = wire.NewSet(
 )
 
 var repoSet = wire.NewSet(
-	common.ProvideCustomGormDB,
+	repository.ProvideGormDAL,
 	repository.ProvideUserRepository,
 	repository.ProvideNotificationRepository,
 	repository.ProvideChannelRepository,

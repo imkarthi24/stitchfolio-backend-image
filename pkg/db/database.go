@@ -12,7 +12,6 @@ import (
 
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
-	skema "gorm.io/gorm/schema"
 )
 
 type DatabaseConnectionParams struct {
@@ -38,10 +37,10 @@ func ProvideDatabase(connectionParams DatabaseConnectionParams) (*gorm.DB, error
 	userName := connectionParams.Username
 	dbname := connectionParams.DBName
 	password := connectionParams.Password
-	schema := connectionParams.Schema
+	dbSchema := connectionParams.Schema
 	sslMode := connectionParams.SSLMode
 
-	args := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s sslmode=%s search_path=%s", host, port, userName, dbname, password, sslMode, schema)
+	args := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s sslmode=%s search_path=%s", host, port, userName, dbname, password, sslMode, dbSchema)
 
 	connection, err := gorm.Open(postgres.Open(args), &gorm.Config{
 		Logger: logger.New(
@@ -54,11 +53,11 @@ func ProvideDatabase(connectionParams DatabaseConnectionParams) (*gorm.DB, error
 			},
 		),
 		NamingStrategy: CustomStrategy{
-			NamingStrategy: skema.NamingStrategy{
+			NamingStrategy: schema.NamingStrategy{
 				NoLowerCase:   false, //  keep columns snake_case and for table we resolve using custom strategy
 				SingularTable: false,
 			},
-			Schema: schema,
+			Schema: dbSchema,
 		},
 	})
 	if err != nil {

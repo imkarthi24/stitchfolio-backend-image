@@ -24,9 +24,9 @@ func ProvideServiceContainer(appConfig config.AppConfig) *pkgservice.Service {
 	)
 }
 
+// ProvideDatabaseConnectionParams maps the internal config to the database connection params
 func ProvideDatabaseConnectionParams(dbConfig config.DatabaseConfig) db.DatabaseConnectionParams {
 	sslMode := "prefer"
-	// You can add logic here to determine SSL mode based on config if needed
 
 	return db.DatabaseConnectionParams{
 		Host:     dbConfig.Host,

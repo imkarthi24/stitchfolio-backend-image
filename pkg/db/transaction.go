@@ -3,14 +3,13 @@ package db
 import (
 	"context"
 
-	"github.com/imkarthi24/sf-backend/internal/utils"
 	"github.com/imkarthi24/sf-backend/pkg/constants"
 	"github.com/imkarthi24/sf-backend/pkg/util"
 	"gorm.io/gorm"
 )
 
 type DBTransactionManager interface {
-	Txn(ctx *context.Context, opts ...TransactionOption) *gorm.DB
+	WithTransaction(ctx *context.Context, opts ...TransactionOption) *gorm.DB
 	Commit(ctx *context.Context)
 	Rollback(ctx *context.Context)
 	ExecuteStoredProc(ctx *context.Context, name string, params map[string]interface{}) ([]ResultSet, error)
@@ -18,20 +17,20 @@ type DBTransactionManager interface {
 
 type TransactionOption func(*gorm.DB)
 
-type txnManager struct {
+type transactionManager struct {
 	*StoredProcExecutor
 	db *gorm.DB
 }
 
 func ProvideDBTransactionManager(db *gorm.DB) DBTransactionManager {
-	return &txnManager{
+	return &transactionManager{
 		db:                 db,
 		StoredProcExecutor: &StoredProcExecutor{db: db},
 	}
 }
 
-// Txn returns the current transaction from context if exists, else creates a new transaction and stores it in context
-func (txn *txnManager) Txn(ctx *context.Context, opts ...TransactionOption) *gorm.DB {
+// WithTransaction returns the current transaction from context if exists, else creates a new transaction and stores it in context
+func (txn *transactionManager) WithTransaction(ctx *context.Context, opts ...TransactionOption) *gorm.DB {
 
 	var gormDB *gorm.DB
 	if util.ReadValueFromContext(ctx, constants.TRANSACTION_KEY) == nil {
@@ -49,42 +48,26 @@ func (txn *txnManager) Txn(ctx *context.Context, opts ...TransactionOption) *gor
 
 }
 
-func (txn *txnManager) Commit(ctx *context.Context) {
-	transaction := txn.Txn(ctx)
+func (txn *transactionManager) Commit(ctx *context.Context) {
+	transaction := txn.WithTransaction(ctx)
 	transaction.Commit()
 }
 
-func (txn *txnManager) Rollback(ctx *context.Context) {
-	transaction := txn.Txn(ctx)
+func (txn *transactionManager) Rollback(ctx *context.Context) {
+	transaction := txn.WithTransaction(ctx)
 	transaction.Rollback()
 }
 
-func (txn *txnManager) ExecuteStoredProc(ctx *context.Context, name string, params map[string]interface{}) ([]ResultSet, error) {
+func (txn *transactionManager) ExecuteStoredProc(ctx *context.Context, name string, params map[string]interface{}) ([]ResultSet, error) {
 	return txn.StoredProcExecutor.CallStoredProcedure(ctx, name, params)
 }
 
-func (txn *txnManager) createTransaction(ctx *context.Context) *gorm.DB {
+func (txn *transactionManager) createTransaction(ctx *context.Context) *gorm.DB {
 
-	transaction := txn.prepareTransaction(ctx)
+	transaction := txn.db.Begin()
 	newCtx := util.NewContextWithValue(ctx, constants.TRANSACTION_KEY, transaction)
 	*ctx = newCtx
 
 	return transaction
-
-}
-
-func (txn *txnManager) prepareTransaction(ctx *context.Context) *gorm.DB {
-
-	session := utils.GetSession(ctx)
-	if session == nil {
-		return txn.db.Begin()
-	}
-
-	//Set SessionData to transaction to fetch in BeforeCreate/AfterCreate hooks
-	transaction := txn.db.
-		Set(constants.USER_ID, session.UserId).
-		Set(constants.CHANNEL_ID, session.ChannelId)
-
-	return transaction.Begin()
 
 }
