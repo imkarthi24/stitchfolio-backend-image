@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/imkarthi24/sf-backend/pkg/errs"
+	"github.com/loop-kar/pixie/errs"
 )
 
 type AdminRepository interface {

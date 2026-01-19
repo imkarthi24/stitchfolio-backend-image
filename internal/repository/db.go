@@ -4,9 +4,9 @@ import (
 	"context"
 
 	"github.com/imkarthi24/sf-backend/internal/utils"
-	"github.com/imkarthi24/sf-backend/pkg/constants"
-	"github.com/imkarthi24/sf-backend/pkg/db"
-	"github.com/imkarthi24/sf-backend/pkg/errs"
+	"github.com/loop-kar/pixie/constants"
+	"github.com/loop-kar/pixie/db"
+	"github.com/loop-kar/pixie/errs"
 	"gorm.io/gorm"
 )
 

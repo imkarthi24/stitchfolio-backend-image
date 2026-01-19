@@ -6,7 +6,7 @@ import (
 	"github.com/imkarthi24/sf-backend/internal/entities"
 	entitiy_types "github.com/imkarthi24/sf-backend/internal/entities/types"
 	requestModel "github.com/imkarthi24/sf-backend/internal/model/request"
-	"github.com/imkarthi24/sf-backend/pkg/util"
+	"github.com/loop-kar/pixie/util"
 )
 
 type Mapper interface {

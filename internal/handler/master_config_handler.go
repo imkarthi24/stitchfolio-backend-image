@@ -8,9 +8,9 @@ import (
 
 	requestModel "github.com/imkarthi24/sf-backend/internal/model/request"
 	"github.com/imkarthi24/sf-backend/internal/service"
-	"github.com/imkarthi24/sf-backend/pkg/errs"
-	"github.com/imkarthi24/sf-backend/pkg/response"
-	"github.com/imkarthi24/sf-backend/pkg/util"
+	"github.com/loop-kar/pixie/errs"
+	"github.com/loop-kar/pixie/response"
+	"github.com/loop-kar/pixie/util"
 )
 
 type MasterConfigHandler struct {

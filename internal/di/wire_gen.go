@@ -20,8 +20,8 @@ import (
 	"github.com/imkarthi24/sf-backend/internal/router"
 	"github.com/imkarthi24/sf-backend/internal/service"
 	base2 "github.com/imkarthi24/sf-backend/internal/service/base"
-	"github.com/imkarthi24/sf-backend/pkg/db"
-	service2 "github.com/imkarthi24/sf-backend/pkg/service"
+	"github.com/loop-kar/pixie/db"
+	service2 "github.com/loop-kar/pixie/service"
 )
 
 // Injectors from wire.go:

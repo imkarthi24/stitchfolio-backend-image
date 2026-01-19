@@ -1,6 +1,6 @@
 package requestModel
 
-import "github.com/imkarthi24/sf-backend/pkg/service/email"
+import "github.com/loop-kar/pixie/service/email"
 
 type Notification struct {
 	SourceEntity string `json:"sourceEntity,omitempty"`

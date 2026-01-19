@@ -8,9 +8,9 @@ import (
 	"github.com/imkarthi24/sf-backend/internal/constants"
 	"github.com/imkarthi24/sf-backend/internal/entities"
 	"github.com/imkarthi24/sf-backend/internal/model/models"
-	"github.com/imkarthi24/sf-backend/pkg/util"
+	"github.com/loop-kar/pixie/util"
 
-	pkgConst "github.com/imkarthi24/sf-backend/pkg/constants"
+	pkgConst "github.com/loop-kar/pixie/constants"
 )
 
 func GetSiteURL(config config.SiteConfig) string {

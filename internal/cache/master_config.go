@@ -6,8 +6,8 @@ import (
 
 	"github.com/imkarthi24/sf-backend/internal/repository"
 	"github.com/imkarthi24/sf-backend/internal/utils"
-	"github.com/imkarthi24/sf-backend/pkg/cache"
-	"github.com/imkarthi24/sf-backend/pkg/errs"
+	"github.com/loop-kar/pixie/cache"
+	"github.com/loop-kar/pixie/errs"
 )
 
 var masterConfig *cache.Cache

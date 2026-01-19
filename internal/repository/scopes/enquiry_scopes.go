@@ -3,7 +3,7 @@ package scopes
 import (
 	"fmt"
 
-	"github.com/imkarthi24/sf-backend/pkg/util"
+	"github.com/loop-kar/pixie/util"
 	"gorm.io/gorm"
 )
 

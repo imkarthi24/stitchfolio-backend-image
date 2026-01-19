@@ -1,5 +1,0 @@
-server:
-  host: "localhost"
-  appName: "SkillFort-backend"
-  port: ${APP_PORT}
-  logLevel: ${LOG_LEVEL}

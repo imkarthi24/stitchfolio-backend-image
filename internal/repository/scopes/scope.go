@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/imkarthi24/sf-backend/pkg/constants"
-	"github.com/imkarthi24/sf-backend/pkg/util"
+	"github.com/loop-kar/pixie/constants"
+	"github.com/loop-kar/pixie/util"
 	"github.com/thoas/go-funk"
 	"gorm.io/gorm"
 )

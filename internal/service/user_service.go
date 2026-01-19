@@ -14,9 +14,9 @@ import (
 	responseModel "github.com/imkarthi24/sf-backend/internal/model/response"
 	"github.com/imkarthi24/sf-backend/internal/repository"
 	"github.com/imkarthi24/sf-backend/internal/utils"
-	"github.com/imkarthi24/sf-backend/pkg/errs"
-	"github.com/imkarthi24/sf-backend/pkg/service/email"
-	"github.com/imkarthi24/sf-backend/pkg/util"
+	"github.com/loop-kar/pixie/errs"
+	"github.com/loop-kar/pixie/service/email"
+	"github.com/loop-kar/pixie/util"
 	"github.com/thoas/go-funk"
 )
 

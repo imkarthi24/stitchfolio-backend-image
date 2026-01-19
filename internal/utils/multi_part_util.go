@@ -6,7 +6,7 @@ import (
 	"mime/multipart"
 
 	"github.com/imkarthi24/sf-backend/internal/model/models"
-	"github.com/imkarthi24/sf-backend/pkg/errs"
+	"github.com/loop-kar/pixie/errs"
 )
 
 func ExtractFile(fileHeader *multipart.FileHeader) (*models.FileUpload, error) {

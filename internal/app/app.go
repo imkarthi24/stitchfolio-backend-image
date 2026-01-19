@@ -10,9 +10,12 @@ import (
 	"github.com/imkarthi24/sf-backend/internal/config"
 	"github.com/imkarthi24/sf-backend/internal/entities"
 	"github.com/imkarthi24/sf-backend/internal/repository"
-	"github.com/imkarthi24/sf-backend/pkg/db/migrator"
-	pkgLog "github.com/imkarthi24/sf-backend/pkg/log"
+
+	// "github.com/loop-kar/pixie/db/migrator"
+	pkgLog "github.com/loop-kar/pixie/log"
 	"github.com/newrelic/go-agent/v3/newrelic"
+
+	"github.com/loop-kar/pixie/db/migrator"
 
 	"gorm.io/gorm"
 )

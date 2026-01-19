@@ -2,9 +2,9 @@ package di
 
 import (
 	"github.com/imkarthi24/sf-backend/internal/config"
-	"github.com/imkarthi24/sf-backend/pkg/db"
-	pkgservice "github.com/imkarthi24/sf-backend/pkg/service"
-	pkgemail "github.com/imkarthi24/sf-backend/pkg/service/email"
+	"github.com/loop-kar/pixie/db"
+	pkgservice "github.com/loop-kar/pixie/service"
+	pkgemail "github.com/loop-kar/pixie/service/email"
 )
 
 // ProvideServiceContainer builds the shared "pkg/service" dependency container.

@@ -5,7 +5,7 @@ import (
 
 	requestModel "github.com/imkarthi24/sf-backend/internal/model/request"
 	"github.com/imkarthi24/sf-backend/internal/repository"
-	"github.com/imkarthi24/sf-backend/pkg/errs"
+	"github.com/loop-kar/pixie/errs"
 )
 
 type AdminService interface {

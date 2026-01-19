@@ -20,8 +20,8 @@ import (
 	"github.com/imkarthi24/sf-backend/internal/router"
 	"github.com/imkarthi24/sf-backend/internal/service"
 	baseService "github.com/imkarthi24/sf-backend/internal/service/base"
-	"github.com/imkarthi24/sf-backend/pkg/db"
-	pkgservice "github.com/imkarthi24/sf-backend/pkg/service"
+	"github.com/loop-kar/pixie/db"
+	pkgservice "github.com/loop-kar/pixie/service"
 )
 
 var appConfigSet = wire.NewSet(

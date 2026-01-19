@@ -5,8 +5,8 @@ import (
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
 	"github.com/imkarthi24/sf-backend/internal/repository/scopes"
-	"github.com/imkarthi24/sf-backend/pkg/db"
-	"github.com/imkarthi24/sf-backend/pkg/errs"
+	"github.com/loop-kar/pixie/db"
+	"github.com/loop-kar/pixie/errs"
 )
 
 type PersonRepository interface {

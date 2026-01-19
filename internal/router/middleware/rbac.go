@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/imkarthi24/sf-backend/internal/model/models"
-	"github.com/imkarthi24/sf-backend/pkg/constants"
+	"github.com/loop-kar/pixie/constants"
 )
 
 func RoleBasedAccessControl() gin.HandlerFunc {

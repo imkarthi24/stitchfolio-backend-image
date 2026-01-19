@@ -8,7 +8,7 @@ import (
 	baseHandler "github.com/imkarthi24/sf-backend/internal/handler/base"
 	"github.com/imkarthi24/sf-backend/internal/log/newreliclog"
 	router "github.com/imkarthi24/sf-backend/internal/router/middleware"
-	"github.com/imkarthi24/sf-backend/pkg/middleware"
+	"github.com/loop-kar/pixie/middleware"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
