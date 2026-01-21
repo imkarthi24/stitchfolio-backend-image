@@ -1,11 +1,20 @@
 package entities
 
+type Gender string
+
+const (
+	MALE   Gender = "MALE"
+	FEMALE Gender = "FEMALE"
+	OTHER  Gender = "OTHER"
+)
+
 type Person struct {
 	*Model `mapstructure:",squash"`
 
-	Name   string `json:"name"`
-	Gender string `gorm:"type:text" json:"gender"`
-	Age    int    `json:"age"`
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
+	Gender    Gender `gorm:"type:text" json:"gender"`
+	Age       *int   `json:"age"`
 
 	CustomerId uint      `json:"customerId"`
 	Customer   *Customer `gorm:"foreignKey:CustomerId" json:"customer"`

@@ -6,8 +6,10 @@ import (
 	"github.com/imkarthi24/sf-backend/internal/entities"
 	"github.com/imkarthi24/sf-backend/internal/repository/common"
 	"github.com/imkarthi24/sf-backend/internal/repository/scopes"
+	"github.com/imkarthi24/sf-backend/pkg/constants"
 	"github.com/imkarthi24/sf-backend/pkg/db"
 	"github.com/imkarthi24/sf-backend/pkg/errs"
+	"github.com/imkarthi24/sf-backend/pkg/util"
 )
 
 type OrderRepository interface {
@@ -57,12 +59,19 @@ func (or *orderRepository) Get(ctx *context.Context, id uint) (*entities.Order, 
 func (or *orderRepository) GetAll(ctx *context.Context, search string) ([]entities.Order, *errs.XError) {
 	var orders []entities.Order
 
+	filterValue := util.ReadValueFromContext(ctx, constants.FILTER_KEY)
+	var filter string
+	if filterValue != nil {
+		filter = filterValue.(string)
+	}
+
 	res := or.txn.Txn(ctx).Model(&entities.Order{}).
 		Select(`"stitch"."Orders".*,
 			(SELECT COALESCE(SUM(quantity), 0) FROM "stitch"."OrderItems" 
 			 WHERE "stitch"."OrderItems".order_id = "stitch"."Orders".id) as order_quantity,
 			(SELECT COALESCE(SUM(total), 0) FROM "stitch"."OrderItems" 
 			 WHERE "stitch"."OrderItems".order_id = "stitch"."Orders".id) as order_value`).
+		Scopes(scopes.GetOrders_Filter(filter)).
 		Scopes(db.Paginate(ctx)).
 		Preload("Customer", scopes.SelectFields("first_name", "last_name")).
 		Preload("OrderTakenBy", scopes.SelectFields("first_name", "last_name")).

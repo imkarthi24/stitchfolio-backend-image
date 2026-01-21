@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 
+	"github.com/imkarthi24/sf-backend/internal/entities"
 	"github.com/imkarthi24/sf-backend/internal/mapper"
 	requestModel "github.com/imkarthi24/sf-backend/internal/model/request"
 	responseModel "github.com/imkarthi24/sf-backend/internal/model/response"
@@ -21,13 +22,15 @@ type CustomerService interface {
 
 type customerService struct {
 	customerRepo repository.CustomerRepository
+	personRepo   repository.PersonRepository
 	mapper       mapper.Mapper
 	respMapper   mapper.ResponseMapper
 }
 
-func ProvideCustomerService(repo repository.CustomerRepository, mapper mapper.Mapper, respMapper mapper.ResponseMapper) CustomerService {
+func ProvideCustomerService(repo repository.CustomerRepository, personRepo repository.PersonRepository, mapper mapper.Mapper, respMapper mapper.ResponseMapper) CustomerService {
 	return customerService{
 		customerRepo: repo,
+		personRepo:   personRepo,
 		mapper:       mapper,
 		respMapper:   respMapper,
 	}
@@ -40,6 +43,21 @@ func (svc customerService) SaveCustomer(ctx *context.Context, customer requestMo
 	}
 
 	errr := svc.customerRepo.Create(ctx, dbCustomer)
+	if errr != nil {
+		return errr
+	}
+
+	// Create a person with the customer's name (first name + last name)
+	person := &entities.Person{
+		Model:      &entities.Model{IsActive: true},
+		FirstName:  customer.FirstName,
+		LastName:   customer.LastName,
+		CustomerId: dbCustomer.ID,
+		Age:        &customer.Age,
+		Gender:     entities.Gender(customer.Gender),
+	}
+
+	errr = svc.personRepo.Create(ctx, person)
 	if errr != nil {
 		return errr
 	}

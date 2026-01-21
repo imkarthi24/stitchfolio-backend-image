@@ -18,6 +18,8 @@ type Order struct {
 
 	Notes string `json:"notes"`
 
+	AdditionalCharges float64 `json:"additionalCharges"`
+
 	ExpectedDeliveryDate *time.Time `json:"expectedDeliveryDate,omitempty"`
 	DeliveredDate        *time.Time `json:"deliveredDate,omitempty"`
 

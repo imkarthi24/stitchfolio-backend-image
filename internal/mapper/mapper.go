@@ -204,7 +204,10 @@ func (m *mapper) Person(e requestModel.Person) (*entities.Person, error) {
 
 	return &entities.Person{
 		Model:      &entities.Model{ID: e.ID, IsActive: e.IsActive},
-		Name:       e.Name,
+		FirstName:  e.FirstName,
+		LastName:   e.LastName,
+		Gender:     entities.Gender(e.Gender),
+		Age:        e.Age,
 		CustomerId: customerId,
 	}, nil
 }
@@ -213,6 +216,7 @@ func (m *mapper) DressType(e requestModel.DressType) (*entities.DressType, error
 	return &entities.DressType{
 		Model:        &entities.Model{ID: e.ID, IsActive: e.IsActive},
 		Name:         e.Name,
+		Description:  e.Description,
 		Measurements: e.Measurements,
 	}, nil
 }
@@ -271,6 +275,7 @@ func (m *mapper) Order(e requestModel.Order) (*entities.Order, error) {
 		Model:                &entities.Model{ID: e.ID, IsActive: e.IsActive},
 		Status:               entities.OrderStatus(e.Status),
 		Notes:                e.Notes,
+		AdditionalCharges:    e.AdditionalCharges,
 		ExpectedDeliveryDate: expectedDeliveryDate,
 		DeliveredDate:        deliveredDate,
 		CustomerId:           e.CustomerId,
@@ -304,6 +309,7 @@ func (m *mapper) OrderItem(e requestModel.OrderItem) (*entities.OrderItem, error
 		Quantity:             e.Quantity,
 		Price:                e.Price,
 		Total:                e.Total,
+		AdditionalCharges:    e.AdditionalCharges,
 		ExpectedDeliveryDate: expectedDeliveryDate,
 		DeliveredDate:        deliveredDate,
 		PersonId:             e.PersonId,

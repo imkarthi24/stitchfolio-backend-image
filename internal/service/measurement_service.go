@@ -3,11 +3,15 @@ package service
 import (
 	"context"
 
+	"github.com/imkarthi24/sf-backend/internal/entities"
+	entitiy_types "github.com/imkarthi24/sf-backend/internal/entities/types"
 	"github.com/imkarthi24/sf-backend/internal/mapper"
 	requestModel "github.com/imkarthi24/sf-backend/internal/model/request"
 	responseModel "github.com/imkarthi24/sf-backend/internal/model/response"
 	"github.com/imkarthi24/sf-backend/internal/repository"
+	"github.com/imkarthi24/sf-backend/internal/utils"
 	"github.com/imkarthi24/sf-backend/pkg/errs"
+	"github.com/imkarthi24/sf-backend/pkg/util"
 )
 
 type MeasurementService interface {
@@ -19,16 +23,18 @@ type MeasurementService interface {
 }
 
 type measurementService struct {
-	measurementRepo repository.MeasurementRepository
-	mapper          mapper.Mapper
-	respMapper      mapper.ResponseMapper
+	measurementRepo        repository.MeasurementRepository
+	measurementHistoryRepo repository.MeasurementHistoryRepository
+	mapper                 mapper.Mapper
+	respMapper             mapper.ResponseMapper
 }
 
-func ProvideMeasurementService(repo repository.MeasurementRepository, mapper mapper.Mapper, respMapper mapper.ResponseMapper) MeasurementService {
+func ProvideMeasurementService(repo repository.MeasurementRepository, measurementHistoryRepo repository.MeasurementHistoryRepository, mapper mapper.Mapper, respMapper mapper.ResponseMapper) MeasurementService {
 	return measurementService{
-		measurementRepo: repo,
-		mapper:          mapper,
-		respMapper:      respMapper,
+		measurementRepo:        repo,
+		measurementHistoryRepo: measurementHistoryRepo,
+		mapper:                 mapper,
+		respMapper:             respMapper,
 	}
 }
 
@@ -43,13 +49,25 @@ func (svc measurementService) SaveMeasurement(ctx *context.Context, measurement 
 		return errr
 	}
 
+	// Record measurement history for CREATED action
+	errr = svc.recordMeasurementHistory(ctx, dbMeasurement.ID, entities.MeasurementHistoryActionCreated, nil)
+	if errr != nil {
+		return errr
+	}
+
 	return nil
 }
 
 func (svc measurementService) UpdateMeasurement(ctx *context.Context, measurement requestModel.Measurement, id uint) *errs.XError {
-	dbMeasurement, err := svc.mapper.Measurement(measurement)
+	// Get the old measurement values before updating
+	oldMeasurement, err := svc.measurementRepo.Get(ctx, id)
 	if err != nil {
-		return errs.NewXError(errs.INVALID_REQUEST, "Unable to update measurement", err)
+		return err
+	}
+
+	dbMeasurement, mapErr := svc.mapper.Measurement(measurement)
+	if mapErr != nil {
+		return errs.NewXError(errs.INVALID_REQUEST, "Unable to update measurement", mapErr)
 	}
 
 	dbMeasurement.ID = id
@@ -57,6 +75,13 @@ func (svc measurementService) UpdateMeasurement(ctx *context.Context, measuremen
 	if errr != nil {
 		return errr
 	}
+
+	// Record measurement history for UPDATED action with old values
+	errr = svc.recordMeasurementHistory(ctx, id, entities.MeasurementHistoryActionUpdated, &oldMeasurement.Value)
+	if errr != nil {
+		return errr
+	}
+
 	return nil
 }
 
@@ -89,9 +114,44 @@ func (svc measurementService) GetAll(ctx *context.Context, search string) ([]res
 }
 
 func (svc measurementService) Delete(ctx *context.Context, id uint) *errs.XError {
-	err := svc.measurementRepo.Delete(ctx, id)
+	// Get the measurement values before deleting
+	oldMeasurement, err := svc.measurementRepo.Get(ctx, id)
 	if err != nil {
 		return err
 	}
+
+	err = svc.measurementRepo.Delete(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	// Record measurement history for DELETED action with old values
+	err = svc.recordMeasurementHistory(ctx, id, entities.MeasurementHistoryActionDeleted, &oldMeasurement.Value)
+	if err != nil {
+		return err
+	}
+
 	return nil
+}
+
+// recordMeasurementHistory creates a measurement history record
+func (svc measurementService) recordMeasurementHistory(ctx *context.Context, measurementId uint, action entities.MeasurementHistoryAction, oldValues *entitiy_types.JSON) *errs.XError {
+	userID := utils.GetUserId(ctx)
+	performedAt := util.GetLocalTime()
+
+	var oldValuesJSON entitiy_types.JSON
+	if oldValues != nil {
+		oldValuesJSON = *oldValues
+	}
+
+	history := &entities.MeasurementHistory{
+		Model:         &entities.Model{IsActive: true},
+		Action:        action,
+		OldValues:     oldValuesJSON,
+		MeasurementId: measurementId,
+		PerformedAt:   performedAt,
+		PerformedById: userID,
+	}
+
+	return svc.measurementHistoryRepo.Create(ctx, history)
 }

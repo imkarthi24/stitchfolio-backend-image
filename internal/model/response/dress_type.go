@@ -5,5 +5,6 @@ type DressType struct {
 	IsActive bool `json:"isActive,omitempty"`
 
 	Name         string `json:"name,omitempty"`
+	Description  string `json:"description,omitempty"`
 	Measurements string `json:"measurements,omitempty"`
 }

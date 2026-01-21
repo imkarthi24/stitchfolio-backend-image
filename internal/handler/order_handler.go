@@ -117,6 +117,7 @@ func (h OrderHandler) Get(ctx *gin.Context) {
 //	@Success		200		{object}	responseModel.Order
 //	@Failure		400		{object}	response.DataResponse
 //	@Param			search	query		string	false	"search"
+//	@Param			filters	query		string	false	"filters (e.g., name eq 'Shirt', status eq 'Active')"
 //	@Router			/order [get]
 func (h OrderHandler) GetAllOrders(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)

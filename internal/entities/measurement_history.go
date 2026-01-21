@@ -18,7 +18,7 @@ type MeasurementHistory struct {
 	*Model `mapstructure:",squash"`
 
 	Action MeasurementHistoryAction `gorm:"type:text;not null" json:"action"`
-
+ 
 	OldValues entitiy_types.JSON `gorm:"type:jsonb" json:"oldValues,omitempty"`
 
 	MeasurementId uint         `json:"measurementId"`

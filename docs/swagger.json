@@ -1538,6 +1538,12 @@
                         "description": "search",
                         "name": "search",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "filters (e.g., name eq 'Shirt', status eq 'Active')",
+                        "name": "filters",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -3254,10 +3260,16 @@
                 "address": {
                     "type": "string"
                 },
+                "age": {
+                    "type": "integer"
+                },
                 "email": {
                     "type": "string"
                 },
                 "firstName": {
+                    "type": "string"
+                },
+                "gender": {
                     "type": "string"
                 },
                 "id": {
@@ -3280,6 +3292,9 @@
         "requestModel.DressType": {
             "type": "object",
             "properties": {
+                "description": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -3450,6 +3465,9 @@
         "requestModel.Order": {
             "type": "object",
             "properties": {
+                "additionalCharges": {
+                    "type": "number"
+                },
                 "customerId": {
                     "type": "integer"
                 },
@@ -3527,6 +3545,9 @@
         "requestModel.OrderItem": {
             "type": "object",
             "properties": {
+                "additionalCharges": {
+                    "type": "number"
+                },
                 "deliveredDate": {
                     "type": "string"
                 },
@@ -3568,8 +3589,17 @@
         "requestModel.Person": {
             "type": "object",
             "properties": {
+                "age": {
+                    "type": "integer"
+                },
                 "customerId": {
                     "type": "integer"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -3577,7 +3607,7 @@
                 "isActive": {
                     "type": "boolean"
                 },
-                "name": {
+                "lastName": {
                     "type": "string"
                 }
             }
@@ -3922,6 +3952,9 @@
         "responseModel.DressType": {
             "type": "object",
             "properties": {
+                "description": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -4057,6 +4090,9 @@
         "responseModel.Order": {
             "type": "object",
             "properties": {
+                "additionalCharges": {
+                    "type": "number"
+                },
                 "createdAt": {
                     "type": "string"
                 },
@@ -4165,6 +4201,9 @@
         "responseModel.OrderItem": {
             "type": "object",
             "properties": {
+                "additionalCharges": {
+                    "type": "number"
+                },
                 "deliveredDate": {
                     "type": "string"
                 },
@@ -4212,11 +4251,20 @@
         "responseModel.Person": {
             "type": "object",
             "properties": {
+                "age": {
+                    "type": "integer"
+                },
                 "customer": {
                     "$ref": "#/definitions/responseModel.Customer"
                 },
                 "customerId": {
                     "type": "integer"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -4224,14 +4272,14 @@
                 "isActive": {
                     "type": "boolean"
                 },
+                "lastName": {
+                    "type": "string"
+                },
                 "measurements": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/responseModel.Measurement"
                     }
-                },
-                "name": {
-                    "type": "string"
                 }
             }
         },

@@ -1545,6 +1545,12 @@ const docTemplate = `{
                         "description": "search",
                         "name": "search",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "filters (e.g., name eq 'Shirt', status eq 'Active')",
+                        "name": "filters",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -3261,10 +3267,16 @@ const docTemplate = `{
                 "address": {
                     "type": "string"
                 },
+                "age": {
+                    "type": "integer"
+                },
                 "email": {
                     "type": "string"
                 },
                 "firstName": {
+                    "type": "string"
+                },
+                "gender": {
                     "type": "string"
                 },
                 "id": {
@@ -3287,6 +3299,9 @@ const docTemplate = `{
         "requestModel.DressType": {
             "type": "object",
             "properties": {
+                "description": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -3457,6 +3472,9 @@ const docTemplate = `{
         "requestModel.Order": {
             "type": "object",
             "properties": {
+                "additionalCharges": {
+                    "type": "number"
+                },
                 "customerId": {
                     "type": "integer"
                 },
@@ -3534,6 +3552,9 @@ const docTemplate = `{
         "requestModel.OrderItem": {
             "type": "object",
             "properties": {
+                "additionalCharges": {
+                    "type": "number"
+                },
                 "deliveredDate": {
                     "type": "string"
                 },
@@ -3575,8 +3596,17 @@ const docTemplate = `{
         "requestModel.Person": {
             "type": "object",
             "properties": {
+                "age": {
+                    "type": "integer"
+                },
                 "customerId": {
                     "type": "integer"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -3584,7 +3614,7 @@ const docTemplate = `{
                 "isActive": {
                     "type": "boolean"
                 },
-                "name": {
+                "lastName": {
                     "type": "string"
                 }
             }
@@ -3929,6 +3959,9 @@ const docTemplate = `{
         "responseModel.DressType": {
             "type": "object",
             "properties": {
+                "description": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -4064,6 +4097,9 @@ const docTemplate = `{
         "responseModel.Order": {
             "type": "object",
             "properties": {
+                "additionalCharges": {
+                    "type": "number"
+                },
                 "createdAt": {
                     "type": "string"
                 },
@@ -4172,6 +4208,9 @@ const docTemplate = `{
         "responseModel.OrderItem": {
             "type": "object",
             "properties": {
+                "additionalCharges": {
+                    "type": "number"
+                },
                 "deliveredDate": {
                     "type": "string"
                 },
@@ -4219,11 +4258,20 @@ const docTemplate = `{
         "responseModel.Person": {
             "type": "object",
             "properties": {
+                "age": {
+                    "type": "integer"
+                },
                 "customer": {
                     "$ref": "#/definitions/responseModel.Customer"
                 },
                 "customerId": {
                     "type": "integer"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -4231,14 +4279,14 @@ const docTemplate = `{
                 "isActive": {
                     "type": "boolean"
                 },
+                "lastName": {
+                    "type": "string"
+                },
                 "measurements": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/responseModel.Measurement"
                     }
-                },
-                "name": {
-                    "type": "string"
                 }
             }
         },

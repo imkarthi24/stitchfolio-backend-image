@@ -4,7 +4,10 @@ type Person struct {
 	ID       uint `json:"id,omitempty"`
 	IsActive bool `json:"isActive,omitempty"`
 
-	Name string `json:"name,omitempty"`
+	FirstName string `json:"firstName,omitempty"`
+	LastName  string `json:"lastName,omitempty"`
+	Gender    string `json:"gender,omitempty"`
+	Age       *int   `json:"age,omitempty"`
 
 	CustomerId *uint `json:"customerId,omitempty"`
 }

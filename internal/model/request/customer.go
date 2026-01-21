@@ -10,4 +10,6 @@ type Customer struct {
 	PhoneNumber    string `json:"phoneNumber,omitempty"`
 	WhatsappNumber string `json:"whatsappNumber,omitempty"`
 	Address        string `json:"address,omitempty"`
+	Age            int    `json:"age,omitempty"`
+	Gender         string `json:"gender,omitempty"`
 }

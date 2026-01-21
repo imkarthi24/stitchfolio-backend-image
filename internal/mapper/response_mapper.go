@@ -298,7 +298,10 @@ func (m *responseMapper) Person(e *entities.Person) (*responseModel.Person, erro
 	return &responseModel.Person{
 		ID:           e.ID,
 		IsActive:     e.IsActive,
-		Name:         e.Name,
+		FirstName:    e.FirstName,
+		LastName:     e.LastName,
+		Gender:       string(e.Gender),
+		Age:          e.Age,
 		CustomerId:   &e.CustomerId,
 		Customer:     customer,
 		Measurements: measurements,
@@ -326,6 +329,7 @@ func (m *responseMapper) DressType(e *entities.DressType) (*responseModel.DressT
 		ID:           e.ID,
 		IsActive:     e.IsActive,
 		Name:         e.Name,
+		Description:  e.Description,
 		Measurements: e.Measurements,
 	}, nil
 }
@@ -376,7 +380,7 @@ func (m *responseMapper) Measurement(e *entities.Measurement) (*responseModel.Me
 
 	var personName string
 	if person != nil {
-		personName = person.Name
+		personName = person.FirstName + " " + person.LastName
 	}
 
 	return &responseModel.Measurement{
@@ -436,6 +440,7 @@ func (m *responseMapper) Order(e *entities.Order) (*responseModel.Order, error) 
 		IsActive:             e.IsActive,
 		Status:               string(e.Status),
 		Notes:                e.Notes,
+		AdditionalCharges:    e.AdditionalCharges,
 		ExpectedDeliveryDate: e.ExpectedDeliveryDate,
 		DeliveredDate:        e.DeliveredDate,
 		CustomerId:           e.CustomerId,
@@ -490,6 +495,7 @@ func (m *responseMapper) OrderItem(e *entities.OrderItem) (*responseModel.OrderI
 		Quantity:             e.Quantity,
 		Price:                e.Price,
 		Total:                e.Total,
+		AdditionalCharges:    e.AdditionalCharges,
 		ExpectedDeliveryDate: e.ExpectedDeliveryDate,
 		DeliveredDate:        e.DeliveredDate,
 		PersonId:             e.PersonId,
