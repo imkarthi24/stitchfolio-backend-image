@@ -253,9 +253,13 @@ definitions:
     properties:
       address:
         type: string
+      age:
+        type: integer
       email:
         type: string
       firstName:
+        type: string
+      gender:
         type: string
       id:
         type: integer
@@ -270,6 +274,8 @@ definitions:
     type: object
   requestModel.DressType:
     properties:
+      description:
+        type: string
       id:
         type: integer
       isActive:
@@ -382,6 +388,8 @@ definitions:
     type: object
   requestModel.Order:
     properties:
+      additionalCharges:
+        type: number
       customerId:
         type: integer
       deliveredDate:
@@ -433,6 +441,8 @@ definitions:
     type: object
   requestModel.OrderItem:
     properties:
+      additionalCharges:
+        type: number
       deliveredDate:
         type: string
       description:
@@ -460,13 +470,19 @@ definitions:
     type: object
   requestModel.Person:
     properties:
+      age:
+        type: integer
       customerId:
         type: integer
+      firstName:
+        type: string
+      gender:
+        type: string
       id:
         type: integer
       isActive:
         type: boolean
-      name:
+      lastName:
         type: string
     type: object
   requestModel.SwitchBranch:
@@ -697,6 +713,8 @@ definitions:
     type: object
   responseModel.DressType:
     properties:
+      description:
+        type: string
       id:
         type: integer
       isActive:
@@ -786,6 +804,8 @@ definitions:
     type: object
   responseModel.Order:
     properties:
+      additionalCharges:
+        type: number
       createdAt:
         type: string
       customer:
@@ -859,6 +879,8 @@ definitions:
     type: object
   responseModel.OrderItem:
     properties:
+      additionalCharges:
+        type: number
       deliveredDate:
         type: string
       description:
@@ -890,20 +912,26 @@ definitions:
     type: object
   responseModel.Person:
     properties:
+      age:
+        type: integer
       customer:
         $ref: '#/definitions/responseModel.Customer'
       customerId:
         type: integer
+      firstName:
+        type: string
+      gender:
+        type: string
       id:
         type: integer
       isActive:
         type: boolean
+      lastName:
+        type: string
       measurements:
         items:
           $ref: '#/definitions/responseModel.Measurement'
         type: array
-      name:
-        type: string
     type: object
   responseModel.User:
     properties:
@@ -1962,6 +1990,10 @@ paths:
       - description: search
         in: query
         name: search
+        type: string
+      - description: filters (e.g., name eq 'Shirt', status eq 'Active')
+        in: query
+        name: filters
         type: string
       responses:
         "200":
