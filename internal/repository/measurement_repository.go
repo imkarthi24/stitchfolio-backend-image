@@ -43,13 +43,7 @@ func (mr *measurementRepository) BatchCreate(ctx *context.Context, measurements 
 		return nil
 	}
 
-	// Convert []*entities.Measurement to []interface{} for batch create
-	measurementsInterface := make([]interface{}, len(measurements))
-	for i, m := range measurements {
-		measurementsInterface[i] = m
-	}
-
-	res := mr.txn.Txn(ctx).CreateInBatches(measurementsInterface, 100)
+	res := mr.txn.Txn(ctx).CreateInBatches(measurements, 100)
 	if res.Error != nil {
 		return errs.NewXError(errs.DATABASE, "Unable to batch save measurements", res.Error)
 	}
