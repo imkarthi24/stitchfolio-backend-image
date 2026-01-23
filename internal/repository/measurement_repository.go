@@ -14,6 +14,7 @@ import (
 
 type MeasurementRepository interface {
 	Create(*context.Context, *entities.Measurement) *errs.XError
+	BatchCreate(*context.Context, []*entities.Measurement) *errs.XError
 	Update(*context.Context, *entities.Measurement) *errs.XError
 	Get(*context.Context, uint) (*entities.Measurement, *errs.XError)
 	GetAll(*context.Context, string) ([]entities.Measurement, *errs.XError)
@@ -33,6 +34,24 @@ func (mr *measurementRepository) Create(ctx *context.Context, measurement *entit
 	res := mr.txn.Txn(ctx).Create(&measurement)
 	if res.Error != nil {
 		return errs.NewXError(errs.DATABASE, "Unable to save measurement", res.Error)
+	}
+	return nil
+}
+
+func (mr *measurementRepository) BatchCreate(ctx *context.Context, measurements []*entities.Measurement) *errs.XError {
+	if len(measurements) == 0 {
+		return nil
+	}
+
+	// Convert []*entities.Measurement to []interface{} for batch create
+	measurementsInterface := make([]interface{}, len(measurements))
+	for i, m := range measurements {
+		measurementsInterface[i] = m
+	}
+
+	res := mr.txn.Txn(ctx).CreateInBatches(measurementsInterface, 100)
+	if res.Error != nil {
+		return errs.NewXError(errs.DATABASE, "Unable to batch save measurements", res.Error)
 	}
 	return nil
 }

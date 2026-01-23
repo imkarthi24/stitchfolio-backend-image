@@ -16,6 +16,7 @@ import (
 
 type MeasurementService interface {
 	SaveMeasurement(*context.Context, requestModel.Measurement) *errs.XError
+	SaveBulkMeasurements(*context.Context, []requestModel.BulkMeasurementRequest) *errs.XError
 	UpdateMeasurement(*context.Context, requestModel.Measurement, uint) *errs.XError
 	Get(*context.Context, uint) (*responseModel.Measurement, *errs.XError)
 	GetAll(*context.Context, string) ([]responseModel.Measurement, *errs.XError)
@@ -53,6 +54,48 @@ func (svc measurementService) SaveMeasurement(ctx *context.Context, measurement 
 	errr = svc.recordMeasurementHistory(ctx, dbMeasurement.ID, entities.MeasurementHistoryActionCreated, nil)
 	if errr != nil {
 		return errr
+	}
+
+	return nil
+}
+
+func (svc measurementService) SaveBulkMeasurements(ctx *context.Context, bulkRequests []requestModel.BulkMeasurementRequest) *errs.XError {
+	var measurementsToCreate []*entities.Measurement
+	userID := utils.GetUserId(ctx)
+
+	for _, bulkRequest := range bulkRequests {
+		for _, measurementItem := range bulkRequest.Measurements {
+			var valuesJSON entitiy_types.JSON
+			if len(measurementItem.Values) > 0 {
+				valuesJSON = entitiy_types.JSON(measurementItem.Values)
+			}
+
+			measurement := &entities.Measurement{
+				Model: &entities.Model{
+					IsActive:    true,
+				},
+				Value:       valuesJSON,
+				PersonId:    bulkRequest.PersonId,
+				DressTypeId: measurementItem.DressTypeId,
+				TakenById:   &userID,
+			}
+
+			measurementsToCreate = append(measurementsToCreate, measurement)
+		}
+	}
+
+	// Batch create all measurements
+	errr := svc.measurementRepo.BatchCreate(ctx, measurementsToCreate)
+	if errr != nil {
+		return errr
+	}
+
+	// Record measurement history for each created measurement
+	for _, measurement := range measurementsToCreate {
+		errr = svc.recordMeasurementHistory(ctx, measurement.ID, entities.MeasurementHistoryActionCreated, nil)
+		if errr != nil {
+			return errr
+		}
 	}
 
 	return nil

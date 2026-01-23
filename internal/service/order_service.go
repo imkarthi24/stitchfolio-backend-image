@@ -2,12 +2,17 @@ package service
 
 import (
 	"context"
+	"strings"
+	"time"
 
+	"github.com/imkarthi24/sf-backend/internal/entities"
 	"github.com/imkarthi24/sf-backend/internal/mapper"
 	requestModel "github.com/imkarthi24/sf-backend/internal/model/request"
 	responseModel "github.com/imkarthi24/sf-backend/internal/model/response"
 	"github.com/imkarthi24/sf-backend/internal/repository"
+	"github.com/imkarthi24/sf-backend/internal/utils"
 	"github.com/imkarthi24/sf-backend/pkg/errs"
+	"github.com/imkarthi24/sf-backend/pkg/util"
 )
 
 type OrderService interface {
@@ -19,16 +24,18 @@ type OrderService interface {
 }
 
 type orderService struct {
-	orderRepo  repository.OrderRepository
-	mapper     mapper.Mapper
-	respMapper mapper.ResponseMapper
+	orderRepo        repository.OrderRepository
+	orderHistoryRepo repository.OrderHistoryRepository
+	mapper           mapper.Mapper
+	respMapper       mapper.ResponseMapper
 }
 
-func ProvideOrderService(repo repository.OrderRepository, mapper mapper.Mapper, respMapper mapper.ResponseMapper) OrderService {
+func ProvideOrderService(repo repository.OrderRepository, orderHistoryRepo repository.OrderHistoryRepository, mapper mapper.Mapper, respMapper mapper.ResponseMapper) OrderService {
 	return orderService{
-		orderRepo:  repo,
-		mapper:     mapper,
-		respMapper: respMapper,
+		orderRepo:        repo,
+		orderHistoryRepo: orderHistoryRepo,
+		mapper:           mapper,
+		respMapper:       respMapper,
 	}
 }
 
@@ -43,13 +50,25 @@ func (svc orderService) SaveOrder(ctx *context.Context, order requestModel.Order
 		return errr
 	}
 
+	// Record order history for CREATED action
+	errr = svc.recordOrderHistory(ctx, dbOrder.ID, entities.OrderHistoryActionCreated, nil, nil, nil, nil)
+	if errr != nil {
+		return errr
+	}
+
 	return nil
 }
 
 func (svc orderService) UpdateOrder(ctx *context.Context, order requestModel.Order, id uint) *errs.XError {
-	dbOrder, err := svc.mapper.Order(order)
+	// Get the old order before updating
+	oldOrder, err := svc.orderRepo.Get(ctx, id)
 	if err != nil {
-		return errs.NewXError(errs.INVALID_REQUEST, "Unable to update order", err)
+		return err
+	}
+
+	dbOrder, mapErr := svc.mapper.Order(order)
+	if mapErr != nil {
+		return errs.NewXError(errs.INVALID_REQUEST, "Unable to update order", mapErr)
 	}
 
 	dbOrder.ID = id
@@ -57,6 +76,27 @@ func (svc orderService) UpdateOrder(ctx *context.Context, order requestModel.Ord
 	if errr != nil {
 		return errr
 	}
+
+	// Determine changed fields
+	var changedFields []string
+	if oldOrder.Status != dbOrder.Status {
+		changedFields = append(changedFields, entities.OrderChangeFieldStatus)
+	}
+	if !timeEqual(oldOrder.ExpectedDeliveryDate, dbOrder.ExpectedDeliveryDate) {
+		changedFields = append(changedFields, entities.OrderChangeFieldExpectedDeliveryDate)
+	}
+	if !timeEqual(oldOrder.DeliveredDate, dbOrder.DeliveredDate) {
+		changedFields = append(changedFields, entities.OrderChangeFieldDeliveredDate)
+	}
+
+	changedFieldsStr := strings.Join(changedFields, ",")
+
+	// Record order history for UPDATED action with old values
+	errr = svc.recordOrderHistory(ctx, id, entities.OrderHistoryActionUpdated, &oldOrder.Status, oldOrder.ExpectedDeliveryDate, oldOrder.DeliveredDate, &changedFieldsStr)
+	if errr != nil {
+		return errr
+	}
+
 	return nil
 }
 
@@ -89,9 +129,65 @@ func (svc orderService) GetAll(ctx *context.Context, search string) ([]responseM
 }
 
 func (svc orderService) Delete(ctx *context.Context, id uint) *errs.XError {
-	err := svc.orderRepo.Delete(ctx, id)
+	// Get the old order before deleting
+	oldOrder, err := svc.orderRepo.Get(ctx, id)
 	if err != nil {
 		return err
 	}
+
+	err = svc.orderRepo.Delete(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	// Record order history for DELETED action with old values
+	err = svc.recordOrderHistory(ctx, id, entities.OrderHistoryActionDeleted, &oldOrder.Status, oldOrder.ExpectedDeliveryDate, oldOrder.DeliveredDate, nil)
+	if err != nil {
+		return err
+	}
+
 	return nil
+}
+
+// recordOrderHistory creates an order history record
+func (svc orderService) recordOrderHistory(ctx *context.Context, orderId uint, action entities.OrderHistoryAction, oldStatus *entities.OrderStatus, oldExpectedDeliveryDate *time.Time, oldDeliveredDate *time.Time, changedFields *string) *errs.XError {
+	userID := utils.GetUserId(ctx)
+	performedAt := util.GetLocalTime()
+
+	history := &entities.OrderHistory{
+		Model:         &entities.Model{IsActive: true},
+		Action:        action,
+		OrderId:       orderId,
+		PerformedAt:   performedAt,
+		PerformedById: userID,
+	}
+
+	// Set changed fields if provided
+	if changedFields != nil {
+		history.ChangedFields = *changedFields
+	}
+
+	// Set old values for tracking
+	if oldStatus != nil {
+		history.Status = oldStatus
+	}
+	if oldExpectedDeliveryDate != nil {
+		history.ExpectedDeliveryDate = oldExpectedDeliveryDate
+	}
+	if oldDeliveredDate != nil {
+		history.DeliveredDate = oldDeliveredDate
+	}
+
+	return svc.orderHistoryRepo.Create(ctx, history)
+}
+
+// timeEqual compares two *time.Time values, handling nil cases
+func timeEqual(t1, t2 *time.Time) bool {
+	if t1 == nil && t2 == nil {
+		return true
+	}
+	if t1 == nil || t2 == nil {
+		return false
+	}
+	return t1.Equal(*t2)
 }

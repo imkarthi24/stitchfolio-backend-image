@@ -236,6 +236,24 @@ definitions:
         items: {}
         type: array
     type: object
+  requestModel.BulkMeasurementItem:
+    properties:
+      dressTypeId:
+        type: integer
+      values:
+        items:
+          type: integer
+        type: array
+    type: object
+  requestModel.BulkMeasurementRequest:
+    properties:
+      measurements:
+        items:
+          $ref: '#/definitions/requestModel.BulkMeasurementItem'
+        type: array
+      personId:
+        type: integer
+    type: object
   requestModel.Channel:
     properties:
       id:
@@ -317,6 +335,37 @@ definitions:
       subject:
         type: string
       whatsappNumber:
+        type: string
+    type: object
+  requestModel.EnquiryHistory:
+    properties:
+      action:
+        type: string
+      callBackDate:
+        type: string
+      customerComment:
+        type: string
+      employeeComment:
+        type: string
+      employeeId:
+        type: integer
+      enquiryDate:
+        type: string
+      enquiryId:
+        type: integer
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      performedAt:
+        type: string
+      performedById:
+        type: integer
+      responseStatus:
+        type: string
+      status:
+        type: string
+      visitingDate:
         type: string
     type: object
   requestModel.Login:
@@ -745,6 +794,39 @@ definitions:
       status:
         type: string
       subject:
+        type: string
+    type: object
+  responseModel.EnquiryHistory:
+    properties:
+      callBackDate:
+        type: string
+      customerComment:
+        type: string
+      employee:
+        $ref: '#/definitions/responseModel.User'
+      employeeComment:
+        type: string
+      employeeId:
+        type: integer
+      enquiryDate:
+        type: string
+      enquiryId:
+        type: integer
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      performedAt:
+        type: string
+      performedBy:
+        $ref: '#/definitions/responseModel.User'
+      performedById:
+        type: integer
+      responseStatus:
+        type: string
+      status:
+        type: string
+      visitingDate:
         type: string
     type: object
   responseModel.Measurement:
@@ -1485,6 +1567,101 @@ paths:
       summary: Save Enquiry
       tags:
       - Enquiry
+  /enquiry-history:
+    get:
+      consumes:
+      - application/json
+      description: Get all active enquiry histories
+      parameters:
+      - description: search
+        in: query
+        name: search
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.EnquiryHistory'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get all active enquiry histories
+      tags:
+      - EnquiryHistory
+    post:
+      consumes:
+      - application/json
+      description: Saves an instance of EnquiryHistory
+      parameters:
+      - description: enquiryHistory
+        in: body
+        name: enquiryHistory
+        required: true
+        schema:
+          $ref: '#/definitions/requestModel.EnquiryHistory'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Save EnquiryHistory
+      tags:
+      - EnquiryHistory
+  /enquiry-history/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get an instance of EnquiryHistory
+      parameters:
+      - description: EnquiryHistory id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.EnquiryHistory'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get a specific EnquiryHistory
+      tags:
+      - EnquiryHistory
+  /enquiry-history/enquiry/{enquiryId}:
+    get:
+      consumes:
+      - application/json
+      description: Get enquiry histories by enquiry id
+      parameters:
+      - description: enquiry id
+        in: path
+        name: enquiryId
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.EnquiryHistory'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get enquiry histories by enquiry id
+      tags:
+      - EnquiryHistory
   /enquiry/{id}:
     delete:
       consumes:
@@ -1979,6 +2156,36 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
       summary: Update Measurement
+      tags:
+      - Measurement
+  /measurement/bulk:
+    post:
+      consumes:
+      - application/json
+      description: Saves multiple measurements for multiple persons in bulk
+      parameters:
+      - description: Array of bulk measurement requests
+        in: body
+        name: measurements
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/requestModel.BulkMeasurementRequest'
+          type: array
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Save Bulk Measurements
       tags:
       - Measurement
   /order:

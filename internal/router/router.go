@@ -163,6 +163,7 @@ func InitRouter(handler baseHandler.BaseHandler, srvConfig config.ServerConfig) 
 		measurementEndpoints := appRouter.Group("measurement", router.VerifyJWT(srvConfig.JwtSecretKey))
 		{
 			measurementEndpoints.POST("", handler.MeasurementHandler.SaveMeasurement)
+			measurementEndpoints.POST("bulk", handler.MeasurementHandler.SaveBulkMeasurements)
 			measurementEndpoints.PUT(":id", handler.MeasurementHandler.UpdateMeasurement)
 			measurementEndpoints.GET(":id", handler.MeasurementHandler.Get)
 			measurementEndpoints.GET("", handler.MeasurementHandler.GetAllMeasurements)
@@ -202,6 +203,14 @@ func InitRouter(handler baseHandler.BaseHandler, srvConfig config.ServerConfig) 
 			measurementHistoryEndpoints.GET(":id", handler.MeasurementHistoryHandler.Get)
 			measurementHistoryEndpoints.GET("", handler.MeasurementHistoryHandler.GetAllMeasurementHistories)
 			measurementHistoryEndpoints.GET("measurement/:measurementId", handler.MeasurementHistoryHandler.GetByMeasurementId)
+		}
+
+		enquiryHistoryEndpoints := appRouter.Group("enquiry-history", router.VerifyJWT(srvConfig.JwtSecretKey))
+		{
+			enquiryHistoryEndpoints.POST("", handler.EnquiryHistoryHandler.SaveEnquiryHistory)
+			enquiryHistoryEndpoints.GET(":id", handler.EnquiryHistoryHandler.Get)
+			enquiryHistoryEndpoints.GET("", handler.EnquiryHistoryHandler.GetAllEnquiryHistories)
+			enquiryHistoryEndpoints.GET("enquiry/:enquiryId", handler.EnquiryHistoryHandler.GetByEnquiryId)
 		}
 	}
 	return g

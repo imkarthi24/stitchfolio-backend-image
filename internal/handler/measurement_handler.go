@@ -52,6 +52,36 @@ func (h MeasurementHandler) SaveMeasurement(ctx *gin.Context) {
 	h.resp.SuccessResponse("Save success").FormatAndSend(&context, ctx, http.StatusCreated)
 }
 
+// Save Bulk Measurements
+//
+//	@Summary		Save Bulk Measurements
+//	@Description	Saves multiple measurements for multiple persons in bulk
+//	@Tags			Measurement
+//	@Accept			json
+//	@Success		201				{object}	response.Response
+//	@Failure		400				{object}	response.Response
+//	@Failure		501				{object}	response.Response
+//	@Param			measurements	body		[]requestModel.BulkMeasurementRequest	true	"Array of bulk measurement requests"
+//	@Router			/measurement/bulk [post]
+func (h MeasurementHandler) SaveBulkMeasurements(ctx *gin.Context) {
+	context := util.CopyContextFromGin(ctx)
+	var bulkRequests []requesModel.BulkMeasurementRequest
+	err := ctx.Bind(&bulkRequests)
+	if err != nil {
+		x := errs.NewXError(errs.INVALID_REQUEST, errs.MALFORMED_REQUEST, err)
+		h.resp.DefaultFailureResponse(x).FormatAndSend(&context, ctx, http.StatusBadRequest)
+		return
+	}
+
+	errr := h.measurementSvc.SaveBulkMeasurements(&context, bulkRequests)
+	if errr != nil {
+		h.resp.DefaultFailureResponse(errr).FormatAndSend(&context, ctx, http.StatusInternalServerError)
+		return
+	}
+
+	h.resp.SuccessResponse("Bulk save success").FormatAndSend(&context, ctx, http.StatusCreated)
+}
+
 // Update Measurement
 //
 //	@Summary		Update Measurement

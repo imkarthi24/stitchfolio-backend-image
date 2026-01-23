@@ -775,6 +775,151 @@ const docTemplate = `{
                 }
             }
         },
+        "/enquiry-history": {
+            "get": {
+                "description": "Get all active enquiry histories",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "EnquiryHistory"
+                ],
+                "summary": "Get all active enquiry histories",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "search",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.EnquiryHistory"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.DataResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Saves an instance of EnquiryHistory",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "EnquiryHistory"
+                ],
+                "summary": "Save EnquiryHistory",
+                "parameters": [
+                    {
+                        "description": "enquiryHistory",
+                        "name": "enquiryHistory",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestModel.EnquiryHistory"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/enquiry-history/enquiry/{enquiryId}": {
+            "get": {
+                "description": "Get enquiry histories by enquiry id",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "EnquiryHistory"
+                ],
+                "summary": "Get enquiry histories by enquiry id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "enquiry id",
+                        "name": "enquiryId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.EnquiryHistory"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.DataResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/enquiry-history/{id}": {
+            "get": {
+                "description": "Get an instance of EnquiryHistory",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "EnquiryHistory"
+                ],
+                "summary": "Get a specific EnquiryHistory",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "EnquiryHistory id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.EnquiryHistory"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.DataResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/enquiry/{id}": {
             "get": {
                 "description": "Get an instance of Enquiry",
@@ -1408,6 +1553,52 @@ const docTemplate = `{
                         "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/response.DataResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/measurement/bulk": {
+            "post": {
+                "description": "Saves multiple measurements for multiple persons in bulk",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Measurement"
+                ],
+                "summary": "Save Bulk Measurements",
+                "parameters": [
+                    {
+                        "description": "Array of bulk measurement requests",
+                        "name": "measurements",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/requestModel.BulkMeasurementRequest"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
                         }
                     }
                 }
@@ -3241,6 +3432,34 @@ const docTemplate = `{
                 }
             }
         },
+        "requestModel.BulkMeasurementItem": {
+            "type": "object",
+            "properties": {
+                "dressTypeId": {
+                    "type": "integer"
+                },
+                "values": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
+        "requestModel.BulkMeasurementRequest": {
+            "type": "object",
+            "properties": {
+                "measurements": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/requestModel.BulkMeasurementItem"
+                    }
+                },
+                "personId": {
+                    "type": "integer"
+                }
+            }
+        },
         "requestModel.Channel": {
             "type": "object",
             "properties": {
@@ -3363,6 +3582,53 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "whatsappNumber": {
+                    "type": "string"
+                }
+            }
+        },
+        "requestModel.EnquiryHistory": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "callBackDate": {
+                    "type": "string"
+                },
+                "customerComment": {
+                    "type": "string"
+                },
+                "employeeComment": {
+                    "type": "string"
+                },
+                "employeeId": {
+                    "type": "integer"
+                },
+                "enquiryDate": {
+                    "type": "string"
+                },
+                "enquiryId": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "performedAt": {
+                    "type": "string"
+                },
+                "performedById": {
+                    "type": "integer"
+                },
+                "responseStatus": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "visitingDate": {
                     "type": "string"
                 }
             }
@@ -4007,6 +4273,56 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "subject": {
+                    "type": "string"
+                }
+            }
+        },
+        "responseModel.EnquiryHistory": {
+            "type": "object",
+            "properties": {
+                "callBackDate": {
+                    "type": "string"
+                },
+                "customerComment": {
+                    "type": "string"
+                },
+                "employee": {
+                    "$ref": "#/definitions/responseModel.User"
+                },
+                "employeeComment": {
+                    "type": "string"
+                },
+                "employeeId": {
+                    "type": "integer"
+                },
+                "enquiryDate": {
+                    "type": "string"
+                },
+                "enquiryId": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "performedAt": {
+                    "type": "string"
+                },
+                "performedBy": {
+                    "$ref": "#/definitions/responseModel.User"
+                },
+                "performedById": {
+                    "type": "integer"
+                },
+                "responseStatus": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "visitingDate": {
                     "type": "string"
                 }
             }
