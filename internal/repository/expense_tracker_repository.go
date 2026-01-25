@@ -5,15 +5,10 @@ import (
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
 	"github.com/imkarthi24/sf-backend/internal/repository/scopes"
-<<<<<<< Updated upstream
+	"github.com/loop-kar/pixie/constants"
 	"github.com/loop-kar/pixie/db"
 	"github.com/loop-kar/pixie/errs"
-=======
-	"github.com/imkarthi24/sf-backend/pkg/constants"
-	"github.com/imkarthi24/sf-backend/pkg/db"
-	"github.com/imkarthi24/sf-backend/pkg/errs"
-	"github.com/imkarthi24/sf-backend/pkg/util"
->>>>>>> Stashed changes
+	"github.com/loop-kar/pixie/util"
 )
 
 type ExpenseTrackerRepository interface {
@@ -58,17 +53,13 @@ func (etr *expenseTrackerRepository) Get(ctx *context.Context, id uint) (*entiti
 func (etr *expenseTrackerRepository) GetAll(ctx *context.Context, search string) ([]entities.ExpenseTracker, *errs.XError) {
 	var expenseTrackers []entities.ExpenseTracker
 
-<<<<<<< Updated upstream
-	res := etr.WithDB(ctx).
-=======
 	filterValue := util.ReadValueFromContext(ctx, constants.FILTER_KEY)
 	var filter string
 	if filterValue != nil {
 		filter = filterValue.(string)
 	}
 
-	res := etr.txn.Txn(ctx).
->>>>>>> Stashed changes
+	res := etr.WithDB(ctx).
 		Scopes(scopes.Channel(), scopes.IsActive()).
 		Scopes(scopes.GetExpenseTrackers_Search(search)).
 		Scopes(scopes.GetExpenseTrackers_Filter(filter)).

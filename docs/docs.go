@@ -1568,47 +1568,6 @@ const docTemplate = `{
                     }
                 }
             },
-            "put": {
-                "description": "Updates measurements by personId and dressTypeId. If measurement exists, it will be updated; otherwise, it will be created.",
-                "consumes": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Measurement"
-                ],
-                "summary": "Update Measurement(s)",
-                "parameters": [
-                    {
-                        "description": "Bulk update measurement request with persons array",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/requestModel.BulkUpdateMeasurementRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    },
-                    "501": {
-                        "description": "Not Implemented",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            },
             "post": {
                 "description": "Saves an instance of Measurement",
                 "consumes": [
@@ -1797,6 +1756,50 @@ const docTemplate = `{
             }
         },
         "/measurement/bulk": {
+            "put": {
+                "description": "Updates an array of measurements by their IDs",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Measurement"
+                ],
+                "summary": "Bulk Update Measurements",
+                "parameters": [
+                    {
+                        "description": "Array of measurements to update",
+                        "name": "measurements",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/requestModel.Measurement"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Saves multiple measurements for multiple persons in bulk",
                 "consumes": [
@@ -1872,6 +1875,54 @@ const docTemplate = `{
                         "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/response.DataResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Updates a single measurement by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Measurement"
+                ],
+                "summary": "Update Measurement",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Measurement id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Measurement to update",
+                        "name": "measurement",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestModel.Measurement"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
                         }
                     }
                 }
@@ -3647,37 +3698,6 @@ const docTemplate = `{
                 },
                 "personId": {
                     "type": "integer"
-                }
-            }
-        },
-        "requestModel.BulkUpdateMeasurementPerson": {
-            "type": "object",
-            "properties": {
-                "isActive": {
-                    "type": "boolean"
-                },
-                "measurements": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/requestModel.BulkMeasurementItem"
-                    }
-                },
-                "personId": {
-                    "type": "integer"
-                }
-            }
-        },
-        "requestModel.BulkUpdateMeasurementRequest": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                },
-                "persons": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/requestModel.BulkUpdateMeasurementPerson"
-                    }
                 }
             }
         },

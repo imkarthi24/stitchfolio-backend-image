@@ -254,26 +254,6 @@ definitions:
       personId:
         type: integer
     type: object
-  requestModel.BulkUpdateMeasurementPerson:
-    properties:
-      isActive:
-        type: boolean
-      measurements:
-        items:
-          $ref: '#/definitions/requestModel.BulkMeasurementItem'
-        type: array
-      personId:
-        type: integer
-    type: object
-  requestModel.BulkUpdateMeasurementRequest:
-    properties:
-      id:
-        type: integer
-      persons:
-        items:
-          $ref: '#/definitions/requestModel.BulkUpdateMeasurementPerson'
-        type: array
-    type: object
   requestModel.Channel:
     properties:
       id:
@@ -2187,34 +2167,6 @@ paths:
       summary: Save Measurement
       tags:
       - Measurement
-    put:
-      consumes:
-      - application/json
-      description: Updates measurements by personId and dressTypeId. If measurement
-        exists, it will be updated; otherwise, it will be created.
-      parameters:
-      - description: Bulk update measurement request with persons array
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/requestModel.BulkUpdateMeasurementRequest'
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/response.Response'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/response.Response'
-        "501":
-          description: Not Implemented
-          schema:
-            $ref: '#/definitions/response.Response'
-      summary: Update Measurement(s)
-      tags:
-      - Measurement
   /measurement-history:
     get:
       consumes:
@@ -2355,6 +2307,38 @@ paths:
       summary: Get a specific Measurement
       tags:
       - Measurement
+    put:
+      consumes:
+      - application/json
+      description: Updates a single measurement by its ID
+      parameters:
+      - description: Measurement id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Measurement to update
+        in: body
+        name: measurement
+        required: true
+        schema:
+          $ref: '#/definitions/requestModel.Measurement'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Update Measurement
+      tags:
+      - Measurement
   /measurement/bulk:
     post:
       consumes:
@@ -2383,6 +2367,35 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
       summary: Save Bulk Measurements
+      tags:
+      - Measurement
+    put:
+      consumes:
+      - application/json
+      description: Updates an array of measurements by their IDs
+      parameters:
+      - description: Array of measurements to update
+        in: body
+        name: measurements
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/requestModel.Measurement'
+          type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Bulk Update Measurements
       tags:
       - Measurement
   /order:

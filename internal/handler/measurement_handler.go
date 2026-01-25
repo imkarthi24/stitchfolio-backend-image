@@ -82,18 +82,50 @@ func (h MeasurementHandler) SaveBulkMeasurements(ctx *gin.Context) {
 	h.resp.SuccessResponse("Bulk save success").FormatAndSend(&context, ctx, http.StatusCreated)
 }
 
-// Update Measurements
+// Update Measurement
 //
-//	@Summary		Update Measurements
+//	@Summary		Update Measurement
+//	@Description	Updates a single measurement by its ID
+//	@Tags			Measurement
+//	@Accept			json
+//	@Success		200			{object}	response.Response
+//	@Failure		400			{object}	response.Response
+//	@Failure		501			{object}	response.Response
+//	@Param			id			path		int							true	"Measurement id"
+//	@Param			measurement	body		requestModel.Measurement	true	"Measurement to update"
+//	@Router			/measurement/{id} [put]
+func (h MeasurementHandler) UpdateMeasurement(ctx *gin.Context) {
+	context := util.CopyContextFromGin(ctx)
+	var measurement requesModel.Measurement
+	err := ctx.Bind(&measurement)
+	if err != nil {
+		x := errs.NewXError(errs.INVALID_REQUEST, errs.MALFORMED_REQUEST, err)
+		h.resp.DefaultFailureResponse(x).FormatAndSend(&context, ctx, http.StatusBadRequest)
+		return
+	}
+
+	id, _ := strconv.Atoi(ctx.Param("id"))
+	errr := h.measurementSvc.UpdateMeasurement(&context, measurement, uint(id))
+	if errr != nil {
+		h.resp.DefaultFailureResponse(errr).FormatAndSend(&context, ctx, http.StatusInternalServerError)
+		return
+	}
+
+	h.resp.SuccessResponse("Update success").FormatAndSend(&context, ctx, http.StatusOK)
+}
+
+// Bulk Update Measurements
+//
+//	@Summary		Bulk Update Measurements
 //	@Description	Updates an array of measurements by their IDs
 //	@Tags			Measurement
 //	@Accept			json
-//	@Success		200		{object}	response.Response
-//	@Failure		400		{object}	response.Response
-//	@Failure		501		{object}	response.Response
+//	@Success		200				{object}	response.Response
+//	@Failure		400				{object}	response.Response
+//	@Failure		501				{object}	response.Response
 //	@Param			measurements	body		[]requestModel.Measurement	true	"Array of measurements to update"
-//	@Router			/measurement [put]
-func (h MeasurementHandler) UpdateMeasurements(ctx *gin.Context) {
+//	@Router			/measurement/bulk [put]
+func (h MeasurementHandler) BulkUpdateMeasurements(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)
 	var measurements []requesModel.Measurement
 	err := ctx.Bind(&measurements)
@@ -103,13 +135,13 @@ func (h MeasurementHandler) UpdateMeasurements(ctx *gin.Context) {
 		return
 	}
 
-	errr := h.measurementSvc.UpdateMeasurements(&context, measurements)
+	errr := h.measurementSvc.BulkUpdateMeasurements(&context, measurements)
 	if errr != nil {
 		h.resp.DefaultFailureResponse(errr).FormatAndSend(&context, ctx, http.StatusInternalServerError)
 		return
 	}
 
-	h.resp.SuccessResponse("Update success").FormatAndSend(&context, ctx, http.StatusOK)
+	h.resp.SuccessResponse("Bulk update success").FormatAndSend(&context, ctx, http.StatusOK)
 }
 
 // Get Measurement

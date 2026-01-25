@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	config_cache "github.com/imkarthi24/sf-backend/internal/cache"
 	"github.com/imkarthi24/sf-backend/internal/config"
+	"github.com/imkarthi24/sf-backend/internal/entities"
 	"github.com/imkarthi24/sf-backend/internal/repository"
 
 	// "github.com/loop-kar/pixie/db/migrator"
@@ -60,7 +61,6 @@ func (a *App) Migrate(ctx *context.Context, checkErr func(err error)) {
 	migrator := migrator.NewMigrator(a.StitchDB)
 
 	entityList := []interface{}{
-<<<<<<< Updated upstream
 		&entities.Channel{},
 		&entities.Customer{},
 		&entities.DressType{},
@@ -79,26 +79,6 @@ func (a *App) Migrate(ctx *context.Context, checkErr func(err error)) {
 		&entities.UserConfig{},
 		&entities.User{},
 		&entities.WhatsappNotification{},
-=======
-		// &entities.Channel{},
-		// &entities.Customer{},
-		// &entities.DressType{},
-		// &entities.EmailNotification{},
-		// &entities.EnquiryHistory{},
-		// &entities.Enquiry{},
-		// &entities.MasterConfig{},
-		// &entities.Measurement{},
-		// &entities.MeasurementHistory{},
-		// &entities.Notification{},
-		// &entities.OrderHistory{},
-		// &entities.Order{},
-		// &entities.OrderItem{},
-		// &entities.Person{},
-		// &entities.UserChannelDetail{},
-		// &entities.UserConfig{},
-		// &entities.User{},
-		// &entities.WhatsappNotification{},
->>>>>>> Stashed changes
 	}
 
 	//************************//
