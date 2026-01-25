@@ -4,10 +4,9 @@ import (
 	"context"
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
-	"github.com/imkarthi24/sf-backend/internal/repository/common"
 	"github.com/imkarthi24/sf-backend/internal/repository/scopes"
-	"github.com/imkarthi24/sf-backend/pkg/db"
-	"github.com/imkarthi24/sf-backend/pkg/errs"
+	"github.com/loop-kar/pixie/db"
+	"github.com/loop-kar/pixie/errs"
 )
 
 type OrderHistoryRepository interface {
@@ -18,16 +17,15 @@ type OrderHistoryRepository interface {
 }
 
 type orderHistoryRepository struct {
-	txn      db.DBTransactionManager
-	customDB common.CustomGormDB
+	GormDAL
 }
 
-func ProvideOrderHistoryRepository(txn db.DBTransactionManager, customDB common.CustomGormDB) OrderHistoryRepository {
-	return &orderHistoryRepository{txn: txn, customDB: customDB}
+func ProvideOrderHistoryRepository(customDB GormDAL) OrderHistoryRepository {
+	return &orderHistoryRepository{GormDAL: customDB}
 }
 
 func (ohr *orderHistoryRepository) Create(ctx *context.Context, orderHistory *entities.OrderHistory) *errs.XError {
-	res := ohr.txn.Txn(ctx).Create(&orderHistory)
+	res := ohr.WithDB(ctx).Create(&orderHistory)
 	if res.Error != nil {
 		return errs.NewXError(errs.DATABASE, "Unable to save order history", res.Error)
 	}
@@ -36,7 +34,7 @@ func (ohr *orderHistoryRepository) Create(ctx *context.Context, orderHistory *en
 
 func (ohr *orderHistoryRepository) Get(ctx *context.Context, id uint) (*entities.OrderHistory, *errs.XError) {
 	orderHistory := entities.OrderHistory{}
-	res := ohr.txn.Txn(ctx).
+	res := ohr.WithDB(ctx).
 		Preload("Order").
 		Preload("PerformedBy", scopes.SelectFields("first_name", "last_name")).
 		Find(&orderHistory, id)
@@ -48,7 +46,7 @@ func (ohr *orderHistoryRepository) Get(ctx *context.Context, id uint) (*entities
 
 func (ohr *orderHistoryRepository) GetAll(ctx *context.Context, search string) ([]entities.OrderHistory, *errs.XError) {
 	var orderHistories []entities.OrderHistory
-	res := ohr.txn.Txn(ctx).Table(entities.OrderHistory{}.TableNameForQuery()).
+	res := ohr.WithDB(ctx).Table(entities.OrderHistory{}.TableNameForQuery()).
 		Scopes(scopes.Channel(), scopes.IsActive()).
 		Scopes(db.Paginate(ctx)).
 		Preload("Order").
@@ -62,7 +60,7 @@ func (ohr *orderHistoryRepository) GetAll(ctx *context.Context, search string) (
 
 func (ohr *orderHistoryRepository) GetByOrderId(ctx *context.Context, orderId uint) ([]entities.OrderHistory, *errs.XError) {
 	var orderHistories []entities.OrderHistory
-	res := ohr.txn.Txn(ctx).
+	res := ohr.WithDB(ctx).
 		Where("order_id = ?", orderId).
 		Scopes(scopes.IsActive()).
 		Preload("PerformedBy", scopes.SelectFields("first_name", "last_name")).

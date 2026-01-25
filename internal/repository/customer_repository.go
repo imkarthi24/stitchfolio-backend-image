@@ -5,10 +5,9 @@ import (
 	"errors"
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
-	"github.com/imkarthi24/sf-backend/internal/repository/common"
 	"github.com/imkarthi24/sf-backend/internal/repository/scopes"
-	"github.com/imkarthi24/sf-backend/pkg/db"
-	"github.com/imkarthi24/sf-backend/pkg/errs"
+	"github.com/loop-kar/pixie/db"
+	"github.com/loop-kar/pixie/errs"
 	"gorm.io/gorm"
 )
 
@@ -23,16 +22,15 @@ type CustomerRepository interface {
 }
 
 type customerRepository struct {
-	txn      db.DBTransactionManager
-	customDB common.CustomGormDB
+	GormDAL
 }
 
-func ProvideCustomerRepository(txn db.DBTransactionManager, customDB common.CustomGormDB) CustomerRepository {
-	return &customerRepository{txn: txn, customDB: customDB}
+func ProvideCustomerRepository(customDB GormDAL) CustomerRepository {
+	return &customerRepository{GormDAL: customDB}
 }
 
 func (cr *customerRepository) Create(ctx *context.Context, customer *entities.Customer) *errs.XError {
-	res := cr.txn.Txn(ctx).Create(&customer)
+	res := cr.WithDB(ctx).Create(&customer)
 	if res.Error != nil {
 		return errs.NewXError(errs.DATABASE, "Unable to save customer", res.Error)
 	}
@@ -40,12 +38,12 @@ func (cr *customerRepository) Create(ctx *context.Context, customer *entities.Cu
 }
 
 func (cr *customerRepository) Update(ctx *context.Context, customer *entities.Customer) *errs.XError {
-	return cr.customDB.Update(ctx, *customer)
+	return cr.GormDAL.Update(ctx, *customer)
 }
 
 func (cr *customerRepository) Get(ctx *context.Context, id uint) (*entities.Customer, *errs.XError) {
 	customer := entities.Customer{}
-	res := cr.txn.Txn(ctx).
+	res := cr.WithDB(ctx).
 		Preload("Persons").
 		Preload("Persons.Measurements").
 		Preload("Persons.Measurements.DressType").
@@ -60,7 +58,7 @@ func (cr *customerRepository) Get(ctx *context.Context, id uint) (*entities.Cust
 
 func (cr *customerRepository) GetAll(ctx *context.Context, search string) ([]entities.Customer, *errs.XError) {
 	var customers []entities.Customer
-	res := cr.txn.Txn(ctx).Table(entities.Customer{}.TableNameForQuery()).
+	res := cr.WithDB(ctx).Table(entities.Customer{}.TableNameForQuery()).
 		Scopes(scopes.Channel(), scopes.IsActive()).
 		Scopes(scopes.ILike(search, "first_name", "last_name", "email", "phone_number")).
 		Scopes(db.Paginate(ctx)).
@@ -73,7 +71,7 @@ func (cr *customerRepository) GetAll(ctx *context.Context, search string) ([]ent
 
 func (cr *customerRepository) Delete(ctx *context.Context, id uint) *errs.XError {
 	customer := &entities.Customer{Model: &entities.Model{ID: id, IsActive: false}}
-	err := cr.customDB.Delete(ctx, customer)
+	err := cr.GormDAL.Delete(ctx, customer)
 	if err != nil {
 		return err
 	}
@@ -85,7 +83,7 @@ func (cr *customerRepository) GetByPhoneNumber(ctx *context.Context, phoneNumber
 		return nil, nil
 	}
 	customer := entities.Customer{}
-	res := cr.txn.Txn(ctx).Where("phone_number = ?", phoneNumber).First(&customer)
+	res := cr.WithDB(ctx).Where("phone_number = ?", phoneNumber).First(&customer)
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
 			return nil, nil
@@ -97,7 +95,7 @@ func (cr *customerRepository) GetByPhoneNumber(ctx *context.Context, phoneNumber
 
 func (cr *customerRepository) AutocompleteCustomer(ctx *context.Context, search string) ([]entities.Customer, *errs.XError) {
 	var customers []entities.Customer
-	res := cr.txn.Txn(ctx).
+	res := cr.WithDB(ctx).
 		Scopes(scopes.Channel(), scopes.IsActive()).
 		Scopes(scopes.ILike(search, "first_name", "last_name", "email", "phone_number")).
 		Select("id", "first_name", "last_name", "email", "phone_number").

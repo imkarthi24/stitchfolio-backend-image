@@ -8,9 +8,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/imkarthi24/sf-backend/internal/entities"
 	"github.com/imkarthi24/sf-backend/internal/model/models"
-	"github.com/imkarthi24/sf-backend/pkg/constants"
-	"github.com/imkarthi24/sf-backend/pkg/errs"
-	"github.com/imkarthi24/sf-backend/pkg/util"
+	"github.com/loop-kar/pixie/constants"
+	"github.com/loop-kar/pixie/errs"
+	"github.com/loop-kar/pixie/util"
 	"github.com/mitchellh/mapstructure"
 )
 

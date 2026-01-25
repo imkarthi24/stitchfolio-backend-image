@@ -5,8 +5,8 @@ import (
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
 	"github.com/imkarthi24/sf-backend/internal/service"
-	"github.com/imkarthi24/sf-backend/pkg/errs"
-	"github.com/imkarthi24/sf-backend/pkg/task"
+	"github.com/loop-kar/pixie/errs"
+	"github.com/loop-kar/pixie/task"
 )
 
 type NotificationTaskParam struct {

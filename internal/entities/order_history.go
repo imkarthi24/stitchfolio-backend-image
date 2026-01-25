@@ -44,10 +44,6 @@ type OrderHistory struct {
 	PerformedBy   *User     `gorm:"foreignKey:PerformedById" json:"-"`
 }
 
-func (OrderHistory) TableName() string {
-	return "stich.OrderHistories"
-}
-
 func (OrderHistory) TableNameForQuery() string {
 	return "\"stich\".\"OrderHistories\" E"
 }

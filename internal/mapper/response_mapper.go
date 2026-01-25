@@ -6,7 +6,7 @@ import (
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
 	responseModel "github.com/imkarthi24/sf-backend/internal/model/response"
-	"github.com/imkarthi24/sf-backend/pkg/util"
+	"github.com/loop-kar/pixie/util"
 )
 
 type responseMapper struct{}

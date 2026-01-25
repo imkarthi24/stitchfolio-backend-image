@@ -11,10 +11,6 @@ type UserChannelDetail struct {
 	UserChannel   *Channel `json:"channel,omitempty"`
 }
 
-func (UserChannelDetail) TableName() string {
-	return "stich.UserChannelDetails"
-}
-
 func (UserChannelDetail) TableNameForQuery() string {
-	return "\"stich\".\"UserChannelDetails\" E"
+	return "\"UserChannelDetails\" E"
 }

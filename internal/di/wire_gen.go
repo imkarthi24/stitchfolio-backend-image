@@ -17,11 +17,11 @@ import (
 	"github.com/imkarthi24/sf-backend/internal/log/newreliclog"
 	"github.com/imkarthi24/sf-backend/internal/mapper"
 	"github.com/imkarthi24/sf-backend/internal/repository"
-	"github.com/imkarthi24/sf-backend/internal/repository/common"
 	"github.com/imkarthi24/sf-backend/internal/router"
 	"github.com/imkarthi24/sf-backend/internal/service"
 	base2 "github.com/imkarthi24/sf-backend/internal/service/base"
-	"github.com/imkarthi24/sf-backend/pkg/db"
+	"github.com/loop-kar/pixie/db"
+	service2 "github.com/loop-kar/pixie/service"
 )
 
 // Injectors from wire.go:
@@ -33,38 +33,41 @@ func InitApp(ctx *context.Context) (*app.App, error) {
 		return nil, err
 	}
 	databaseConfig := appConfig.Database
-	gormDB, err := db.ProvideDatabase(databaseConfig)
+	databaseConnectionParams := ProvideDatabaseConnectionParams(databaseConfig)
+	gormDB, err := db.ProvideDatabase(databaseConnectionParams)
 	if err != nil {
 		return nil, err
 	}
 	dbTransactionManager := db.ProvideDBTransactionManager(gormDB)
-	customGormDB := common.ProvideCustomGormDB(dbTransactionManager)
-	userRepository := repository.ProvideUserRepository(dbTransactionManager, customGormDB)
-	channelRepository := repository.ProvideChannelRepository(dbTransactionManager, customGormDB)
+	gormDAL := repository.ProvideGormDAL(dbTransactionManager)
+	userRepository := repository.ProvideUserRepository(gormDAL)
+	channelRepository := repository.ProvideChannelRepository(gormDAL)
 	mapperMapper := mapper.ProvideMapper()
 	responseMapper := mapper.ProvideResponseMapper()
-	userService := service.ProvideUserService(userRepository, channelRepository, mapperMapper, appConfig, responseMapper)
+	serviceService := ProvideServiceContainer(appConfig)
+	emailService := serviceService.EmailService
+	userService := service.ProvideUserService(userRepository, channelRepository, mapperMapper, appConfig, responseMapper, emailService)
 	userHandler := handler.ProvideUserHandler(userService)
 	channelService := service.ProvideChannelService(channelRepository, userRepository, mapperMapper, responseMapper)
 	channelHandler := handler.ProvideChannelHandler(channelService)
-	masterConfigRepository := repository.ProvideMasterConfigRepository(dbTransactionManager, customGormDB)
+	masterConfigRepository := repository.ProvideMasterConfigRepository(gormDAL)
 	masterConfigService := service.ProvideMasterConfigService(masterConfigRepository, mapperMapper, appConfig, responseMapper)
 	masterConfigHandler := handler.ProvideMasterConfigHandler(masterConfigService)
-	adminRepository := repository.ProvideAdminRepository(dbTransactionManager, customGormDB)
+	adminRepository := repository.ProvideAdminRepository(gormDAL)
 	adminService := service.ProvideAdminService(adminRepository)
 	adminHandler := handler.ProvideAdminHandler(adminService)
 	customerRepository := repository.ProvideCustomerRepository(dbTransactionManager, customGormDB)
 	personRepository := repository.ProvidePersonRepository(dbTransactionManager, customGormDB)
 	customerService := service.ProvideCustomerService(customerRepository, personRepository, mapperMapper, responseMapper)
 	customerHandler := handler.ProvideCustomerHandler(customerService)
-	enquiryRepository := repository.ProvideEnquiryRepository(dbTransactionManager, customGormDB)
+	enquiryRepository := repository.ProvideEnquiryRepository(gormDAL)
 	enquiryService := service.ProvideEnquiryService(enquiryRepository, customerRepository, mapperMapper, responseMapper)
 	enquiryHandler := handler.ProvideEnquiryHandler(enquiryService)
 	orderRepository := repository.ProvideOrderRepository(dbTransactionManager, customGormDB)
 	orderHistoryRepository := repository.ProvideOrderHistoryRepository(dbTransactionManager, customGormDB)
 	orderService := service.ProvideOrderService(orderRepository, orderHistoryRepository, mapperMapper, responseMapper)
 	orderHandler := handler.ProvideOrderHandler(orderService)
-	orderItemRepository := repository.ProvideOrderItemRepository(dbTransactionManager, customGormDB)
+	orderItemRepository := repository.ProvideOrderItemRepository(gormDAL)
 	orderItemService := service.ProvideOrderItemService(orderItemRepository, mapperMapper, responseMapper)
 	orderItemHandler := handler.ProvideOrderItemHandler(orderItemService)
 	measurementRepository := repository.ProvideMeasurementRepository(dbTransactionManager, customGormDB)
@@ -73,7 +76,7 @@ func InitApp(ctx *context.Context) (*app.App, error) {
 	measurementHandler := handler.ProvideMeasurementHandler(measurementService)
 	personService := service.ProvidePersonService(personRepository, mapperMapper, responseMapper)
 	personHandler := handler.ProvidePersonHandler(personService)
-	dressTypeRepository := repository.ProvideDressTypeRepository(dbTransactionManager, customGormDB)
+	dressTypeRepository := repository.ProvideDressTypeRepository(gormDAL)
 	dressTypeService := service.ProvideDressTypeService(dressTypeRepository, mapperMapper, responseMapper)
 	dressTypeHandler := handler.ProvideDressTypeHandler(dressTypeService)
 	orderHistoryService := service.ProvideOrderHistoryService(orderHistoryRepository, mapperMapper, responseMapper)
@@ -106,22 +109,25 @@ func InitJobService(ctx *context.Context) (*app.Task, error) {
 		return nil, err
 	}
 	databaseConfig := appConfig.Database
-	gormDB, err := db.ProvideDatabase(databaseConfig)
+	databaseConnectionParams := ProvideDatabaseConnectionParams(databaseConfig)
+	gormDB, err := db.ProvideDatabase(databaseConnectionParams)
 	if err != nil {
 		return nil, err
 	}
 	dbTransactionManager := db.ProvideDBTransactionManager(gormDB)
-	customGormDB := common.ProvideCustomGormDB(dbTransactionManager)
-	userRepository := repository.ProvideUserRepository(dbTransactionManager, customGormDB)
-	channelRepository := repository.ProvideChannelRepository(dbTransactionManager, customGormDB)
+	gormDAL := repository.ProvideGormDAL(dbTransactionManager)
+	userRepository := repository.ProvideUserRepository(gormDAL)
+	channelRepository := repository.ProvideChannelRepository(gormDAL)
 	mapperMapper := mapper.ProvideMapper()
 	responseMapper := mapper.ProvideResponseMapper()
-	userService := service.ProvideUserService(userRepository, channelRepository, mapperMapper, appConfig, responseMapper)
-	notificationRepository := repository.ProvideNotificationRepository(dbTransactionManager)
+	serviceService := ProvideServiceContainer(appConfig)
+	emailService := serviceService.EmailService
+	userService := service.ProvideUserService(userRepository, channelRepository, mapperMapper, appConfig, responseMapper, emailService)
+	notificationRepository := repository.ProvideNotificationRepository(gormDAL)
 	smtpConfig := appConfig.SMTP
-	notificationService := service.ProvideNotificationService(notificationRepository, mapperMapper, smtpConfig)
+	notificationService := service.ProvideNotificationService(notificationRepository, mapperMapper, smtpConfig, emailService)
 	channelService := service.ProvideChannelService(channelRepository, userRepository, mapperMapper, responseMapper)
-	masterConfigRepository := repository.ProvideMasterConfigRepository(dbTransactionManager, customGormDB)
+	masterConfigRepository := repository.ProvideMasterConfigRepository(gormDAL)
 	masterConfigService := service.ProvideMasterConfigService(masterConfigRepository, mapperMapper, appConfig, responseMapper)
 	customerRepository := repository.ProvideCustomerRepository(dbTransactionManager, customGormDB)
 	personRepository := repository.ProvidePersonRepository(dbTransactionManager, customGormDB)
@@ -137,7 +143,7 @@ func InitJobService(ctx *context.Context) (*app.Task, error) {
 	measurementHistoryRepository := repository.ProvideMeasurementHistoryRepository(dbTransactionManager, customGormDB)
 	measurementService := service.ProvideMeasurementService(measurementRepository, measurementHistoryRepository, mapperMapper, responseMapper)
 	personService := service.ProvidePersonService(personRepository, mapperMapper, responseMapper)
-	dressTypeRepository := repository.ProvideDressTypeRepository(dbTransactionManager, customGormDB)
+	dressTypeRepository := repository.ProvideDressTypeRepository(gormDAL)
 	dressTypeService := service.ProvideDressTypeService(dressTypeRepository, mapperMapper, responseMapper)
 	orderHistoryService := service.ProvideOrderHistoryService(orderHistoryRepository, mapperMapper, responseMapper)
 	measurementHistoryService := service.ProvideMeasurementHistoryService(measurementHistoryRepository, mapperMapper, responseMapper)
@@ -158,7 +164,11 @@ func InitJobService(ctx *context.Context) (*app.Task, error) {
 
 // wire.go:
 
-var appConfigSet = wire.NewSet(config.ProvideAppConfig, wire.FieldsOf(new(config.AppConfig), "Smtp", "Server", "Database"))
+var appConfigSet = wire.NewSet(config.ProvideAppConfig, wire.FieldsOf(new(config.AppConfig), "SMTP", "Server", "Database"))
+
+var pkgServiceSet = wire.NewSet(
+	ProvideServiceContainer, wire.FieldsOf(new(*service2.Service), "EmailService"),
+)
 
 var handlerSet = wire.NewSet(base.ProvideHealthHandler, base.ProvideBaseHandler, handler.ProvideUserHandler, handler.ProvideChannelHandler, handler.ProvideMasterConfigHandler, handler.ProvideAdminHandler, handler.ProvideCustomerHandler, handler.ProvideEnquiryHandler, handler.ProvideOrderHandler, handler.ProvideOrderItemHandler, handler.ProvideMeasurementHandler, handler.ProvidePersonHandler, handler.ProvideDressTypeHandler, handler.ProvideOrderHistoryHandler, handler.ProvideMeasurementHistoryHandler, handler.ProvideEnquiryHistoryHandler, handler.ProvideExpenseTrackerHandler)
 
@@ -166,7 +176,9 @@ var logSet = wire.NewSet(newreliclog.ProvideNewRelic)
 
 var routerSet = wire.NewSet(router.InitRouter)
 
-var dbSet = wire.NewSet(db.ProvideDatabase, db.ProvideDBTransactionManager)
+var dbSet = wire.NewSet(
+	ProvideDatabaseConnectionParams, db.ProvideDatabase, db.ProvideDBTransactionManager,
+)
 
 var mapperSet = wire.NewSet(mapper.ProvideMapper, mapper.ProvideResponseMapper)
 

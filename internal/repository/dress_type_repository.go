@@ -4,10 +4,9 @@ import (
 	"context"
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
-	"github.com/imkarthi24/sf-backend/internal/repository/common"
 	"github.com/imkarthi24/sf-backend/internal/repository/scopes"
-	"github.com/imkarthi24/sf-backend/pkg/db"
-	"github.com/imkarthi24/sf-backend/pkg/errs"
+	"github.com/loop-kar/pixie/db"
+	"github.com/loop-kar/pixie/errs"
 )
 
 type DressTypeRepository interface {
@@ -19,16 +18,15 @@ type DressTypeRepository interface {
 }
 
 type dressTypeRepository struct {
-	txn      db.DBTransactionManager
-	customDB common.CustomGormDB
+	GormDAL
 }
 
-func ProvideDressTypeRepository(txn db.DBTransactionManager, customDB common.CustomGormDB) DressTypeRepository {
-	return &dressTypeRepository{txn: txn, customDB: customDB}
+func ProvideDressTypeRepository(customDB GormDAL) DressTypeRepository {
+	return &dressTypeRepository{GormDAL: customDB}
 }
 
 func (dtr *dressTypeRepository) Create(ctx *context.Context, dressType *entities.DressType) *errs.XError {
-	res := dtr.txn.Txn(ctx).Create(&dressType)
+	res := dtr.WithDB(ctx).Create(&dressType)
 	if res.Error != nil {
 		return errs.NewXError(errs.DATABASE, "Unable to save dress type", res.Error)
 	}
@@ -36,12 +34,12 @@ func (dtr *dressTypeRepository) Create(ctx *context.Context, dressType *entities
 }
 
 func (dtr *dressTypeRepository) Update(ctx *context.Context, dressType *entities.DressType) *errs.XError {
-	return dtr.customDB.Update(ctx, *dressType)
+	return dtr.GormDAL.Update(ctx, *dressType)
 }
 
 func (dtr *dressTypeRepository) Get(ctx *context.Context, id uint) (*entities.DressType, *errs.XError) {
 	dressType := entities.DressType{}
-	res := dtr.txn.Txn(ctx).Find(&dressType, id)
+	res := dtr.WithDB(ctx).Find(&dressType, id)
 	if res.Error != nil {
 		return nil, errs.NewXError(errs.DATABASE, "Unable to find dress type", res.Error)
 	}
@@ -50,7 +48,7 @@ func (dtr *dressTypeRepository) Get(ctx *context.Context, id uint) (*entities.Dr
 
 func (dtr *dressTypeRepository) GetAll(ctx *context.Context, search string) ([]entities.DressType, *errs.XError) {
 	var dressTypes []entities.DressType
-	res := dtr.txn.Txn(ctx).Table(entities.DressType{}.TableNameForQuery()).
+	res := dtr.WithDB(ctx).Table(entities.DressType{}.TableNameForQuery()).
 		Scopes(scopes.Channel(), scopes.IsActive()).
 		Scopes(scopes.ILike(search, "name")).
 		Scopes(db.Paginate(ctx)).
@@ -63,7 +61,7 @@ func (dtr *dressTypeRepository) GetAll(ctx *context.Context, search string) ([]e
 
 func (dtr *dressTypeRepository) Delete(ctx *context.Context, id uint) *errs.XError {
 	dressType := &entities.DressType{Model: &entities.Model{ID: id, IsActive: false}}
-	err := dtr.customDB.Delete(ctx, dressType)
+	err := dtr.GormDAL.Delete(ctx, dressType)
 	if err != nil {
 		return err
 	}

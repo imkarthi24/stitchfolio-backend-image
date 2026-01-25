@@ -4,10 +4,9 @@ import (
 	"context"
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
-	"github.com/imkarthi24/sf-backend/internal/repository/common"
 	"github.com/imkarthi24/sf-backend/internal/repository/scopes"
-	"github.com/imkarthi24/sf-backend/pkg/db"
-	"github.com/imkarthi24/sf-backend/pkg/errs"
+	"github.com/loop-kar/pixie/db"
+	"github.com/loop-kar/pixie/errs"
 )
 
 type PersonRepository interface {
@@ -20,16 +19,15 @@ type PersonRepository interface {
 }
 
 type personRepository struct {
-	txn      db.DBTransactionManager
-	customDB common.CustomGormDB
+	GormDAL
 }
 
-func ProvidePersonRepository(txn db.DBTransactionManager, customDB common.CustomGormDB) PersonRepository {
-	return &personRepository{txn: txn, customDB: customDB}
+func ProvidePersonRepository(customDB GormDAL) PersonRepository {
+	return &personRepository{GormDAL: customDB}
 }
 
 func (pr *personRepository) Create(ctx *context.Context, person *entities.Person) *errs.XError {
-	res := pr.txn.Txn(ctx).Create(&person)
+	res := pr.WithDB(ctx).Create(&person)
 	if res.Error != nil {
 		return errs.NewXError(errs.DATABASE, "Unable to save person", res.Error)
 	}
@@ -37,12 +35,12 @@ func (pr *personRepository) Create(ctx *context.Context, person *entities.Person
 }
 
 func (pr *personRepository) Update(ctx *context.Context, person *entities.Person) *errs.XError {
-	return pr.customDB.Update(ctx, *person)
+	return pr.GormDAL.Update(ctx, *person)
 }
 
 func (pr *personRepository) Get(ctx *context.Context, id uint) (*entities.Person, *errs.XError) {
 	person := entities.Person{}
-	res := pr.txn.Txn(ctx).
+	res := pr.WithDB(ctx).
 		Preload("Customer").
 		Preload("Measurements").
 		Find(&person, id)
@@ -54,7 +52,7 @@ func (pr *personRepository) Get(ctx *context.Context, id uint) (*entities.Person
 
 func (pr *personRepository) GetAll(ctx *context.Context, search string) ([]entities.Person, *errs.XError) {
 	var persons []entities.Person
-	res := pr.txn.Txn(ctx).Table(entities.Person{}.TableNameForQuery()).
+	res := pr.WithDB(ctx).Table(entities.Person{}.TableNameForQuery()).
 		Scopes(scopes.Channel(), scopes.IsActive()).
 		Scopes(scopes.ILike(search, "name")).
 		Scopes(db.Paginate(ctx)).
@@ -68,7 +66,7 @@ func (pr *personRepository) GetAll(ctx *context.Context, search string) ([]entit
 
 func (pr *personRepository) Delete(ctx *context.Context, id uint) *errs.XError {
 	person := &entities.Person{Model: &entities.Model{ID: id, IsActive: false}}
-	err := pr.customDB.Delete(ctx, person)
+	err := pr.GormDAL.Delete(ctx, person)
 	if err != nil {
 		return err
 	}
@@ -77,7 +75,7 @@ func (pr *personRepository) Delete(ctx *context.Context, id uint) *errs.XError {
 
 func (pr *personRepository) GetByCustomerId(ctx *context.Context, customerId uint) ([]entities.Person, *errs.XError) {
 	var persons []entities.Person
-	res := pr.txn.Txn(ctx).
+	res := pr.WithDB(ctx).
 		Where("customer_id = ?", customerId).
 		Scopes(scopes.IsActive()).
 		Preload("Measurements").

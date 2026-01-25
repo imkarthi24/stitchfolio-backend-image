@@ -18,10 +18,6 @@ type Customer struct {
 	Orders    []Order   `gorm:"foreignKey:CustomerId;constraint:OnDelete:CASCADE" json:"orders"`
 }
 
-func (Customer) TableName() string {
-	return "stich.Customers"
-}
-
 func (Customer) TableNameForQuery() string {
 	return "\"stich\".\"Customers\" E"
 }

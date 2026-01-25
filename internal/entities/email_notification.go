@@ -12,10 +12,6 @@ type EmailNotification struct {
 	Notification   *Notification `json:"-"`
 }
 
-func (EmailNotification) TableName() string {
-	return "stich.EmailNotifications"
-}
-
 func (EmailNotification) TableNameForQuery() string {
 	return "\"stich\".\"EmailNotifications\" E"
 }

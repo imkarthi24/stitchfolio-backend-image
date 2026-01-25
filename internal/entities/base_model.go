@@ -3,7 +3,7 @@ package entities
 import (
 	"time"
 
-	"github.com/imkarthi24/sf-backend/pkg/constants"
+	"github.com/loop-kar/pixie/constants"
 	"gorm.io/gorm"
 )
 

@@ -5,10 +5,10 @@
 -- CREATE TABLES
 -- ====================================
 
-CREATE TABLE IF NOT EXISTS stitch."Channels" (
+CREATE TABLE IF NOT EXISTS stich."Channels" (
   id BIGSERIAL NOT NULL,
-  created_at TEXT,
-  updated_at TEXT,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   is_active BOOL DEFAULT true,
   created_by_id INTEGER,
   updated_by_id INTEGER,
@@ -19,10 +19,10 @@ CREATE TABLE IF NOT EXISTS stitch."Channels" (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS stitch."Customers" (
+CREATE TABLE IF NOT EXISTS stich."Customers" (
   id BIGSERIAL NOT NULL,
-  created_at TEXT,
-  updated_at TEXT,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   is_active BOOL DEFAULT true,
   created_by_id INTEGER,
   updated_by_id INTEGER,
@@ -36,10 +36,10 @@ CREATE TABLE IF NOT EXISTS stitch."Customers" (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS stitch."DressTypes" (
+CREATE TABLE IF NOT EXISTS stich."DressTypes" (
   id BIGSERIAL NOT NULL,
-  created_at TEXT,
-  updated_at TEXT,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   is_active BOOL DEFAULT true,
   created_by_id INTEGER,
   updated_by_id INTEGER,
@@ -49,10 +49,10 @@ CREATE TABLE IF NOT EXISTS stitch."DressTypes" (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS stitch."EmailNotifications" (
+CREATE TABLE IF NOT EXISTS stich."EmailNotifications" (
   id BIGSERIAL NOT NULL,
-  created_at TEXT,
-  updated_at TEXT,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   is_active BOOL DEFAULT true,
   created_by_id INTEGER,
   updated_by_id INTEGER,
@@ -65,10 +65,10 @@ CREATE TABLE IF NOT EXISTS stitch."EmailNotifications" (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS stitch."EnquiryHistories" (
+CREATE TABLE IF NOT EXISTS stich."EnquiryHistories" (
   id BIGSERIAL NOT NULL,
-  created_at TEXT,
-  updated_at TEXT,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   is_active BOOL DEFAULT true,
   created_by_id INTEGER,
   updated_by_id INTEGER,
@@ -76,21 +76,21 @@ CREATE TABLE IF NOT EXISTS stitch."EnquiryHistories" (
   status TEXT,
   employee_comment TEXT,
   customer_comment TEXT,
-  visiting_date TEXT,
-  call_back_date TEXT,
-  enquiry_date TEXT,
+  visiting_date TIMESTAMPTZ,
+  call_back_date TIMESTAMPTZ,
+  enquiry_date TIMESTAMPTZ,
   response_status TEXT,
   enquiry_id INTEGER,
   employee_id INTEGER,
-  performed_at TEXT NOT NULL,
+  performed_at TIMESTAMPTZ NOT NULL,
   performed_by_id INTEGER,
   PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS stitch."Enquiries" (
+CREATE TABLE IF NOT EXISTS stich."Enquiries" (
   id BIGSERIAL NOT NULL,
-  created_at TEXT,
-  updated_at TEXT,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   is_active BOOL DEFAULT true,
   created_by_id INTEGER,
   updated_by_id INTEGER,
@@ -105,10 +105,10 @@ CREATE TABLE IF NOT EXISTS stitch."Enquiries" (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS stitch."MasterConfigs" (
+CREATE TABLE IF NOT EXISTS stich."MasterConfigs" (
   id BIGSERIAL NOT NULL,
-  created_at TEXT,
-  updated_at TEXT,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   is_active BOOL DEFAULT true,
   created_by_id INTEGER,
   updated_by_id INTEGER,
@@ -124,10 +124,10 @@ CREATE TABLE IF NOT EXISTS stitch."MasterConfigs" (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS stitch."Measurements" (
+CREATE TABLE IF NOT EXISTS stich."Measurements" (
   id BIGSERIAL NOT NULL,
-  created_at TEXT,
-  updated_at TEXT,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   is_active BOOL DEFAULT true,
   created_by_id INTEGER,
   updated_by_id INTEGER,
@@ -139,10 +139,10 @@ CREATE TABLE IF NOT EXISTS stitch."Measurements" (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS stitch."MeasurementHistories" (
+CREATE TABLE IF NOT EXISTS stich."MeasurementHistories" (
   id BIGSERIAL NOT NULL,
-  created_at TEXT,
-  updated_at TEXT,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   is_active BOOL DEFAULT true,
   created_by_id INTEGER,
   updated_by_id INTEGER,
@@ -150,15 +150,15 @@ CREATE TABLE IF NOT EXISTS stitch."MeasurementHistories" (
   action TEXT NOT NULL,
   old_values JSONB,
   measurement_id INTEGER,
-  performed_at TEXT NOT NULL,
+  performed_at TIMESTAMPTZ NOT NULL,
   performed_by_id INTEGER,
   PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS stitch."Notifications" (
+CREATE TABLE IF NOT EXISTS stich."Notifications" (
   id BIGSERIAL NOT NULL,
-  created_at TEXT,
-  updated_at TEXT,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   is_active BOOL DEFAULT true,
   created_by_id INTEGER,
   updated_by_id INTEGER,
@@ -169,10 +169,10 @@ CREATE TABLE IF NOT EXISTS stitch."Notifications" (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS stitch."OrderHistories" (
+CREATE TABLE IF NOT EXISTS stich."OrderHistories" (
   id BIGSERIAL NOT NULL,
-  created_at TEXT,
-  updated_at TEXT,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   is_active BOOL DEFAULT true,
   created_by_id INTEGER,
   updated_by_id INTEGER,
@@ -180,37 +180,37 @@ CREATE TABLE IF NOT EXISTS stitch."OrderHistories" (
   action TEXT NOT NULL,
   changed_fields TEXT,
   status TEXT,
-  expected_delivery_date TEXT,
-  delivered_date TEXT,
+  expected_delivery_date TIMESTAMPTZ,
+  delivered_date TIMESTAMPTZ,
   order_item_id INTEGER,
   order_item_data JSONB,
   order_id INTEGER,
-  performed_at TEXT NOT NULL,
+  performed_at TIMESTAMPTZ NOT NULL,
   performed_by_id INTEGER,
   PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS stitch."Orders" (
+CREATE TABLE IF NOT EXISTS stich."Orders" (
   id BIGSERIAL NOT NULL,
-  created_at TEXT,
-  updated_at TEXT,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   is_active BOOL DEFAULT true,
   created_by_id INTEGER,
   updated_by_id INTEGER,
   channel_id INTEGER,
   status TEXT,
   notes TEXT,
-  expected_delivery_date TEXT,
-  delivered_date TEXT,
+  expected_delivery_date TIMESTAMPTZ,
+  delivered_date TIMESTAMPTZ,
   customer_id INTEGER,
   order_taken_by_id INTEGER,
   PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS stitch."OrderItems" (
+CREATE TABLE IF NOT EXISTS stich."OrderItems" (
   id BIGSERIAL NOT NULL,
-  created_at TEXT,
-  updated_at TEXT,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   is_active BOOL DEFAULT true,
   created_by_id INTEGER,
   updated_by_id INTEGER,
@@ -219,31 +219,33 @@ CREATE TABLE IF NOT EXISTS stitch."OrderItems" (
   quantity INTEGER,
   price TEXT,
   total TEXT,
-  expected_delivery_date TEXT,
-  delivered_date TEXT,
+  expected_delivery_date TIMESTAMPTZ,
+  delivered_date TIMESTAMPTZ,
   person_id INTEGER,
   measurement_id INTEGER,
   order_id INTEGER,
   PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS stitch."Persons" (
+CREATE TABLE IF NOT EXISTS stich."Persons" (
   id BIGSERIAL NOT NULL,
-  created_at TEXT,
-  updated_at TEXT,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   is_active BOOL DEFAULT true,
   created_by_id INTEGER,
   updated_by_id INTEGER,
   channel_id INTEGER,
   name TEXT,
+  gender TEXT,
+  age INTEGER,
   customer_id INTEGER,
   PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS stitch."UserChannelDetails" (
+CREATE TABLE IF NOT EXISTS stich."UserChannelDetails" (
   id BIGSERIAL NOT NULL,
-  created_at TEXT,
-  updated_at TEXT,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   is_active BOOL DEFAULT true,
   created_by_id INTEGER,
   updated_by_id INTEGER,
@@ -253,10 +255,10 @@ CREATE TABLE IF NOT EXISTS stitch."UserChannelDetails" (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS stitch."UserConfigs" (
+CREATE TABLE IF NOT EXISTS stich."UserConfigs" (
   id BIGSERIAL NOT NULL,
-  created_at TEXT,
-  updated_at TEXT,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   is_active BOOL DEFAULT true,
   created_by_id INTEGER,
   updated_by_id INTEGER,
@@ -266,10 +268,10 @@ CREATE TABLE IF NOT EXISTS stitch."UserConfigs" (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS stitch."Users" (
+CREATE TABLE IF NOT EXISTS stich."Users" (
   id BIGSERIAL NOT NULL,
-  created_at TEXT,
-  updated_at TEXT,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   is_active BOOL DEFAULT true,
   created_by_id INTEGER,
   updated_by_id INTEGER,
@@ -283,7 +285,7 @@ CREATE TABLE IF NOT EXISTS stitch."Users" (
   role TEXT NOT NULL,
   is_login_disabled BOOLEAN,
   is_logged_in BOOLEAN,
-  last_login_time TEXT,
+  last_login_time TIMESTAMPTZ,
   login_failure_counter INTEGER,
   reset_password_string TEXT,
   experience TEXT,
@@ -291,10 +293,10 @@ CREATE TABLE IF NOT EXISTS stitch."Users" (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS stitch."WhatsappNotifications" (
+CREATE TABLE IF NOT EXISTS stich."WhatsappNotifications" (
   id BIGSERIAL NOT NULL,
-  created_at TEXT,
-  updated_at TEXT,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   is_active BOOL DEFAULT true,
   created_by_id INTEGER,
   updated_by_id INTEGER,
@@ -313,49 +315,49 @@ CREATE TABLE IF NOT EXISTS stitch."WhatsappNotifications" (
 -- ADD FOREIGN KEY CONSTRAINTS
 -- ====================================
 
-ALTER TABLE stitch."Channels" ADD CONSTRAINT fk_Channel_owner_user_id FOREIGN KEY (owner_user_id) REFERENCES stitch."Users" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE stich."Channels" ADD CONSTRAINT fk_Channel_owner_user_id FOREIGN KEY (owner_user_id) REFERENCES stich."Users" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE stitch."EmailNotifications" ADD CONSTRAINT fk_EmailNotification_notification_id FOREIGN KEY (notification_id) REFERENCES stitch."Notifications" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE stich."EmailNotifications" ADD CONSTRAINT fk_EmailNotification_notification_id FOREIGN KEY (notification_id) REFERENCES stich."Notifications" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE stitch."EnquiryHistories" ADD CONSTRAINT fk_EnquiryHistory_employee_id FOREIGN KEY (employee_id) REFERENCES stitch."Users" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE stich."EnquiryHistories" ADD CONSTRAINT fk_EnquiryHistory_employee_id FOREIGN KEY (employee_id) REFERENCES stich."Users" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE stitch."EnquiryHistories" ADD CONSTRAINT fk_EnquiryHistory_performed_by_id FOREIGN KEY (performed_by_id) REFERENCES stitch."Users" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE stich."EnquiryHistories" ADD CONSTRAINT fk_EnquiryHistory_performed_by_id FOREIGN KEY (performed_by_id) REFERENCES stich."Users" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE stitch."Enquiries" ADD CONSTRAINT fk_Enquiry_customer_id FOREIGN KEY (customer_id) REFERENCES stitch."Customers" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE stich."Enquiries" ADD CONSTRAINT fk_Enquiry_customer_id FOREIGN KEY (customer_id) REFERENCES stich."Customers" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE stitch."Measurements" ADD CONSTRAINT fk_Measurement_person_id FOREIGN KEY (person_id) REFERENCES stitch."Persons" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE stich."Measurements" ADD CONSTRAINT fk_Measurement_person_id FOREIGN KEY (person_id) REFERENCES stich."Persons" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE stitch."Measurements" ADD CONSTRAINT fk_Measurement_dress_type_id FOREIGN KEY (dress_type_id) REFERENCES stitch."DressTypes" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE stich."Measurements" ADD CONSTRAINT fk_Measurement_dress_type_id FOREIGN KEY (dress_type_id) REFERENCES stich."DressTypes" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE stitch."Measurements" ADD CONSTRAINT fk_Measurement_taken_by_id FOREIGN KEY (taken_by_id) REFERENCES stitch."Users" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE stich."Measurements" ADD CONSTRAINT fk_Measurement_taken_by_id FOREIGN KEY (taken_by_id) REFERENCES stich."Users" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE stitch."MeasurementHistories" ADD CONSTRAINT fk_MeasurementHistory_measurement_id FOREIGN KEY (measurement_id) REFERENCES stitch."Measurements" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE stich."MeasurementHistories" ADD CONSTRAINT fk_MeasurementHistory_measurement_id FOREIGN KEY (measurement_id) REFERENCES stich."Measurements" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE stitch."MeasurementHistories" ADD CONSTRAINT fk_MeasurementHistory_performed_by_id FOREIGN KEY (performed_by_id) REFERENCES stitch."Users" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE stich."MeasurementHistories" ADD CONSTRAINT fk_MeasurementHistory_performed_by_id FOREIGN KEY (performed_by_id) REFERENCES stich."Users" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE stitch."OrderHistories" ADD CONSTRAINT fk_OrderHistory_order_id FOREIGN KEY (order_id) REFERENCES stitch."Orders" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE stich."OrderHistories" ADD CONSTRAINT fk_OrderHistory_order_id FOREIGN KEY (order_id) REFERENCES stich."Orders" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE stitch."OrderHistories" ADD CONSTRAINT fk_OrderHistory_performed_by_id FOREIGN KEY (performed_by_id) REFERENCES stitch."Users" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE stich."OrderHistories" ADD CONSTRAINT fk_OrderHistory_performed_by_id FOREIGN KEY (performed_by_id) REFERENCES stich."Users" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE stitch."Orders" ADD CONSTRAINT fk_Order_customer_id FOREIGN KEY (customer_id) REFERENCES stitch."Customers" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE stich."Orders" ADD CONSTRAINT fk_Order_customer_id FOREIGN KEY (customer_id) REFERENCES stich."Customers" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE stitch."Orders" ADD CONSTRAINT fk_Order_order_taken_by_id FOREIGN KEY (order_taken_by_id) REFERENCES stitch."Users" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE stich."Orders" ADD CONSTRAINT fk_Order_order_taken_by_id FOREIGN KEY (order_taken_by_id) REFERENCES stich."Users" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE stitch."OrderItems" ADD CONSTRAINT fk_OrderItem_person_id FOREIGN KEY (person_id) REFERENCES stitch."Persons" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE stich."OrderItems" ADD CONSTRAINT fk_OrderItem_person_id FOREIGN KEY (person_id) REFERENCES stich."Persons" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE stitch."OrderItems" ADD CONSTRAINT fk_OrderItem_measurement_id FOREIGN KEY (measurement_id) REFERENCES stitch."Measurements" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE stich."OrderItems" ADD CONSTRAINT fk_OrderItem_measurement_id FOREIGN KEY (measurement_id) REFERENCES stich."Measurements" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE stitch."OrderItems" ADD CONSTRAINT fk_OrderItem_order_id FOREIGN KEY (order_id) REFERENCES stitch."Orders" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE stich."OrderItems" ADD CONSTRAINT fk_OrderItem_order_id FOREIGN KEY (order_id) REFERENCES stich."Orders" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE stitch."Persons" ADD CONSTRAINT fk_Person_customer_id FOREIGN KEY (customer_id) REFERENCES stitch."Customers" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE stich."Persons" ADD CONSTRAINT fk_Person_customer_id FOREIGN KEY (customer_id) REFERENCES stich."Customers" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE stitch."UserChannelDetails" ADD CONSTRAINT fk_UserChannelDetail_user_id FOREIGN KEY (user_id) REFERENCES stitch."Users" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE stich."UserChannelDetails" ADD CONSTRAINT fk_UserChannelDetail_user_id FOREIGN KEY (user_id) REFERENCES stich."Users" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE stitch."UserChannelDetails" ADD CONSTRAINT fk_UserChannelDetail_user_channel_id FOREIGN KEY (user_channel_id) REFERENCES stitch."Channels" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE stich."UserChannelDetails" ADD CONSTRAINT fk_UserChannelDetail_user_channel_id FOREIGN KEY (user_channel_id) REFERENCES stich."Channels" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE stitch."UserConfigs" ADD CONSTRAINT fk_UserConfig_user_id FOREIGN KEY (user_id) REFERENCES stitch."Users" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE stich."UserConfigs" ADD CONSTRAINT fk_UserConfig_user_id FOREIGN KEY (user_id) REFERENCES stich."Users" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE stitch."WhatsappNotifications" ADD CONSTRAINT fk_WhatsappNotification_notification_id FOREIGN KEY (notification_id) REFERENCES stitch."Notifications" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE stich."WhatsappNotifications" ADD CONSTRAINT fk_WhatsappNotification_notification_id FOREIGN KEY (notification_id) REFERENCES stich."Notifications" (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
 -- Migration completed successfully

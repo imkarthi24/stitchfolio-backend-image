@@ -42,10 +42,6 @@ type Order struct {
 	OrderValue    float64 `gorm:"-" json:"-"`
 }
 
-func (Order) TableName() string {
-	return "stich.Orders"
-}
-
 func (Order) TableNameForQuery() string {
 	return "\"stich\".\"Orders\" E"
 }

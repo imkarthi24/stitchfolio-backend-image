@@ -4,10 +4,9 @@ import (
 	"context"
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
-	"github.com/imkarthi24/sf-backend/internal/repository/common"
 	"github.com/imkarthi24/sf-backend/internal/repository/scopes"
-	"github.com/imkarthi24/sf-backend/pkg/db"
-	"github.com/imkarthi24/sf-backend/pkg/errs"
+	"github.com/loop-kar/pixie/db"
+	"github.com/loop-kar/pixie/errs"
 )
 
 type ChannelRepository interface {
@@ -20,16 +19,15 @@ type ChannelRepository interface {
 }
 
 type channelRepository struct {
-	txn      db.DBTransactionManager
-	customDB common.CustomGormDB
+	GormDAL
 }
 
-func ProvideChannelRepository(txn db.DBTransactionManager, customDB common.CustomGormDB) ChannelRepository {
-	return &channelRepository{txn: txn, customDB: customDB}
+func ProvideChannelRepository(customDB GormDAL) ChannelRepository {
+	return &channelRepository{GormDAL: customDB}
 }
 
 func (ur *channelRepository) Save(ctx *context.Context, channel *entities.Channel) *errs.XError {
-	res := ur.txn.Txn(ctx).Create(&channel)
+	res := ur.WithDB(ctx).Create(&channel)
 	if res.Error != nil {
 		return errs.NewXError(errs.DATABASE, "Unable to save channel", res.Error)
 	}
@@ -47,12 +45,12 @@ func (ur *channelRepository) Save(ctx *context.Context, channel *entities.Channe
 }
 
 func (ur *channelRepository) Update(ctx *context.Context, channel *entities.Channel) *errs.XError {
-	return ur.customDB.Update(ctx, *channel)
+	return ur.GormDAL.Update(ctx, *channel)
 }
 
-func (repo *channelRepository) Get(ctx *context.Context, id uint) (*entities.Channel, *errs.XError) {
+func (ur *channelRepository) Get(ctx *context.Context, id uint) (*entities.Channel, *errs.XError) {
 	channel := entities.Channel{}
-	res := repo.txn.Txn(ctx).
+	res := ur.WithDB(ctx).
 		Preload("OwnerUser").
 		Find(&channel, id)
 
@@ -62,20 +60,20 @@ func (repo *channelRepository) Get(ctx *context.Context, id uint) (*entities.Cha
 	return &channel, nil
 }
 
-func (repo *channelRepository) Delete(ctx *context.Context, id uint) *errs.XError {
+func (ur *channelRepository) Delete(ctx *context.Context, id uint) *errs.XError {
 
 	channel := &entities.Channel{Model: &entities.Model{ID: id, IsActive: false}}
 
-	err := repo.customDB.Delete(ctx, channel)
+	err := ur.GormDAL.Delete(ctx, channel)
 
 	return err
 
 }
 
-func (repo *channelRepository) GetAllChannels(ctx *context.Context, autoCompName string) ([]entities.Channel, *errs.XError) {
+func (ur *channelRepository) GetAllChannels(ctx *context.Context, autoCompName string) ([]entities.Channel, *errs.XError) {
 	channels := new([]entities.Channel)
 
-	res := repo.txn.Txn(ctx).
+	res := ur.WithDB(ctx).
 		Preload("OwnerUser").
 		Scopes(scopes.ChannelAutoComplete_Filter(autoCompName)).
 		Scopes(scopes.IsActive()).
@@ -89,10 +87,10 @@ func (repo *channelRepository) GetAllChannels(ctx *context.Context, autoCompName
 	return *channels, nil
 }
 
-func (repo *channelRepository) ChannelAutoComplete(ctx *context.Context, autoCompName string) ([]entities.Channel, *errs.XError) {
+func (ur *channelRepository) ChannelAutoComplete(ctx *context.Context, autoCompName string) ([]entities.Channel, *errs.XError) {
 	channels := new([]entities.Channel)
 
-	res := repo.txn.Txn(ctx).
+	res := ur.WithDB(ctx).
 		Scopes(scopes.ChannelAutoComplete_Filter(autoCompName)).
 		Select("id", "name").
 		Find(&channels)

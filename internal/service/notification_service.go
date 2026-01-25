@@ -9,8 +9,9 @@ import (
 	"github.com/imkarthi24/sf-backend/internal/mapper"
 	requestModel "github.com/imkarthi24/sf-backend/internal/model/request"
 	"github.com/imkarthi24/sf-backend/internal/repository"
-	"github.com/imkarthi24/sf-backend/pkg/errs"
-	"github.com/imkarthi24/sf-backend/pkg/util"
+	"github.com/loop-kar/pixie/errs"
+	"github.com/loop-kar/pixie/service/email"
+	"github.com/loop-kar/pixie/util"
 )
 
 type NotificationService interface {
@@ -25,13 +26,15 @@ type notificationService struct {
 	notifRepo  repository.NotificationRepository
 	mapper     mapper.Mapper
 	smtpConfig config.SMTPConfig
+	emailSvc   email.EmailService
 }
 
-func ProvideNotificationService(repo repository.NotificationRepository, mapper mapper.Mapper, smtpConfig config.SMTPConfig) NotificationService {
+func ProvideNotificationService(repo repository.NotificationRepository, mapper mapper.Mapper, smtpConfig config.SMTPConfig, emailSvc email.EmailService) NotificationService {
 	return &notificationService{
 		notifRepo:  repo,
 		mapper:     mapper,
 		smtpConfig: smtpConfig,
+		emailSvc:   emailSvc,
 	}
 }
 
@@ -102,7 +105,7 @@ func createEmailNotification(notif requestModel.EmaiNotification) (*entities.Ema
 
 	if notif.EmailContent != nil {
 
-		_, body, err := util.BuildEmailBody(*notif.EmailContent)
+		_, body, err := email.BuildEmailBody(*notif.EmailContent)
 		if err != nil {
 			return nil, err
 		}
@@ -128,13 +131,13 @@ func (svc *notificationService) sendEmailNotification(ctx *context.Context, emai
 	var faulted bool
 	for _, notif := range emailNotifs {
 		recipients := []string{notif.ToMailAddress}
-		mail := util.EmailContent{
+		mail := email.EmailContent{
 			To:      recipients,
 			Subject: notif.Subject,
 			Message: &notif.Body,
 		}
 
-		err := util.SendEmail(&svc.smtpConfig, mail)
+		err := svc.emailSvc.SendEmail(mail)
 		notifStatus := entities.NOTIF_COMPLETED
 		if err != nil {
 			notifStatus = entities.NOTIF_FAULTED

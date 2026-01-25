@@ -4,10 +4,9 @@ import (
 	"context"
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
-	"github.com/imkarthi24/sf-backend/internal/repository/common"
 	"github.com/imkarthi24/sf-backend/internal/repository/scopes"
-	"github.com/imkarthi24/sf-backend/pkg/db"
-	"github.com/imkarthi24/sf-backend/pkg/errs"
+	"github.com/loop-kar/pixie/db"
+	"github.com/loop-kar/pixie/errs"
 )
 
 type MeasurementHistoryRepository interface {
@@ -18,16 +17,15 @@ type MeasurementHistoryRepository interface {
 }
 
 type measurementHistoryRepository struct {
-	txn      db.DBTransactionManager
-	customDB common.CustomGormDB
+	GormDAL
 }
 
-func ProvideMeasurementHistoryRepository(txn db.DBTransactionManager, customDB common.CustomGormDB) MeasurementHistoryRepository {
-	return &measurementHistoryRepository{txn: txn, customDB: customDB}
+func ProvideMeasurementHistoryRepository(customDB GormDAL) MeasurementHistoryRepository {
+	return &measurementHistoryRepository{GormDAL: customDB}
 }
 
 func (mhr *measurementHistoryRepository) Create(ctx *context.Context, measurementHistory *entities.MeasurementHistory) *errs.XError {
-	res := mhr.txn.Txn(ctx).Create(&measurementHistory)
+	res := mhr.WithDB(ctx).Create(&measurementHistory)
 	if res.Error != nil {
 		return errs.NewXError(errs.DATABASE, "Unable to save measurement history", res.Error)
 	}
@@ -36,7 +34,7 @@ func (mhr *measurementHistoryRepository) Create(ctx *context.Context, measuremen
 
 func (mhr *measurementHistoryRepository) Get(ctx *context.Context, id uint) (*entities.MeasurementHistory, *errs.XError) {
 	measurementHistory := entities.MeasurementHistory{}
-	res := mhr.txn.Txn(ctx).
+	res := mhr.WithDB(ctx).
 		Preload("Measurement").
 		Preload("PerformedBy", scopes.SelectFields("first_name", "last_name")).
 		Find(&measurementHistory, id)
@@ -48,7 +46,7 @@ func (mhr *measurementHistoryRepository) Get(ctx *context.Context, id uint) (*en
 
 func (mhr *measurementHistoryRepository) GetAll(ctx *context.Context, search string) ([]entities.MeasurementHistory, *errs.XError) {
 	var measurementHistories []entities.MeasurementHistory
-	res := mhr.txn.Txn(ctx).Table(entities.MeasurementHistory{}.TableNameForQuery()).
+	res := mhr.WithDB(ctx).Table(entities.MeasurementHistory{}.TableNameForQuery()).
 		Scopes(scopes.Channel(), scopes.IsActive()).
 		Scopes(db.Paginate(ctx)).
 		Preload("Measurement").
@@ -62,7 +60,7 @@ func (mhr *measurementHistoryRepository) GetAll(ctx *context.Context, search str
 
 func (mhr *measurementHistoryRepository) GetByMeasurementId(ctx *context.Context, measurementId uint) ([]entities.MeasurementHistory, *errs.XError) {
 	var measurementHistories []entities.MeasurementHistory
-	res := mhr.txn.Txn(ctx).
+	res := mhr.WithDB(ctx).
 		Where("measurement_id = ?", measurementId).
 		Scopes(scopes.IsActive()).
 		Preload("PerformedBy", scopes.SelectFields("first_name", "last_name")).

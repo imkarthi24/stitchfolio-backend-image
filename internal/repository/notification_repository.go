@@ -5,8 +5,7 @@ import (
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
 	"github.com/imkarthi24/sf-backend/internal/repository/scopes"
-	"github.com/imkarthi24/sf-backend/pkg/db"
-	"github.com/imkarthi24/sf-backend/pkg/errs"
+	"github.com/loop-kar/pixie/errs"
 )
 
 type NotificationRepository interface {
@@ -17,16 +16,16 @@ type NotificationRepository interface {
 }
 
 type notificationRepository struct {
-	txn db.DBTransactionManager
+	GormDAL
 }
 
-func ProvideNotificationRepository(txn db.DBTransactionManager) NotificationRepository {
-	return &notificationRepository{txn: txn}
+func ProvideNotificationRepository(customDB GormDAL) NotificationRepository {
+	return &notificationRepository{GormDAL: customDB}
 
 }
 
 func (repo *notificationRepository) CreateNotification(ctx *context.Context, notif entities.Notification) *errs.XError {
-	res := repo.txn.Txn(ctx).Create(&notif)
+	res := repo.WithDB(ctx).Create(&notif)
 	if res.Error != nil {
 		return errs.NewXError(errs.DATABASE, "Unable to create notification", res.Error)
 	}
@@ -36,7 +35,7 @@ func (repo *notificationRepository) CreateNotification(ctx *context.Context, not
 func (repo *notificationRepository) GetPendingNotifications(ctx *context.Context) ([]entities.Notification, *errs.XError) {
 	pendingNotifications := make([]entities.Notification, 0)
 
-	res := repo.txn.Txn(ctx).
+	res := repo.WithDB(ctx).
 		Scopes(scopes.IsActive()).
 		Preload("EmailNotifications").
 		Preload("WhatsappNotifications").
@@ -55,7 +54,7 @@ func (repo *notificationRepository) UpdateEmailNotificationStatus(ctx *context.C
 		Model:  &entities.Model{ID: id},
 		Status: string(status),
 	}
-	res := repo.txn.Txn(ctx).Updates(notif)
+	res := repo.WithDB(ctx).Updates(notif)
 	if res.Error != nil {
 		return errs.NewXError(errs.DATABASE, "Unable to update Notification", res.Error)
 	}
@@ -67,7 +66,7 @@ func (repo *notificationRepository) UpdateNotificationStatus(ctx *context.Contex
 		Model:  &entities.Model{ID: id},
 		Status: status,
 	}
-	res := repo.txn.Txn(ctx).Updates(notif)
+	res := repo.WithDB(ctx).Updates(notif)
 	if res.Error != nil {
 		return errs.NewXError(errs.DATABASE, "Unable to update Notification", res.Error)
 	}

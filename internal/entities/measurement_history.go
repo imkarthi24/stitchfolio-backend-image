@@ -29,10 +29,6 @@ type MeasurementHistory struct {
 	PerformedBy   *User     `gorm:"foreignKey:PerformedById" json:"-"`
 }
 
-func (MeasurementHistory) TableName() string {
-	return "stich.MeasurementHistories"
-}
-
 func (MeasurementHistory) TableNameForQuery() string {
 	return "\"stich\".\"MeasurementHistories\" E"
 }

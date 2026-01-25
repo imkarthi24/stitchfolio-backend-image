@@ -5,7 +5,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/imkarthi24/sf-backend/pkg/config"
+	"github.com/loop-kar/pixie/config"
 )
 
 const (

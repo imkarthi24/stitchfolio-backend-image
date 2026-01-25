@@ -6,8 +6,8 @@ import (
 	"github.com/imkarthi24/sf-backend/internal/config"
 	"github.com/imkarthi24/sf-backend/internal/service/base"
 	tsk "github.com/imkarthi24/sf-backend/internal/task"
-	_log "github.com/imkarthi24/sf-backend/pkg/log"
-	"github.com/imkarthi24/sf-backend/pkg/task"
+	_log "github.com/loop-kar/pixie/log"
+	"github.com/loop-kar/pixie/task"
 
 	"github.com/newrelic/go-agent/v3/newrelic"
 

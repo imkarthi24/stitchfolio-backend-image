@@ -5,12 +5,12 @@ import (
 	"errors"
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
-	"github.com/imkarthi24/sf-backend/internal/repository/common"
 	"github.com/imkarthi24/sf-backend/internal/repository/scopes"
-	"github.com/imkarthi24/sf-backend/pkg/constants"
-	"github.com/imkarthi24/sf-backend/pkg/db"
-	"github.com/imkarthi24/sf-backend/pkg/errs"
-	"github.com/imkarthi24/sf-backend/pkg/util"
+	"github.com/loop-kar/pixie/db"
+	"github.com/loop-kar/pixie/errs"
+	"github.com/loop-kar/pixie/util"
+  "github.com/loop-kar/pixie/constants"
+	
 	"gorm.io/gorm"
 )
 
@@ -26,16 +26,15 @@ type MeasurementRepository interface {
 }
 
 type measurementRepository struct {
-	txn      db.DBTransactionManager
-	customDB common.CustomGormDB
+	GormDAL
 }
 
-func ProvideMeasurementRepository(txn db.DBTransactionManager, customDB common.CustomGormDB) MeasurementRepository {
-	return &measurementRepository{txn: txn, customDB: customDB}
+func ProvideMeasurementRepository(customDB GormDAL) MeasurementRepository {
+	return &measurementRepository{GormDAL: customDB}
 }
 
 func (mr *measurementRepository) Create(ctx *context.Context, measurement *entities.Measurement) *errs.XError {
-	res := mr.txn.Txn(ctx).Create(&measurement)
+	res := mr.WithDB(ctx).Create(&measurement)
 	if res.Error != nil {
 		return errs.NewXError(errs.DATABASE, "Unable to save measurement", res.Error)
 	}
@@ -55,7 +54,7 @@ func (mr *measurementRepository) BatchCreate(ctx *context.Context, measurements 
 }
 
 func (mr *measurementRepository) Update(ctx *context.Context, measurement *entities.Measurement) *errs.XError {
-	return mr.customDB.Update(ctx, *measurement)
+	return mr.GormDAL.Update(ctx, *measurement)
 }
 
 func (mr *measurementRepository) BatchUpdate(ctx *context.Context, measurements []*entities.Measurement) *errs.XError {
@@ -78,7 +77,7 @@ func (mr *measurementRepository) BatchUpdate(ctx *context.Context, measurements 
 
 func (mr *measurementRepository) Get(ctx *context.Context, id uint) (*entities.Measurement, *errs.XError) {
 	measurement := entities.Measurement{}
-	res := mr.txn.Txn(ctx).
+	res := mr.WithDB(ctx).
 		Preload("Person").
 		Preload("DressType").
 		Preload("TakenBy", scopes.SelectFields("first_name", "last_name")).
@@ -129,7 +128,7 @@ func (mr *measurementRepository) GetAll(ctx *context.Context, search string) ([]
 
 func (mr *measurementRepository) Delete(ctx *context.Context, id uint) *errs.XError {
 	measurement := &entities.Measurement{Model: &entities.Model{ID: id, IsActive: false}}
-	err := mr.customDB.Delete(ctx, measurement)
+	err := mr.GormDAL.Delete(ctx, measurement)
 	if err != nil {
 		return err
 	}

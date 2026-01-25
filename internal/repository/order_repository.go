@@ -4,12 +4,11 @@ import (
 	"context"
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
-	"github.com/imkarthi24/sf-backend/internal/repository/common"
 	"github.com/imkarthi24/sf-backend/internal/repository/scopes"
-	"github.com/imkarthi24/sf-backend/pkg/constants"
-	"github.com/imkarthi24/sf-backend/pkg/db"
-	"github.com/imkarthi24/sf-backend/pkg/errs"
-	"github.com/imkarthi24/sf-backend/pkg/util"
+	"github.com/loop-kar/pixie/db"
+	"github.com/loop-kar/pixie/errs"
+  "github.com/loop-kar/pixie/constants"
+	"github.com/loop-kar/pixie/util"	
 )
 
 type OrderRepository interface {
@@ -21,16 +20,15 @@ type OrderRepository interface {
 }
 
 type orderRepository struct {
-	txn      db.DBTransactionManager
-	customDB common.CustomGormDB
+	GormDAL
 }
 
-func ProvideOrderRepository(txn db.DBTransactionManager, customDB common.CustomGormDB) OrderRepository {
-	return &orderRepository{txn: txn, customDB: customDB}
+func ProvideOrderRepository(customDB GormDAL) OrderRepository {
+	return &orderRepository{GormDAL: customDB}
 }
 
 func (or *orderRepository) Create(ctx *context.Context, order *entities.Order) *errs.XError {
-	res := or.txn.Txn(ctx).Create(&order)
+	res := or.WithDB(ctx).Create(&order)
 	if res.Error != nil {
 		return errs.NewXError(errs.DATABASE, "Unable to save order", res.Error)
 	}
@@ -38,12 +36,12 @@ func (or *orderRepository) Create(ctx *context.Context, order *entities.Order) *
 }
 
 func (or *orderRepository) Update(ctx *context.Context, order *entities.Order) *errs.XError {
-	return or.customDB.Update(ctx, *order)
+	return or.GormDAL.Update(ctx, *order)
 }
 
 func (or *orderRepository) Get(ctx *context.Context, id uint) (*entities.Order, *errs.XError) {
 	order := entities.Order{}
-	res := or.txn.Txn(ctx).
+	res := or.WithDB(ctx).
 		Preload("Customer").
 		Preload("OrderTakenBy", scopes.SelectFields("first_name", "last_name")).
 		Preload("OrderItems.Person").
@@ -89,7 +87,7 @@ func (or *orderRepository) GetAll(ctx *context.Context, search string) ([]entiti
 
 func (or *orderRepository) Delete(ctx *context.Context, id uint) *errs.XError {
 	order := &entities.Order{Model: &entities.Model{ID: id, IsActive: false}}
-	err := or.customDB.Delete(ctx, order)
+	err := or.GormDAL.Delete(ctx, order)
 	if err != nil {
 		return err
 	}

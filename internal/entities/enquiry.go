@@ -24,10 +24,6 @@ type Enquiry struct {
 	Customer   *Customer `gorm:"foreignKey:CustomerId" json:"customer"`
 }
 
-func (Enquiry) TableName() string {
-	return "stich.Enquiries"
-}
-
 func (Enquiry) TableNameForQuery() string {
 	return "\"stich\".\"Enquiries\" E"
 }

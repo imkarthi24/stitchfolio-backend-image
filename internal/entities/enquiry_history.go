@@ -33,10 +33,6 @@ type EnquiryHistory struct {
 	PerformedBy   *User     `gorm:"foreignKey:PerformedById" json:"-"`
 }
 
-func (EnquiryHistory) TableName() string {
-	return "stich.EnquiryHistories"
-}
-
 func (EnquiryHistory) TableNameForQuery() string {
 	return "\"stich\".\"EnquiryHistories\" E"
 }

@@ -14,8 +14,9 @@ import (
 	responseModel "github.com/imkarthi24/sf-backend/internal/model/response"
 	"github.com/imkarthi24/sf-backend/internal/repository"
 	"github.com/imkarthi24/sf-backend/internal/utils"
-	"github.com/imkarthi24/sf-backend/pkg/errs"
-	"github.com/imkarthi24/sf-backend/pkg/util"
+	"github.com/loop-kar/pixie/errs"
+	"github.com/loop-kar/pixie/service/email"
+	"github.com/loop-kar/pixie/util"
 	"github.com/thoas/go-funk"
 )
 
@@ -51,15 +52,17 @@ type userService struct {
 	mapper      mapper.Mapper
 	config      config.AppConfig
 	respMapper  mapper.ResponseMapper
+	emailSvc    email.EmailService
 }
 
-func ProvideUserService(repo repository.UserRepository, channelRepo repository.ChannelRepository, mapper mapper.Mapper, config config.AppConfig, respMapper mapper.ResponseMapper) UserService {
+func ProvideUserService(repo repository.UserRepository, channelRepo repository.ChannelRepository, mapper mapper.Mapper, config config.AppConfig, respMapper mapper.ResponseMapper, emailSvc email.EmailService) UserService {
 	return userService{
 		userRepo:    repo,
 		channelRepo: channelRepo,
 		mapper:      mapper,
 		config:      config,
 		respMapper:  respMapper,
+		emailSvc:    emailSvc,
 	}
 }
 
@@ -272,7 +275,7 @@ func (svc userService) sendUserCreatedEmail(ctx *context.Context, user entities.
 
 	subject := fmt.Sprintf("Welcome to %s", welcomeTo)
 	recipients := []string{user.Email}
-	mail := util.EmailContent{
+	mail := email.EmailContent{
 		To:                   recipients,
 		Subject:              subject,
 		Message:              nil,
@@ -287,7 +290,7 @@ func (svc userService) sendUserCreatedEmail(ctx *context.Context, user entities.
 			"**SITE_URL**":             siteUrl,
 		},
 	}
-	err := util.SendEmail(&svc.config.SMTP, mail)
+	err := svc.emailSvc.SendEmail(mail)
 	if err != nil {
 		return errs.NewXError(errs.SMTP_ERROR, "Unable to send user created mail.", err)
 	}
@@ -311,7 +314,7 @@ func (svc userService) sendPasswordResetMail(ctx *context.Context, user entities
 		return err
 	}
 	recipients := []string{user.Email}
-	mail := util.EmailContent{
+	mail := email.EmailContent{
 		To:                   recipients,
 		Subject:              subject,
 		Message:              nil,
@@ -324,7 +327,7 @@ func (svc userService) sendPasswordResetMail(ctx *context.Context, user entities
 			"**SITE_URL**":          siteUrl,
 		},
 	}
-	errr := util.SendEmail(&svc.config.SMTP, mail)
+	errr := svc.emailSvc.SendEmail(mail)
 	if errr != nil {
 		return errs.NewXError(errs.SMTP_ERROR, "Unable to send password reset mail.", err)
 	}
@@ -346,7 +349,7 @@ func (svc userService) sendPasswordResetSuccessMail(ctx *context.Context, user e
 	}
 
 	recipients := []string{user.Email}
-	mail := util.EmailContent{
+	mail := email.EmailContent{
 		To:                   recipients,
 		Subject:              subject,
 		Message:              nil,
@@ -358,7 +361,7 @@ func (svc userService) sendPasswordResetSuccessMail(ctx *context.Context, user e
 			"**EMAIL**":                user.Email,
 		},
 	}
-	errr := util.SendEmail(&svc.config.SMTP, mail)
+	errr := svc.emailSvc.SendEmail(mail)
 	if errr != nil {
 		return errs.NewXError(errs.SMTP_ERROR, "Unable to send password reset success mail.", err)
 	}

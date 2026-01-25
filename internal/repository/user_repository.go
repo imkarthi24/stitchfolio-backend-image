@@ -4,11 +4,10 @@ import (
 	"context"
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
-	"github.com/imkarthi24/sf-backend/internal/repository/common"
 	"github.com/imkarthi24/sf-backend/internal/repository/scopes"
 	"github.com/imkarthi24/sf-backend/internal/utils"
-	"github.com/imkarthi24/sf-backend/pkg/db"
-	"github.com/imkarthi24/sf-backend/pkg/errs"
+	"github.com/loop-kar/pixie/db"
+	"github.com/loop-kar/pixie/errs"
 	"gorm.io/gorm/clause"
 )
 
@@ -38,16 +37,15 @@ type UserRepository interface {
 }
 
 type userRepository struct {
-	txn      db.DBTransactionManager
-	customDB common.CustomGormDB
+	GormDAL
 }
 
-func ProvideUserRepository(txn db.DBTransactionManager, customDB common.CustomGormDB) UserRepository {
-	return &userRepository{txn: txn, customDB: customDB}
+func ProvideUserRepository(customDB GormDAL) UserRepository {
+	return &userRepository{GormDAL: customDB}
 }
 
 func (ur *userRepository) Create(ctx *context.Context, user *entities.User) *errs.XError {
-	res := ur.txn.Txn(ctx).Create(&user)
+	res := ur.WithDB(ctx).Create(&user)
 	if res.Error != nil {
 		return errs.NewXError(errs.DATABASE, "Unable to save user", res.Error)
 	}
@@ -56,12 +54,12 @@ func (ur *userRepository) Create(ctx *context.Context, user *entities.User) *err
 }
 
 func (ur *userRepository) Update(ctx *context.Context, user *entities.User) *errs.XError {
-	return ur.customDB.Update(ctx, *user)
+	return ur.GormDAL.Update(ctx, *user)
 }
 
 func (ur *userRepository) GetUserByEmail(ctx *context.Context, email string) (*entities.User, *errs.XError) {
 	user := entities.User{}
-	res := ur.txn.Txn(ctx).Limit(1).
+	res := ur.WithDB(ctx).Limit(1).
 		Where("is_active = ? AND email = ?", true, email).
 		Preload("UserChannelDetails", scopes.IsActive(), scopes.SelectFields("user_id", "user_channel_id")).
 		Find(&user)
@@ -75,7 +73,7 @@ func (ur *userRepository) GetAllUsers(ctx *context.Context, search string) ([]en
 
 	users := new([]entities.User)
 
-	res := ur.txn.Txn(ctx).
+	res := ur.WithDB(ctx).
 		Scopes(scopes.Channel()).
 		Scopes(scopes.IsActive()).
 		Scopes(scopes.ILike(search, "first_name", "last_name", "email")).
@@ -94,7 +92,7 @@ func (ur *userRepository) GetAllUsers(ctx *context.Context, search string) ([]en
 func (repo *userRepository) Get(ctx *context.Context, id uint) (*entities.User, *errs.XError) {
 	user := entities.User{}
 	//-- Channel scope removed to allow system admin to access other channel while trying to switch channels
-	res := repo.txn.Txn(ctx).
+	res := repo.WithDB(ctx).
 		//Scopes(scopes.Channel()).
 		Find(&user, id)
 	if res.Error != nil {
@@ -107,7 +105,7 @@ func (repo *userRepository) Delete(ctx *context.Context, id uint) *errs.XError {
 
 	user := &entities.User{Model: &entities.Model{ID: id, IsActive: false}}
 
-	err := repo.customDB.Delete(ctx, user)
+	err := repo.GormDAL.Delete(ctx, user)
 
 	return err
 
@@ -118,7 +116,7 @@ func (repo *userRepository) SetPasswordReset(ctx *context.Context, userId uint, 
 		Model:               &entities.Model{ID: userId},
 		ResetPasswordString: &resetString,
 	}
-	res := repo.txn.Txn(ctx).Updates(user)
+	res := repo.WithDB(ctx).Updates(user)
 	if res.Error != nil {
 		return errs.NewXError(errs.DATABASE, "Unable to reset password", res.Error)
 	}
@@ -133,7 +131,7 @@ func (repo *userRepository) ResetPassword(ctx *context.Context, resetString, pas
 		"reset_password_string": nil,
 	}
 
-	res := repo.txn.Txn(ctx).Model(&user).
+	res := repo.WithDB(ctx).Model(&user).
 		Clauses(clause.Returning{}).
 		Where("reset_password_string = ?", resetString).
 		Updates(updateMap)
@@ -149,7 +147,7 @@ func (repo *userRepository) GetUsersForAutoComplete(ctx *context.Context, name s
 
 	users := new([]entities.User)
 
-	query := repo.txn.Txn(ctx).
+	query := repo.WithDB(ctx).
 		Scopes(scopes.SearchNameOrEmailOrPhone_Filter(name), scopes.AccessibleChannels(utils.GetAccessibleLocationIds(ctx)), scopes.IsActive()).
 		Scopes(db.Paginate(ctx)).
 		Where("role != ?", entities.SYSTEM_ADMIN).
@@ -180,7 +178,7 @@ func (ur *userRepository) UpdateChannel(ctx *context.Context, userId uint, chann
 	//we wont be able to update channel using normal ORM operations
 	//(gorm:"<-:create)
 
-	res := ur.txn.Txn(ctx).Exec("UPDATE \"Users\" SET channel_id = ? WHERE id = ?", chanId, userId)
+	res := ur.WithDB(ctx).Exec("UPDATE \"Users\" SET channel_id = ? WHERE id = ?", chanId, userId)
 	if res.Error != nil {
 		return errs.NewXError(errs.DATABASE, "Unable to update User channel", res.Error)
 	}
@@ -189,7 +187,7 @@ func (ur *userRepository) UpdateChannel(ctx *context.Context, userId uint, chann
 }
 
 func (ur *userRepository) CreateUserConfig(ctx *context.Context, config *entities.UserConfig) *errs.XError {
-	res := ur.txn.Txn(ctx).Create(&config)
+	res := ur.WithDB(ctx).Create(&config)
 	if res.Error != nil {
 		return errs.NewXError(errs.DATABASE, "Unable to save user config", res.Error)
 	}
@@ -199,7 +197,7 @@ func (ur *userRepository) CreateUserConfig(ctx *context.Context, config *entitie
 func (ur *userRepository) GetUserConfig(ctx *context.Context, userId uint) (*entities.UserConfig, *errs.XError) {
 
 	userConfig := entities.UserConfig{}
-	res := ur.txn.Txn(ctx).Limit(1).Where("is_active = ? AND user_id = ?", true, userId).Find(&userConfig)
+	res := ur.WithDB(ctx).Limit(1).Where("is_active = ? AND user_id = ?", true, userId).Find(&userConfig)
 	if res.Error != nil {
 		return nil, errs.NewXError(errs.DATABASE, "Unable to find user config", res.Error)
 	}
@@ -207,11 +205,11 @@ func (ur *userRepository) GetUserConfig(ctx *context.Context, userId uint) (*ent
 }
 
 func (ur *userRepository) UpdateUserConfig(ctx *context.Context, config *entities.UserConfig) *errs.XError {
-	return ur.customDB.Update(ctx, *config)
+	return ur.GormDAL.Update(ctx, *config)
 }
 
 func (ur *userRepository) CreateUserChannelDetail(ctx *context.Context, channelDetail *entities.UserChannelDetail) *errs.XError {
-	res := ur.txn.Txn(ctx).Create(&channelDetail)
+	res := ur.WithDB(ctx).Create(&channelDetail)
 	if res.Error != nil {
 		return errs.NewXError(errs.DATABASE, "Unable to save user channel details", res.Error)
 	}
@@ -219,19 +217,19 @@ func (ur *userRepository) CreateUserChannelDetail(ctx *context.Context, channelD
 }
 
 func (ur *userRepository) UpdateUserChannelDetail(ctx *context.Context, det *entities.UserChannelDetail) *errs.XError {
-	return ur.customDB.Update(ctx, *det)
+	return ur.GormDAL.Update(ctx, *det)
 }
 
 func (repo *userRepository) DeleteUserChannelDetail(ctx *context.Context, id uint) *errs.XError {
 	user := &entities.UserChannelDetail{Model: &entities.Model{ID: id, IsActive: false}}
-	err := repo.customDB.Delete(ctx, user)
+	err := repo.GormDAL.Delete(ctx, user)
 	return err
 }
 
 func (ur *userRepository) GetUserAccessibleChannels(ctx *context.Context, userId uint) ([]entities.UserChannelDetail, *errs.XError) {
 
 	channelDetails := make([]entities.UserChannelDetail, 0)
-	res := ur.txn.Txn(ctx).
+	res := ur.WithDB(ctx).
 		Preload("UserChannel", scopes.IsActive(), scopes.SelectFields("name")).
 		Where("is_active = ? AND user_id = ?", true, userId).
 		Find(&channelDetails)

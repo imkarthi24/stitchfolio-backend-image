@@ -17,10 +17,6 @@ type Measurement struct {
 	TakenBy   *User `gorm:"foreignKey:TakenById" json:"takenBy"`
 }
 
-func (Measurement) TableName() string {
-	return "stich.Measurements"
-}
-
 func (Measurement) TableNameForQuery() string {
 	return "\"stich\".\"Measurements\" E"
 

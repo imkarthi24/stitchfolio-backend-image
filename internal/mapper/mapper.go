@@ -6,7 +6,7 @@ import (
 	"github.com/imkarthi24/sf-backend/internal/entities"
 	entitiy_types "github.com/imkarthi24/sf-backend/internal/entities/types"
 	requestModel "github.com/imkarthi24/sf-backend/internal/model/request"
-	"github.com/imkarthi24/sf-backend/pkg/util"
+	"github.com/loop-kar/pixie/util"
 )
 
 type Mapper interface {
@@ -67,7 +67,7 @@ func (m mapper) User(e requestModel.User) (*entities.User, error) {
 
 func (*mapper) Channel(chnl requestModel.Channel) (*entities.Channel, error) {
 	return &entities.Channel{
-		Model:       &entities.Model{ID: chnl.ID},
+		Model:       &entities.Model{ID: chnl.ID, IsActive: chnl.IsActive},
 		Name:        chnl.Name,
 		Status:      entities.ChannelStatus(chnl.Status),
 		OwnerUserID: chnl.OwnerUserId,
