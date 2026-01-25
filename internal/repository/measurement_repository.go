@@ -117,7 +117,7 @@ func (mr *measurementRepository) GetAll(ctx *context.Context, search string) ([]
 		Joins(`INNER JOIN "stich"."DressTypes" DT ON DT.id = M.dress_type_id`).
 		Joins(`INNER JOIN "stich"."Persons" P ON P.id = M.person_id`).
 		Where("M.is_active = ?", true).
-		Group("M.person_id")
+		Group("person_id")
 
 	if !util.IsNilOrEmptyString(&search) {
 		formattedSearch := util.EncloseWithPercentageOperator(search)
@@ -132,7 +132,7 @@ func (mr *measurementRepository) GetAll(ctx *context.Context, search string) ([]
 
 	res := query.Scan(&groupedMeasurements)
 	if res.Error != nil {
-		return nil, errs.NewXError(errs.DATABASE, "Unable to find measurements", res.Error)
+		return nil, errs.NewXError(errs.DATABASE, "UNABLE_TO_FIND_MEASUREMENTS", res.Error)
 	}
 	return groupedMeasurements, nil
 }
