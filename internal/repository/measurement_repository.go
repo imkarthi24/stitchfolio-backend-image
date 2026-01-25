@@ -6,7 +6,6 @@ import (
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
 	"github.com/imkarthi24/sf-backend/internal/repository/scopes"
-	"github.com/loop-kar/pixie/constants"
 	"github.com/loop-kar/pixie/db"
 	"github.com/loop-kar/pixie/errs"
 	"github.com/loop-kar/pixie/util"
@@ -21,7 +20,7 @@ type MeasurementRepository interface {
 	BatchUpdate(*context.Context, []*entities.Measurement) *errs.XError
 	Get(*context.Context, uint) (*entities.Measurement, *errs.XError)
 	GetByPersonIdAndDressTypeId(*context.Context, uint, uint) (*entities.Measurement, *errs.XError)
-	GetAll(*context.Context, string) ([]entities.Measurement, *errs.XError)
+	GetAll(*context.Context, string) ([]entities.GroupedMeasurement, *errs.XError)
 	Delete(*context.Context, uint) *errs.XError
 }
 
@@ -102,28 +101,40 @@ func (mr *measurementRepository) GetByPersonIdAndDressTypeId(ctx *context.Contex
 	return &measurement, nil
 }
 
-func (mr *measurementRepository) GetAll(ctx *context.Context, search string) ([]entities.Measurement, *errs.XError) {
-	var measurements []entities.Measurement
+func (mr *measurementRepository) GetAll(ctx *context.Context, search string) ([]entities.GroupedMeasurement, *errs.XError) {
+	var groupedMeasurements []entities.GroupedMeasurement
 
-	filterValue := util.ReadValueFromContext(ctx, constants.FILTER_KEY)
-	var filter string
-	if filterValue != nil {
-		filter = filterValue.(string)
+	// filterValue := util.ReadValueFromContext(ctx, constants.FILTER_KEY)
+	// var filter string
+	// if filterValue != nil {
+	// 	filter = filterValue.(string)
+	// }
+
+	query := mr.WithDB(ctx).
+		Table("\"stich\".\"Measurements\" M").
+		Select(`M.person_id, 
+			STRING_AGG(DISTINCT DT.name, ',' ORDER BY DT.name) as dress_types`).
+		Joins(`INNER JOIN "stich"."DressTypes" DT ON DT.id = M.dress_type_id`).
+		Joins(`INNER JOIN "stich"."Persons" P ON P.id = M.person_id`).
+		Where("M.is_active = ?", true).
+		Group("M.person_id")
+
+	if !util.IsNilOrEmptyString(&search) {
+		formattedSearch := util.EncloseWithPercentageOperator(search)
+		query = query.Joins(`INNER JOIN "stich"."Customers" C ON C.id = P.customer_id`).
+			Where(`(C.first_name ILIKE ? OR C.last_name ILIKE ? OR CONCAT(C.first_name, ' ', C.last_name) ILIKE ?)`,
+				formattedSearch, formattedSearch, formattedSearch)
 	}
 
-	res := mr.WithDB(ctx).
-		Scopes(scopes.Channel(), scopes.IsActive()).
-		Scopes(scopes.GetMeasurements_Search(search)).
-		Scopes(scopes.GetMeasurements_Filter(filter)).
-		Scopes(db.Paginate(ctx)).
-		Preload("Person").
-		Preload("DressType").
-		Preload("TakenBy", scopes.SelectFields("first_name", "last_name")).
-		Find(&measurements)
+	query = query.Scopes(scopes.Channel("M"))
+
+	query = query.Scopes(db.Paginate(ctx))
+
+	res := query.Scan(&groupedMeasurements)
 	if res.Error != nil {
 		return nil, errs.NewXError(errs.DATABASE, "Unable to find measurements", res.Error)
 	}
-	return measurements, nil
+	return groupedMeasurements, nil
 }
 
 func (mr *measurementRepository) Delete(ctx *context.Context, id uint) *errs.XError {
