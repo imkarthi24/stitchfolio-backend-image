@@ -1531,25 +1531,19 @@ const docTemplate = `{
         },
         "/measurement": {
             "get": {
-                "description": "Get all active measurements",
+                "description": "Get all active measurements grouped by PersonId with DressTypes as CSV. Searches by Customer Name.",
                 "consumes": [
                     "application/json"
                 ],
                 "tags": [
                     "Measurement"
                 ],
-                "summary": "Get all active measurements",
+                "summary": "Get all active measurements grouped by PersonId",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "search",
+                        "description": "search by Customer Name (returns all Persons of that customer)",
                         "name": "search",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "filters (e.g., personId eq 1, takenById eq 2, dressTypeId eq 3, name eq 'Shirt')",
-                        "name": "filters",
                         "in": "query"
                     }
                 ],
@@ -1557,7 +1551,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/responseModel.Measurement"
+                            "$ref": "#/definitions/responseModel.GroupedMeasurement"
                         }
                     },
                     "400": {
@@ -4640,6 +4634,18 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updatedById": {
+                    "type": "integer"
+                }
+            }
+        },
+        "responseModel.GroupedMeasurement": {
+            "type": "object",
+            "properties": {
+                "dressTypes": {
+                    "description": "CSV of DressType names",
+                    "type": "string"
+                },
+                "personId": {
                     "type": "integer"
                 }
             }

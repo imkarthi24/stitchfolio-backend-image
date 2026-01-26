@@ -170,14 +170,13 @@ func (h MeasurementHandler) Get(ctx *gin.Context) {
 
 // Get all active measurements
 //
-//	@Summary		Get all active measurements
-//	@Description	Get all active measurements
+//	@Summary		Get all active measurements grouped by PersonId
+//	@Description	Get all active measurements grouped by PersonId with DressTypes as CSV. Searches by Customer Name.
 //	@Tags			Measurement
 //	@Accept			json
-//	@Success		200		{object}	responseModel.Measurement
+//	@Success		200		{object}	responseModel.GroupedMeasurement
 //	@Failure		400		{object}	response.DataResponse
-//	@Param			search	query		string	false	"search"
-//	@Param			filters	query		string	false	"filters (e.g., personId eq 1, takenById eq 2, dressTypeId eq 3, name eq 'Shirt')"
+//	@Param			search	query		string	false	"search by Customer Name (returns all Persons of that customer)"
 //	@Router			/measurement [get]
 func (h MeasurementHandler) GetAllMeasurements(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)

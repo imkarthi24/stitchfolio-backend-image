@@ -24,3 +24,8 @@ type Measurement struct {
 	UpdatedAt   *time.Time `json:"updatedAt,omitempty"`
 	UpdatedById *uint      `json:"updatedById,omitempty"`
 }
+
+type GroupedMeasurement struct {
+	PersonId   uint   `json:"personId"`
+	DressTypes string `json:"dressTypes"` // CSV of DressType names
+}

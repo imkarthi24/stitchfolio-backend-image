@@ -35,6 +35,7 @@ type ResponseMapper interface {
 	DressTypes(items []entities.DressType) ([]responseModel.DressType, error)
 	Measurement(e *entities.Measurement) (*responseModel.Measurement, error)
 	Measurements(items []entities.Measurement) ([]responseModel.Measurement, error)
+	GroupedMeasurements(items []entities.GroupedMeasurement) ([]responseModel.GroupedMeasurement, error)
 	Order(e *entities.Order) (*responseModel.Order, error)
 	Orders(items []entities.Order) ([]responseModel.Order, error)
 	OrderItem(e *entities.OrderItem) (*responseModel.OrderItem, error)
@@ -409,6 +410,17 @@ func (m *responseMapper) Measurements(items []entities.Measurement) ([]responseM
 			return nil, err
 		}
 		result = append(result, *mappedItem)
+	}
+	return result, nil
+}
+
+func (m *responseMapper) GroupedMeasurements(items []entities.GroupedMeasurement) ([]responseModel.GroupedMeasurement, error) {
+	result := make([]responseModel.GroupedMeasurement, 0)
+	for _, item := range items {
+		result = append(result, responseModel.GroupedMeasurement{
+			PersonId:   item.PersonId,
+			DressTypes: item.DressTypes,
+		})
 	}
 	return result, nil
 }
