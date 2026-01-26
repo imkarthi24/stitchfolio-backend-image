@@ -2,6 +2,8 @@ module github.com/imkarthi24/sf-backend
 
 go 1.25.0
 
+replace github.com/loop-kar/pixie => /../../loop-kar/pixie
+
 require (
 	github.com/gin-contrib/gzip v0.0.6
 	github.com/gin-gonic/gin v1.11.0

@@ -1,6 +1,7 @@
 package entities
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/loop-kar/pixie/constants"
@@ -35,6 +36,7 @@ func (u *Model) BeforeUpdate(tx *gorm.DB) (err error) {
 
 func (u *Model) BeforeCreate(tx *gorm.DB) (err error) {
 
+	fmt.Printf("%p", tx.Statement)
 	//Rare panic scenario
 	if u == nil {
 		return

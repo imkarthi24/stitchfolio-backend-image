@@ -93,14 +93,17 @@ func (customDB *GormDAL) BatchCreate(ctx *context.Context, value []interface{}) 
 // withSessionInfo prepares the transaction with user and channel info from the session in context.
 func withSessionInfo(ctx *context.Context) db.TransactionOption {
 
-	return func(db *gorm.DB) {
+	return func(db *gorm.DB) *gorm.DB {
 		session := utils.GetSession(ctx)
 		if session == nil {
-			return
+			return db
 		}
 
-		db.Set(constants.USER_ID, session.UserId).
-			Set(constants.CHANNEL_ID, session.ChannelId)
+		db = db.Set(constants.USER_ID, session.UserId)
+		db = db.Set(constants.CHANNEL_ID, session.ChannelId)
+
+		return db
+
 	}
 
 }

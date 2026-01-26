@@ -73,13 +73,7 @@ func (svc userService) SaveUser(ctx *context.Context, user requestModel.User) *e
 		return errs.NewXError(errs.INVALID_REQUEST, "Unable to save User", err)
 	}
 
-	/* TODO: uncommented once email service is up
 	generatedPassword := util.GeneratePassword()
-	dbUser.Password = util.HashPassword(generatedPassword, svc.config.Server.SecretKey)
-	*/
-
-	// TODO: remove and replcaed with above block once email service is up
-	generatedPassword := "password"
 	dbUser.Password = util.HashPassword(generatedPassword, svc.config.Server.SecretKey)
 
 	errr := svc.userRepo.Create(ctx, dbUser)
