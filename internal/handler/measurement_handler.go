@@ -150,6 +150,7 @@ func (h MeasurementHandler) GetAllMeasurements(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)
 
 	search := ctx.Query("search")
+	search = util.EncloseWithSingleQuote(search)
 
 	measurements, errr := h.measurementSvc.GetAll(&context, search)
 	if errr != nil {

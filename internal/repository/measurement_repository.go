@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
 	"github.com/imkarthi24/sf-backend/internal/repository/scopes"
@@ -121,9 +122,12 @@ func (mr *measurementRepository) GetAll(ctx *context.Context, search string) ([]
 
 	if !util.IsNilOrEmptyString(&search) {
 		formattedSearch := util.EncloseWithPercentageOperator(search)
+		whereClause := fmt.Sprintf(
+			`(C.first_name ILIKE %s OR C.last_name ILIKE %s OR CONCAT(C.first_name, ' ', C.last_name) ILIKE %s)`,
+			formattedSearch, formattedSearch, formattedSearch,
+		)
 		query = query.Joins(`INNER JOIN "stich"."Customers" C ON C.id = P.customer_id`).
-			Where(`(C.first_name ILIKE ? OR C.last_name ILIKE ? OR CONCAT(C.first_name, ' ', C.last_name) ILIKE ?)`,
-				formattedSearch, formattedSearch, formattedSearch)
+			Where(whereClause)
 	}
 
 	query = query.Scopes(scopes.Channel("M"))
