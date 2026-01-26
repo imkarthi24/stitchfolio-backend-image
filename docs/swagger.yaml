@@ -899,6 +899,14 @@ definitions:
       updatedById:
         type: integer
     type: object
+  responseModel.GroupedMeasurement:
+    properties:
+      dressTypes:
+        description: CSV of DressType names
+        type: string
+      personId:
+        type: integer
+    type: object
   responseModel.Measurement:
     properties:
       dressType:
@@ -2137,27 +2145,23 @@ paths:
     get:
       consumes:
       - application/json
-      description: Get all active measurements
+      description: Get all active measurements grouped by PersonId with DressTypes
+        as CSV. Searches by Customer Name.
       parameters:
-      - description: search
+      - description: search by Customer Name (returns all Persons of that customer)
         in: query
         name: search
-        type: string
-      - description: filters (e.g., personId eq 1, takenById eq 2, dressTypeId eq
-          3, name eq 'Shirt')
-        in: query
-        name: filters
         type: string
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/responseModel.Measurement'
+            $ref: '#/definitions/responseModel.GroupedMeasurement'
         "400":
           description: Bad Request
           schema:
             $ref: '#/definitions/response.DataResponse'
-      summary: Get all active measurements
+      summary: Get all active measurements grouped by PersonId
       tags:
       - Measurement
     post:

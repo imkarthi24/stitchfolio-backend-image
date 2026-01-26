@@ -20,7 +20,7 @@ type MeasurementService interface {
 	UpdateBulkMeasurements(*context.Context, []requestModel.Measurement) *errs.XError
 	UpdateBulkMeasurementsByPerson(*context.Context, requestModel.BulkUpdateMeasurementRequest) *errs.XError
 	Get(*context.Context, uint) (*responseModel.Measurement, *errs.XError)
-	GetAll(*context.Context, string) ([]responseModel.Measurement, *errs.XError)
+	GetAll(*context.Context, string) ([]responseModel.GroupedMeasurement, *errs.XError)
 	Delete(*context.Context, uint) *errs.XError
 }
 
@@ -264,15 +264,15 @@ func (svc measurementService) Get(ctx *context.Context, id uint) (*responseModel
 	return mappedMeasurement, nil
 }
 
-func (svc measurementService) GetAll(ctx *context.Context, search string) ([]responseModel.Measurement, *errs.XError) {
-	measurements, err := svc.measurementRepo.GetAll(ctx, search)
+func (svc measurementService) GetAll(ctx *context.Context, search string) ([]responseModel.GroupedMeasurement, *errs.XError) {
+	groupedMeasurements, err := svc.measurementRepo.GetAll(ctx, search)
 	if err != nil {
 		return nil, err
 	}
 
-	mappedMeasurements, mapErr := svc.respMapper.Measurements(measurements)
+	mappedMeasurements, mapErr := svc.respMapper.GroupedMeasurements(groupedMeasurements)
 	if mapErr != nil {
-		return nil, errs.NewXError(errs.MAPPING_ERROR, "Failed to map Measurement data", mapErr)
+		return nil, errs.NewXError(errs.MAPPING_ERROR, "Failed to map GroupedMeasurement data", mapErr)
 	}
 
 	return mappedMeasurements, nil
