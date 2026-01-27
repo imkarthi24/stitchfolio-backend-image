@@ -7,6 +7,7 @@ import (
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
 	"github.com/imkarthi24/sf-backend/internal/repository/scopes"
+	"github.com/loop-kar/pixie/db"
 	"github.com/loop-kar/pixie/errs"
 	"github.com/loop-kar/pixie/util"
 
@@ -112,6 +113,7 @@ func (mr *measurementRepository) GetAll(ctx *context.Context, search string) ([]
 
 	query := mr.WithDB(ctx).Table(entities.Measurement{}.TableNameForQuery()).
 		Scopes(scopes.IsActive("E"), scopes.Channel("E")).
+		Scopes(db.Paginate(ctx)).
 		Select(`E.person_id, 
 			STRING_AGG(DISTINCT DT.name, ',' ORDER BY DT.name) as dress_types`).
 		Joins(`INNER JOIN "stich"."DressTypes" DT ON DT.id = E.dress_type_id`).
