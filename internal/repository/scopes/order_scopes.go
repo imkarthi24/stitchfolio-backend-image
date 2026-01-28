@@ -19,9 +19,13 @@ func GetOrders_Search(search string) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		formattedSearch := util.EncloseWithPercentageOperator(search)
 		whereClause := fmt.Sprintf(
-			`(EXISTS (SELECT 1 FROM "stich"."Customers" C WHERE C.id = "stich"."Orders".customer_id AND (C.first_name ILIKE %s OR C.last_name ILIKE %s)) OR 
-			 EXISTS (SELECT 1 FROM "stich"."Users" U WHERE U.id = "stich"."Orders".order_taken_by_id AND (U.first_name ILIKE %s OR U.last_name ILIKE %s)))`,
-			formattedSearch, formattedSearch, formattedSearch, formattedSearch,
+			`(
+				EXISTS (SELECT 1 FROM "stich"."Customers" C WHERE C.id = "stich"."Orders".customer_id AND (C.first_name ILIKE %s OR C.last_name ILIKE %s)) OR 
+			 	EXISTS (SELECT 1 FROM "stich"."Users" U WHERE U.id = "stich"."Orders".order_taken_by_id AND (U.first_name ILIKE %s OR U.last_name ILIKE %s)) OR
+				"stich"."Orders".id::text ILIKE %s OR
+				C.phone_number ILIKE %s OR
+			 )`,
+			formattedSearch, formattedSearch, formattedSearch, formattedSearch, formattedSearch, formattedSearch,
 		)
 		return db.Where(whereClause)
 	}
