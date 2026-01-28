@@ -3,7 +3,6 @@ package repository
 import (
 	"context"
 	"errors"
-	"fmt"
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
 	responseModel "github.com/imkarthi24/sf-backend/internal/model/response"
@@ -102,37 +101,77 @@ func (mr *measurementRepository) GetByPersonIdAndDressTypeId(ctx *context.Contex
 	}
 	return &measurement, nil
 }
+func (mr *measurementRepository) GetAll(
+	ctx *context.Context,
+	search string,
+) ([]responseModel.MeasurementBrowse, *errs.XError) {
 
-func (mr *measurementRepository) GetAll(ctx *context.Context, search string) ([]responseModel.MeasurementBrowse, *errs.XError) {
-	var groupedMeasurements []responseModel.MeasurementBrowse
+	var result []responseModel.MeasurementBrowse
 
-	query := mr.WithDB(ctx).Table(entities.Measurement{}.TableNameForQuery()).
-		Scopes(scopes.IsActive("E"), scopes.Channel("E")).
-		Scopes(db.Paginate(ctx)).
-		Select(`E.id, E.is_active, E.person_id, P.customer_id, CONCAT(P.first_name, ' ', P.last_name) as person_name,E.updated_at,
-		 CONCAT(U.first_name, ' ', U.last_name) as updated_by,
-			STRING_AGG(DISTINCT DT.name, ',' ORDER BY DT.name) as dress_types`).
+	// Subquery: latest measurement PER PERSON
+	latestSubQuery := mr.WithDB(ctx).
+		Table(entities.Measurement{}.TableNameForQuery()).
+		Select(`
+			DISTINCT ON (person_id)
+			id,
+			person_id,
+			updated_at,
+			taken_by_id
+		`).
+		Scopes(scopes.IsActive(), scopes.Channel()).
+		Order(`person_id, updated_at DESC`)
+
+	query := mr.WithDB(ctx).
+		Table(entities.Measurement{}.TableNameForQuery()).
+		Select(`
+			latest.id,
+			E.is_active,
+			E.person_id,
+			P.customer_id,
+			CONCAT(P.first_name, ' ', P.last_name) AS person_name,
+			latest.updated_at,
+			CONCAT(U.first_name, ' ', U.last_name) AS updated_by,
+			STRING_AGG(DISTINCT DT.name, ', ' ORDER BY DT.name) AS dress_types
+		`).
+		Joins(`INNER JOIN (?) latest ON latest.person_id = E.person_id`, latestSubQuery).
 		Joins(`INNER JOIN "stich"."DressTypes" DT ON DT.id = E.dress_type_id`).
 		Joins(`INNER JOIN "stich"."Persons" P ON P.id = E.person_id`).
-		Joins(`INNER JOIN "stich"."Users" U ON U.id = E.taken_by_id`).
-		Group(`E."id", P."first_name", P."last_name", P."customer_id",U."first_name", U."last_name"`).
-		Distinct()
+		Joins(`INNER JOIN "stich"."Users" U ON U.id = latest.taken_by_id`).
+		Scopes(scopes.IsActive("E"), scopes.Channel("E")).
+		Group(`
+			latest.id,
+			latest.updated_at,
+			E.is_active,
+			E.person_id,
+			P.customer_id,
+			P.first_name,
+			P.last_name,
+			U.first_name,
+			U.last_name
+		`).
+		Order(`latest.updated_at DESC`).
+		Scopes(db.Paginate(ctx))
 
+	// 🔍 Optional Search
 	if !util.IsNilOrEmptyString(&search) {
-		formattedSearch := util.EncloseWithPercentageOperator(search)
-		whereClause := fmt.Sprintf(
-			`(C.first_name ILIKE %s OR C.last_name ILIKE %s OR CONCAT(C.first_name, ' ', C.last_name) ILIKE %s)`,
-			formattedSearch, formattedSearch, formattedSearch,
-		)
-		query = query.Joins(`INNER JOIN "stich"."Customers" C ON C.id = P.customer_id`).
-			Where(whereClause)
+		formatted := util.EncloseWithSymbol(search, "%")
+		query = query.
+			Joins(`INNER JOIN "stich"."Customers" C ON C.id = P.customer_id`).
+			Where(`
+				C.first_name ILIKE ? OR
+				C.last_name ILIKE ? OR
+				CONCAT(C.first_name, ' ', C.last_name) ILIKE ? OR
+				CONCAT(P.first_name, ' ', P.last_name) ILIKE ? OR
+				C.phone_number ILIKE ? OR
+				C.whatsapp_number ILIKE ? 
+			`, formatted, formatted, formatted, formatted, formatted, formatted)
 	}
 
-	res := query.Scan(&groupedMeasurements)
-	if res.Error != nil {
-		return nil, errs.NewXError(errs.DATABASE, "UNABLE_TO_FIND_MEASUREMENTS", res.Error)
+	if err := query.Scan(&result).Error; err != nil {
+		return nil, errs.NewXError(errs.DATABASE, "UNABLE_TO_FIND_MEASUREMENTS", err)
 	}
-	return groupedMeasurements, nil
+
+	return result, nil
 }
 
 func (mr *measurementRepository) Delete(ctx *context.Context, id uint) *errs.XError {
