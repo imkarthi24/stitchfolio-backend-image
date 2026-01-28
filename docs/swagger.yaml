@@ -905,14 +905,6 @@ definitions:
       updatedById:
         type: integer
     type: object
-  responseModel.GroupedMeasurement:
-    properties:
-      dressTypes:
-        description: CSV of DressType names
-        type: string
-      personId:
-        type: integer
-    type: object
   responseModel.Measurement:
     properties:
       dressType:
@@ -942,6 +934,26 @@ definitions:
         items:
           type: integer
         type: array
+    type: object
+  responseModel.MeasurementBrowse:
+    properties:
+      customerId:
+        type: integer
+      dressTypes:
+        description: CSV of DressType names
+        type: string
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      personId:
+        type: integer
+      personName:
+        type: string
+      updatedAt:
+        type: string
+      updatedById:
+        type: string
     type: object
   responseModel.MeasurementHistory:
     properties:
@@ -2162,7 +2174,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/responseModel.GroupedMeasurement'
+            $ref: '#/definitions/responseModel.MeasurementBrowse'
         "400":
           description: Bad Request
           schema:

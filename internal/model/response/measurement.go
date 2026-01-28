@@ -25,7 +25,13 @@ type Measurement struct {
 	UpdatedById *uint      `json:"updatedById,omitempty"`
 }
 
-type GroupedMeasurement struct {
+type MeasurementBrowse struct {
+	ID         uint   `json:"id,omitempty"`
+	IsActive   bool   `json:"isActive,omitempty"`
+	PersonName string `json:"personName,omitempty"`
 	PersonId   uint   `json:"personId"`
+	CustomerId uint   `json:"customerId"`
 	DressTypes string `json:"dressTypes"` // CSV of DressType names
+	UpdatedAt  string `json:"updatedAt,omitempty"`
+	UpdatedBy  string `json:"updatedById,omitempty"`
 }

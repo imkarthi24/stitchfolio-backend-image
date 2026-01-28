@@ -21,9 +21,3 @@ func (Measurement) TableNameForQuery() string {
 	return "\"stich\".\"Measurements\" E"
 
 }
-
-// GroupedMeasurement represents measurements grouped by PersonId with DressTypes as CSV
-type GroupedMeasurement struct {
-	PersonId   uint   `json:"personId"`
-	DressTypes string `json:"dressTypes"` // CSV of DressType names
-}

@@ -1550,7 +1550,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/responseModel.GroupedMeasurement"
+                            "$ref": "#/definitions/responseModel.MeasurementBrowse"
                         }
                     },
                     "400": {
@@ -4665,18 +4665,6 @@ const docTemplate = `{
                 }
             }
         },
-        "responseModel.GroupedMeasurement": {
-            "type": "object",
-            "properties": {
-                "dressTypes": {
-                    "description": "CSV of DressType names",
-                    "type": "string"
-                },
-                "personId": {
-                    "type": "integer"
-                }
-            }
-        },
         "responseModel.Measurement": {
             "type": "object",
             "properties": {
@@ -4719,6 +4707,36 @@ const docTemplate = `{
                     "items": {
                         "type": "integer"
                     }
+                }
+            }
+        },
+        "responseModel.MeasurementBrowse": {
+            "type": "object",
+            "properties": {
+                "customerId": {
+                    "type": "integer"
+                },
+                "dressTypes": {
+                    "description": "CSV of DressType names",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "personId": {
+                    "type": "integer"
+                },
+                "personName": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "updatedById": {
+                    "type": "string"
                 }
             }
         },

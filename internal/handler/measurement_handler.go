@@ -174,7 +174,7 @@ func (h MeasurementHandler) Get(ctx *gin.Context) {
 //	@Description	Get all active measurements grouped by PersonId with DressTypes as CSV. Searches by Customer Name.
 //	@Tags			Measurement
 //	@Accept			json
-//	@Success		200		{object}	responseModel.GroupedMeasurement
+//	@Success		200		{object}	responseModel.MeasurementBrowse
 //	@Failure		400		{object}	response.DataResponse
 //	@Param			search	query		string	false	"search by Customer Name (returns all Persons of that customer)"
 //	@Router			/measurement [get]

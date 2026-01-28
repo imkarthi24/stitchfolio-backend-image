@@ -20,7 +20,7 @@ type MeasurementService interface {
 	UpdateMeasurement(*context.Context, requestModel.Measurement, uint) *errs.XError
 	BulkUpdateMeasurements(*context.Context, []requestModel.Measurement) *errs.XError
 	Get(*context.Context, uint) (*responseModel.Measurement, *errs.XError)
-	GetAll(*context.Context, string) ([]responseModel.GroupedMeasurement, *errs.XError)
+	GetAll(*context.Context, string) ([]responseModel.MeasurementBrowse, *errs.XError)
 	Delete(*context.Context, uint) *errs.XError
 }
 
@@ -206,18 +206,13 @@ func (svc measurementService) Get(ctx *context.Context, id uint) (*responseModel
 	return mappedMeasurement, nil
 }
 
-func (svc measurementService) GetAll(ctx *context.Context, search string) ([]responseModel.GroupedMeasurement, *errs.XError) {
+func (svc measurementService) GetAll(ctx *context.Context, search string) ([]responseModel.MeasurementBrowse, *errs.XError) {
 	groupedMeasurements, err := svc.measurementRepo.GetAll(ctx, search)
 	if err != nil {
 		return nil, err
 	}
 
-	mappedMeasurements, mapErr := svc.respMapper.GroupedMeasurements(groupedMeasurements)
-	if mapErr != nil {
-		return nil, errs.NewXError(errs.MAPPING_ERROR, "Failed to map GroupedMeasurement data", mapErr)
-	}
-
-	return mappedMeasurements, nil
+	return groupedMeasurements, nil
 }
 
 func (svc measurementService) Delete(ctx *context.Context, id uint) *errs.XError {

@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
+	responseModel "github.com/imkarthi24/sf-backend/internal/model/response"
 	"github.com/imkarthi24/sf-backend/internal/repository/scopes"
 	"github.com/loop-kar/pixie/db"
 	"github.com/loop-kar/pixie/errs"
@@ -21,7 +22,7 @@ type MeasurementRepository interface {
 	BatchUpdate(*context.Context, []*entities.Measurement) *errs.XError
 	Get(*context.Context, uint) (*entities.Measurement, *errs.XError)
 	GetByPersonIdAndDressTypeId(*context.Context, uint, uint) (*entities.Measurement, *errs.XError)
-	GetAll(*context.Context, string) ([]entities.GroupedMeasurement, *errs.XError)
+	GetAll(*context.Context, string) ([]responseModel.MeasurementBrowse, *errs.XError)
 	Delete(*context.Context, uint) *errs.XError
 }
 
@@ -102,23 +103,20 @@ func (mr *measurementRepository) GetByPersonIdAndDressTypeId(ctx *context.Contex
 	return &measurement, nil
 }
 
-func (mr *measurementRepository) GetAll(ctx *context.Context, search string) ([]entities.GroupedMeasurement, *errs.XError) {
-	var groupedMeasurements []entities.GroupedMeasurement
-
-	// filterValue := util.ReadValueFromContext(ctx, constants.FILTER_KEY)
-	// var filter string
-	// if filterValue != nil {
-	// 	filter = filterValue.(string)
-	// }
+func (mr *measurementRepository) GetAll(ctx *context.Context, search string) ([]responseModel.MeasurementBrowse, *errs.XError) {
+	var groupedMeasurements []responseModel.MeasurementBrowse
 
 	query := mr.WithDB(ctx).Table(entities.Measurement{}.TableNameForQuery()).
 		Scopes(scopes.IsActive("E"), scopes.Channel("E")).
 		Scopes(db.Paginate(ctx)).
-		Select(`E.person_id, 
+		Select(`E.id, E.is_active, E.person_id, P.customer_id, CONCAT(P.first_name, ' ', P.last_name) as person_name,E.updated_at,
+		 CONCAT(U.first_name, ' ', U.last_name) as updated_by,
 			STRING_AGG(DISTINCT DT.name, ',' ORDER BY DT.name) as dress_types`).
 		Joins(`INNER JOIN "stich"."DressTypes" DT ON DT.id = E.dress_type_id`).
 		Joins(`INNER JOIN "stich"."Persons" P ON P.id = E.person_id`).
-		Group("person_id")
+		Joins(`INNER JOIN "stich"."Users" U ON U.id = E.taken_by_id`).
+		Group(`E."id", P."first_name", P."last_name", P."customer_id",U."first_name", U."last_name"`).
+		Distinct()
 
 	if !util.IsNilOrEmptyString(&search) {
 		formattedSearch := util.EncloseWithPercentageOperator(search)
