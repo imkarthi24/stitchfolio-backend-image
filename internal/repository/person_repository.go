@@ -43,6 +43,7 @@ func (pr *personRepository) Get(ctx *context.Context, id uint) (*entities.Person
 	res := pr.WithDB(ctx).
 		Preload("Customer").
 		Preload("Measurements").
+		Preload("Measurements.DressType", scopes.SelectFields("name")).
 		Find(&person, id)
 	if res.Error != nil || res.RowsAffected != 1 {
 		return nil, errs.NewXError(errs.DATABASE, "Unable to find person", res.Error)

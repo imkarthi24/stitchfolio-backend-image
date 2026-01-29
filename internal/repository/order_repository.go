@@ -75,6 +75,7 @@ func (or *orderRepository) GetAll(ctx *context.Context, search string) ([]entiti
 		Scopes(db.Paginate(ctx)).
 		Preload("Customer", scopes.SelectFields("first_name", "last_name")).
 		Preload("OrderTakenBy", scopes.SelectFields("first_name", "last_name")).
+		Preload("OrderItems").
 		// Preload("OrderItems.Person").
 		// Preload("OrderItems.Measurement").
 		// Preload("OrderItems.Measurement.DressType").
