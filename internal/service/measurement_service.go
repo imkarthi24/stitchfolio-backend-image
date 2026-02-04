@@ -46,6 +46,12 @@ func (svc measurementService) SaveMeasurement(ctx *context.Context, measurement 
 		return errs.NewXError(errs.INVALID_REQUEST, "Unable to save measurement", err)
 	}
 
+	//if takenByid is not passed. then calculate from JWT
+	if dbMeasurement.TakenById == nil {
+		userId := utils.GetUserId(ctx)
+		dbMeasurement.TakenById = &userId
+	}
+
 	errr := svc.measurementRepo.Create(ctx, dbMeasurement)
 	if errr != nil {
 		return errr
