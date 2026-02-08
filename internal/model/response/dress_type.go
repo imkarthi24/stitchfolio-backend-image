@@ -7,4 +7,6 @@ type DressType struct {
 	Name         string `json:"name,omitempty"`
 	Description  string `json:"description,omitempty"`
 	Measurements string `json:"measurements,omitempty"`
+
+	AuditFields
 }

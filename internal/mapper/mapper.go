@@ -27,6 +27,7 @@ type Mapper interface {
 	OrderHistory(e requestModel.OrderHistory) (*entities.OrderHistory, error)
 	MeasurementHistory(e requestModel.MeasurementHistory) (*entities.MeasurementHistory, error)
 	ExpenseTracker(e requestModel.ExpenseTracker) (*entities.Expense, error)
+	Task(e requestModel.Task) (*entities.Task, error)
 }
 
 type mapper struct{}
@@ -434,5 +435,51 @@ func (m *mapper) ExpenseTracker(e requestModel.ExpenseTracker) (*entities.Expens
 		Price:        e.Price,
 		Location:     e.Location,
 		Notes:        e.Notes,
+	}, nil
+}
+
+func (m *mapper) Task(e requestModel.Task) (*entities.Task, error) {
+	var dueDate *time.Time
+	if e.DueDate != nil {
+		date, err := util.GenerateDateTimeFromString(e.DueDate)
+		if err != nil {
+			return nil, err
+		}
+		dueDate = date
+	}
+
+	var reminderDate *time.Time
+	if e.ReminderDate != nil {
+		date, err := util.GenerateDateTimeFromString(e.ReminderDate)
+		if err != nil {
+			return nil, err
+		}
+		reminderDate = date
+	}
+
+	var completedAt *time.Time
+	if e.CompletedAt != nil {
+		date, err := util.GenerateDateTimeFromString(e.CompletedAt)
+		if err != nil {
+			return nil, err
+		}
+		completedAt = date
+	}
+
+	var isActive bool = true
+	if e.IsActive != nil {
+		isActive = *e.IsActive
+	}
+
+	return &entities.Task{
+		Model:        &entities.Model{ID: e.ID, IsActive: isActive},
+		Title:        e.Title,
+		Description:  e.Description,
+		IsCompleted:  e.IsCompleted,
+		Priority:     e.Priority,
+		DueDate:      dueDate,
+		ReminderDate: reminderDate,
+		CompletedAt:  completedAt,
+		AssignedToId: e.AssignedToId,
 	}, nil
 }

@@ -19,6 +19,7 @@ type BaseHandler struct {
 	MeasurementHistoryHandler *handler.MeasurementHistoryHandler
 	EnquiryHistoryHandler     *handler.EnquiryHistoryHandler
 	ExpenseTrackerHandler     *handler.ExpenseTrackerHandler
+	TaskHandler               *handler.TaskHandler
 }
 
 func ProvideBaseHandler(health Health,
@@ -37,6 +38,7 @@ func ProvideBaseHandler(health Health,
 	measurementHistoryHandler *handler.MeasurementHistoryHandler,
 	enquiryHistoryHandler *handler.EnquiryHistoryHandler,
 	expenseTrackerHandler *handler.ExpenseTrackerHandler,
+	taskHandler *handler.TaskHandler,
 ) BaseHandler {
 	return BaseHandler{
 		HealthHandler:             health,
@@ -55,5 +57,6 @@ func ProvideBaseHandler(health Health,
 		MeasurementHistoryHandler: measurementHistoryHandler,
 		EnquiryHistoryHandler:     enquiryHistoryHandler,
 		ExpenseTrackerHandler:     expenseTrackerHandler,
+		TaskHandler:               taskHandler,
 	}
 }

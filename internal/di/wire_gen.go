@@ -90,7 +90,10 @@ func InitApp(ctx *context.Context) (*app.App, error) {
 	expenseTrackerRepository := repository.ProvideExpenseTrackerRepository(gormDAL)
 	expenseTrackerService := service.ProvideExpenseTrackerService(expenseTrackerRepository, mapperMapper, responseMapper)
 	expenseTrackerHandler := handler.ProvideExpenseTrackerHandler(expenseTrackerService)
-	baseHandler := base.ProvideBaseHandler(health, userHandler, channelHandler, masterConfigHandler, adminHandler, customerHandler, enquiryHandler, orderHandler, orderItemHandler, measurementHandler, personHandler, dressTypeHandler, orderHistoryHandler, measurementHistoryHandler, enquiryHistoryHandler, expenseTrackerHandler)
+	taskRepository := repository.ProvideTaskRepository(gormDAL)
+	taskService := service.ProvideTaskService(taskRepository, mapperMapper, responseMapper)
+	taskHandler := handler.ProvideTaskHandler(taskService)
+	baseHandler := base.ProvideBaseHandler(health, userHandler, channelHandler, masterConfigHandler, adminHandler, customerHandler, enquiryHandler, orderHandler, orderItemHandler, measurementHandler, personHandler, dressTypeHandler, orderHistoryHandler, measurementHistoryHandler, enquiryHistoryHandler, expenseTrackerHandler, taskHandler)
 	serverConfig := appConfig.Server
 	engine := router.InitRouter(baseHandler, serverConfig)
 	application := newreliclog.ProvideNewRelic(appConfig)
@@ -150,7 +153,9 @@ func InitJobService(ctx *context.Context) (*app.Task, error) {
 	measurementHistoryService := service.ProvideMeasurementHistoryService(measurementHistoryRepository, mapperMapper, responseMapper)
 	expenseTrackerRepository := repository.ProvideExpenseTrackerRepository(gormDAL)
 	expenseTrackerService := service.ProvideExpenseTrackerService(expenseTrackerRepository, mapperMapper, responseMapper)
-	baseService := base2.ProvideBaseService(userService, notificationService, channelService, masterConfigService, customerService, enquiryService, orderService, orderItemService, measurementService, personService, dressTypeService, orderHistoryService, measurementHistoryService, expenseTrackerService)
+	taskRepository := repository.ProvideTaskRepository(gormDAL)
+	taskService := service.ProvideTaskService(taskRepository, mapperMapper, responseMapper)
+	baseService := base2.ProvideBaseService(userService, notificationService, channelService, masterConfigService, customerService, enquiryService, orderService, orderItemService, measurementService, personService, dressTypeService, orderHistoryService, measurementHistoryService, expenseTrackerService, taskService)
 	application := newreliclog.ProvideNewRelic(appConfig)
 	cronCron := cron.ProvideCron()
 	task := &app.Task{
@@ -171,7 +176,7 @@ var pkgServiceSet = wire.NewSet(
 	ProvideServiceContainer, wire.FieldsOf(new(*service2.Service), "EmailService"),
 )
 
-var handlerSet = wire.NewSet(base.ProvideHealthHandler, base.ProvideBaseHandler, handler.ProvideUserHandler, handler.ProvideChannelHandler, handler.ProvideMasterConfigHandler, handler.ProvideAdminHandler, handler.ProvideCustomerHandler, handler.ProvideEnquiryHandler, handler.ProvideOrderHandler, handler.ProvideOrderItemHandler, handler.ProvideMeasurementHandler, handler.ProvidePersonHandler, handler.ProvideDressTypeHandler, handler.ProvideOrderHistoryHandler, handler.ProvideMeasurementHistoryHandler, handler.ProvideEnquiryHistoryHandler, handler.ProvideExpenseTrackerHandler)
+var handlerSet = wire.NewSet(base.ProvideHealthHandler, base.ProvideBaseHandler, handler.ProvideUserHandler, handler.ProvideChannelHandler, handler.ProvideMasterConfigHandler, handler.ProvideAdminHandler, handler.ProvideCustomerHandler, handler.ProvideEnquiryHandler, handler.ProvideOrderHandler, handler.ProvideOrderItemHandler, handler.ProvideMeasurementHandler, handler.ProvidePersonHandler, handler.ProvideDressTypeHandler, handler.ProvideOrderHistoryHandler, handler.ProvideMeasurementHistoryHandler, handler.ProvideEnquiryHistoryHandler, handler.ProvideExpenseTrackerHandler, handler.ProvideTaskHandler)
 
 var logSet = wire.NewSet(newreliclog.ProvideNewRelic)
 
@@ -183,10 +188,10 @@ var dbSet = wire.NewSet(
 
 var mapperSet = wire.NewSet(mapper.ProvideMapper, mapper.ProvideResponseMapper)
 
-var svcSet = wire.NewSet(service.ProvideUserService, service.ProvideNotificationService, service.ProvideChannelService, service.ProvideMasterConfigService, service.ProvideAdminService, service.ProvideCustomerService, service.ProvideEnquiryService, service.ProvideOrderService, service.ProvideOrderItemService, service.ProvideMeasurementService, service.ProvidePersonService, service.ProvideDressTypeService, service.ProvideOrderHistoryService, service.ProvideMeasurementHistoryService, service.ProvideEnquiryHistoryService, service.ProvideExpenseTrackerService)
+var svcSet = wire.NewSet(service.ProvideUserService, service.ProvideNotificationService, service.ProvideChannelService, service.ProvideMasterConfigService, service.ProvideAdminService, service.ProvideCustomerService, service.ProvideEnquiryService, service.ProvideOrderService, service.ProvideOrderItemService, service.ProvideMeasurementService, service.ProvidePersonService, service.ProvideDressTypeService, service.ProvideOrderHistoryService, service.ProvideMeasurementHistoryService, service.ProvideEnquiryHistoryService, service.ProvideExpenseTrackerService, service.ProvideTaskService)
 
 var baseSvc = wire.NewSet(base2.ProvideBaseService)
 
-var repoSet = wire.NewSet(repository.ProvideGormDAL, repository.ProvideUserRepository, repository.ProvideNotificationRepository, repository.ProvideChannelRepository, repository.ProvideMasterConfigRepository, repository.ProvideAdminRepository, repository.ProvideCustomerRepository, repository.ProvideEnquiryRepository, repository.ProvideOrderRepository, repository.ProvideOrderItemRepository, repository.ProvideMeasurementRepository, repository.ProvidePersonRepository, repository.ProvideDressTypeRepository, repository.ProvideOrderHistoryRepository, repository.ProvideMeasurementHistoryRepository, repository.ProvideEnquiryHistoryRepository, repository.ProvideExpenseTrackerRepository)
+var repoSet = wire.NewSet(repository.ProvideGormDAL, repository.ProvideUserRepository, repository.ProvideNotificationRepository, repository.ProvideChannelRepository, repository.ProvideMasterConfigRepository, repository.ProvideAdminRepository, repository.ProvideCustomerRepository, repository.ProvideEnquiryRepository, repository.ProvideOrderRepository, repository.ProvideOrderItemRepository, repository.ProvideMeasurementRepository, repository.ProvidePersonRepository, repository.ProvideDressTypeRepository, repository.ProvideOrderHistoryRepository, repository.ProvideMeasurementHistoryRepository, repository.ProvideEnquiryHistoryRepository, repository.ProvideExpenseTrackerRepository, repository.ProvideTaskRepository)
 
 var cronSet = wire.NewSet(cron.ProvideCron)

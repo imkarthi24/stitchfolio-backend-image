@@ -2713,6 +2713,200 @@ const docTemplate = `{
                 }
             }
         },
+        "/task": {
+            "get": {
+                "description": "Get all active tasks",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Get all active tasks",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "search",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/responseModel.Task"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.DataResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Saves an instance of Task",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Save Task",
+                "parameters": [
+                    {
+                        "description": "task",
+                        "name": "task",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestModel.Task"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/task/{id}": {
+            "get": {
+                "description": "Get an instance of Task",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Get a specific Task",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Task id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.Task"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.DataResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Updates an instance of Task",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Update Task",
+                "parameters": [
+                    {
+                        "description": "task",
+                        "name": "task",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestModel.Task"
+                        }
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Task id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Accepted",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes an instance of Task",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Delete Task",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Task id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/user": {
             "get": {
                 "description": "Get all active users",
@@ -4193,6 +4387,41 @@ const docTemplate = `{
                 }
             }
         },
+        "requestModel.Task": {
+            "type": "object",
+            "properties": {
+                "assignedToId": {
+                    "type": "integer"
+                },
+                "completedAt": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "dueDate": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "isCompleted": {
+                    "type": "boolean"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "reminderDate": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
         "requestModel.UpdateEnquiryAndCustomer": {
             "type": "object",
             "properties": {
@@ -4455,6 +4684,12 @@ const docTemplate = `{
                 "address": {
                     "type": "string"
                 },
+                "createdAt": {
+                    "type": "string"
+                },
+                "createdById": {
+                    "type": "integer"
+                },
                 "email": {
                     "type": "string"
                 },
@@ -4491,6 +4726,12 @@ const docTemplate = `{
                 "phoneNumber": {
                     "type": "string"
                 },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "updatedById": {
+                    "type": "integer"
+                },
                 "whatsappNumber": {
                     "type": "string"
                 }
@@ -4519,6 +4760,12 @@ const docTemplate = `{
         "responseModel.DressType": {
             "type": "object",
             "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "createdById": {
+                    "type": "integer"
+                },
                 "description": {
                     "type": "string"
                 },
@@ -4533,12 +4780,24 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "updatedById": {
+                    "type": "integer"
                 }
             }
         },
         "responseModel.Enquiry": {
             "type": "object",
             "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "createdById": {
+                    "type": "integer"
+                },
                 "customer": {
                     "$ref": "#/definitions/responseModel.Customer"
                 },
@@ -4568,6 +4827,12 @@ const docTemplate = `{
                 },
                 "subject": {
                     "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "updatedById": {
+                    "type": "integer"
                 }
             }
         },
@@ -4576,6 +4841,12 @@ const docTemplate = `{
             "properties": {
                 "callBackDate": {
                     "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "createdById": {
+                    "type": "integer"
                 },
                 "customerComment": {
                     "type": "string"
@@ -4615,6 +4886,12 @@ const docTemplate = `{
                 },
                 "status": {
                     "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "updatedById": {
+                    "type": "integer"
                 },
                 "visitingDate": {
                     "type": "string"
@@ -4668,6 +4945,12 @@ const docTemplate = `{
         "responseModel.Measurement": {
             "type": "object",
             "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "createdById": {
+                    "type": "integer"
+                },
                 "dressType": {
                     "$ref": "#/definitions/responseModel.DressType"
                 },
@@ -4749,6 +5032,12 @@ const docTemplate = `{
                 "changedValues": {
                     "type": "string"
                 },
+                "createdAt": {
+                    "type": "string"
+                },
+                "createdById": {
+                    "type": "integer"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -4775,6 +5064,12 @@ const docTemplate = `{
                 },
                 "performedById": {
                     "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "updatedById": {
+                    "type": "integer"
                 }
             }
         },
@@ -4786,6 +5081,9 @@ const docTemplate = `{
                 },
                 "createdAt": {
                     "type": "string"
+                },
+                "createdById": {
+                    "type": "integer"
                 },
                 "customer": {
                     "$ref": "#/definitions/responseModel.Customer"
@@ -4838,6 +5136,9 @@ const docTemplate = `{
                 },
                 "updatedAt": {
                     "type": "string"
+                },
+                "updatedById": {
+                    "type": "integer"
                 }
             }
         },
@@ -4849,6 +5150,12 @@ const docTemplate = `{
                 },
                 "changedFields": {
                     "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "createdById": {
+                    "type": "integer"
                 },
                 "deliveredDate": {
                     "type": "string"
@@ -4886,6 +5193,12 @@ const docTemplate = `{
                 },
                 "status": {
                     "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "updatedById": {
+                    "type": "integer"
                 }
             }
         },
@@ -4894,6 +5207,12 @@ const docTemplate = `{
             "properties": {
                 "additionalCharges": {
                     "type": "number"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "createdById": {
+                    "type": "integer"
                 },
                 "deliveredDate": {
                     "type": "string"
@@ -4936,6 +5255,12 @@ const docTemplate = `{
                 },
                 "total": {
                     "type": "number"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "updatedById": {
+                    "type": "integer"
                 }
             }
         },
@@ -4943,6 +5268,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "age": {
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "createdById": {
                     "type": "integer"
                 },
                 "customer": {
@@ -4971,12 +5302,71 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/responseModel.Measurement"
                     }
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "updatedById": {
+                    "type": "integer"
+                }
+            }
+        },
+        "responseModel.Task": {
+            "type": "object",
+            "properties": {
+                "assignedToId": {
+                    "type": "integer"
+                },
+                "completedAt": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "createdById": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "dueDate": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "isCompleted": {
+                    "type": "boolean"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "reminderDate": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "updatedById": {
+                    "type": "integer"
                 }
             }
         },
         "responseModel.User": {
             "type": "object",
             "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "createdById": {
+                    "type": "integer"
+                },
                 "department": {
                     "type": "string"
                 },
@@ -5021,6 +5411,12 @@ const docTemplate = `{
                 },
                 "role": {
                     "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "updatedById": {
+                    "type": "integer"
                 },
                 "userChannelDetails": {
                     "type": "array",

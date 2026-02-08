@@ -590,6 +590,29 @@ definitions:
       toChannel:
         type: integer
     type: object
+  requestModel.Task:
+    properties:
+      assignedToId:
+        type: integer
+      completedAt:
+        type: string
+      description:
+        type: string
+      dueDate:
+        type: string
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      isCompleted:
+        type: boolean
+      priority:
+        type: integer
+      reminderDate:
+        type: string
+      title:
+        type: string
+    type: object
   requestModel.UpdateEnquiryAndCustomer:
     properties:
       address:
@@ -767,6 +790,10 @@ definitions:
     properties:
       address:
         type: string
+      createdAt:
+        type: string
+      createdById:
+        type: integer
       email:
         type: string
       enquiries:
@@ -791,6 +818,10 @@ definitions:
         type: array
       phoneNumber:
         type: string
+      updatedAt:
+        type: string
+      updatedById:
+        type: integer
       whatsappNumber:
         type: string
     type: object
@@ -809,6 +840,10 @@ definitions:
     type: object
   responseModel.DressType:
     properties:
+      createdAt:
+        type: string
+      createdById:
+        type: integer
       description:
         type: string
       id:
@@ -819,9 +854,17 @@ definitions:
         type: string
       name:
         type: string
+      updatedAt:
+        type: string
+      updatedById:
+        type: integer
     type: object
   responseModel.Enquiry:
     properties:
+      createdAt:
+        type: string
+      createdById:
+        type: integer
       customer:
         $ref: '#/definitions/responseModel.Customer'
       customerId:
@@ -842,11 +885,19 @@ definitions:
         type: string
       subject:
         type: string
+      updatedAt:
+        type: string
+      updatedById:
+        type: integer
     type: object
   responseModel.EnquiryHistory:
     properties:
       callBackDate:
         type: string
+      createdAt:
+        type: string
+      createdById:
+        type: integer
       customerComment:
         type: string
       employee:
@@ -873,6 +924,10 @@ definitions:
         type: string
       status:
         type: string
+      updatedAt:
+        type: string
+      updatedById:
+        type: integer
       visitingDate:
         type: string
     type: object
@@ -907,6 +962,10 @@ definitions:
     type: object
   responseModel.Measurement:
     properties:
+      createdAt:
+        type: string
+      createdById:
+        type: integer
       dressType:
         $ref: '#/definitions/responseModel.DressType'
       dressTypeId:
@@ -961,6 +1020,10 @@ definitions:
         type: string
       changedValues:
         type: string
+      createdAt:
+        type: string
+      createdById:
+        type: integer
       id:
         type: integer
       isActive:
@@ -979,6 +1042,10 @@ definitions:
         $ref: '#/definitions/responseModel.User'
       performedById:
         type: integer
+      updatedAt:
+        type: string
+      updatedById:
+        type: integer
     type: object
   responseModel.Order:
     properties:
@@ -986,6 +1053,8 @@ definitions:
         type: number
       createdAt:
         type: string
+      createdById:
+        type: integer
       customer:
         $ref: '#/definitions/responseModel.Customer'
       customerId:
@@ -1022,6 +1091,8 @@ definitions:
         type: string
       updatedAt:
         type: string
+      updatedById:
+        type: integer
     type: object
   responseModel.OrderHistory:
     properties:
@@ -1029,6 +1100,10 @@ definitions:
         type: string
       changedFields:
         type: string
+      createdAt:
+        type: string
+      createdById:
+        type: integer
       deliveredDate:
         type: string
       expectedDeliveryDate:
@@ -1054,11 +1129,19 @@ definitions:
         type: integer
       status:
         type: string
+      updatedAt:
+        type: string
+      updatedById:
+        type: integer
     type: object
   responseModel.OrderItem:
     properties:
       additionalCharges:
         type: number
+      createdAt:
+        type: string
+      createdById:
+        type: integer
       deliveredDate:
         type: string
       description:
@@ -1087,10 +1170,18 @@ definitions:
         type: integer
       total:
         type: number
+      updatedAt:
+        type: string
+      updatedById:
+        type: integer
     type: object
   responseModel.Person:
     properties:
       age:
+        type: integer
+      createdAt:
+        type: string
+      createdById:
         type: integer
       customer:
         $ref: '#/definitions/responseModel.Customer'
@@ -1110,9 +1201,48 @@ definitions:
         items:
           $ref: '#/definitions/responseModel.Measurement'
         type: array
+      updatedAt:
+        type: string
+      updatedById:
+        type: integer
+    type: object
+  responseModel.Task:
+    properties:
+      assignedToId:
+        type: integer
+      completedAt:
+        type: string
+      createdAt:
+        type: string
+      createdById:
+        type: integer
+      description:
+        type: string
+      dueDate:
+        type: string
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      isCompleted:
+        type: boolean
+      priority:
+        type: integer
+      reminderDate:
+        type: string
+      title:
+        type: string
+      updatedAt:
+        type: string
+      updatedById:
+        type: integer
     type: object
   responseModel.User:
     properties:
+      createdAt:
+        type: string
+      createdById:
+        type: integer
       department:
         type: string
       email:
@@ -1143,6 +1273,10 @@ definitions:
         type: string
       role:
         type: string
+      updatedAt:
+        type: string
+      updatedById:
+        type: integer
       userChannelDetails:
         items:
           $ref: '#/definitions/responseModel.UserChannelDetail'
@@ -2940,6 +3074,134 @@ paths:
       summary: Get persons by customer id
       tags:
       - Person
+  /task:
+    get:
+      consumes:
+      - application/json
+      description: Get all active tasks
+      parameters:
+      - description: search
+        in: query
+        name: search
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/responseModel.Task'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get all active tasks
+      tags:
+      - Task
+    post:
+      consumes:
+      - application/json
+      description: Saves an instance of Task
+      parameters:
+      - description: task
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/requestModel.Task'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Save Task
+      tags:
+      - Task
+  /task/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes an instance of Task
+      parameters:
+      - description: Task id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Delete Task
+      tags:
+      - Task
+    get:
+      consumes:
+      - application/json
+      description: Get an instance of Task
+      parameters:
+      - description: Task id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.Task'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get a specific Task
+      tags:
+      - Task
+    put:
+      consumes:
+      - application/json
+      description: Updates an instance of Task
+      parameters:
+      - description: task
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/requestModel.Task'
+      - description: Task id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Update Task
+      tags:
+      - Task
   /user:
     get:
       consumes:

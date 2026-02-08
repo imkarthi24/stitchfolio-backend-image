@@ -2,7 +2,6 @@ package responseModel
 
 import (
 	"encoding/json"
-	"time"
 )
 
 type Measurement struct {
@@ -21,8 +20,7 @@ type Measurement struct {
 	TakenById *uint  `json:"takenById,omitempty"`
 	TakenBy   string `json:"takenBy,omitempty"` // first_name + last_name
 
-	UpdatedAt   *time.Time `json:"updatedAt,omitempty"`
-	UpdatedById *uint      `json:"updatedById,omitempty"`
+	AuditFields
 }
 
 type MeasurementBrowse struct {

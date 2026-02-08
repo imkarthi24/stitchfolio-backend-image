@@ -14,8 +14,5 @@ type ExpenseTracker struct {
 	Location     *string    `json:"location,omitempty"`
 	Notes        *string    `json:"notes,omitempty"`
 
-	CreatedAt   *time.Time `json:"createdAt,omitempty"`
-	UpdatedAt   *time.Time `json:"updatedAt,omitempty"`
-	CreatedById *uint      `json:"createdById,omitempty"`
-	UpdatedById *uint      `json:"updatedById,omitempty"`
+	AuditFields
 }

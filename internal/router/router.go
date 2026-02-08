@@ -222,6 +222,15 @@ func InitRouter(handler baseHandler.BaseHandler, srvConfig config.ServerConfig) 
 			expenseTrackerEndpoints.GET("", handler.ExpenseTrackerHandler.GetAllExpenseTrackers)
 			expenseTrackerEndpoints.DELETE(":id", handler.ExpenseTrackerHandler.Delete)
 		}
+
+		taskEndpoints := appRouter.Group("task", router.VerifyJWT(srvConfig.JwtSecretKey))
+		{
+			taskEndpoints.POST("", handler.TaskHandler.SaveTask)
+			taskEndpoints.PUT(":id", handler.TaskHandler.UpdateTask)
+			taskEndpoints.GET(":id", handler.TaskHandler.Get)
+			taskEndpoints.GET("", handler.TaskHandler.GetAllTasks)
+			taskEndpoints.DELETE(":id", handler.TaskHandler.Delete)
+		}
 	}
 	return g
 }

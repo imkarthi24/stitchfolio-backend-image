@@ -17,6 +17,7 @@ type BaseService struct {
 	OrderHistoryService       service.OrderHistoryService
 	MeasurementHistoryService service.MeasurementHistoryService
 	ExpenseTrackerService     service.ExpenseTrackerService
+	TaskService               service.TaskService
 }
 
 func ProvideBaseService(
@@ -34,6 +35,7 @@ func ProvideBaseService(
 	orderHistoryService service.OrderHistoryService,
 	measurementHistoryService service.MeasurementHistoryService,
 	expenseTrackerService service.ExpenseTrackerService,
+	taskService service.TaskService,
 ) BaseService {
 	return BaseService{
 		UserService:               user,
@@ -50,5 +52,6 @@ func ProvideBaseService(
 		OrderHistoryService:       orderHistoryService,
 		MeasurementHistoryService: measurementHistoryService,
 		ExpenseTrackerService:     expenseTrackerService,
+		TaskService:               taskService,
 	}
 }

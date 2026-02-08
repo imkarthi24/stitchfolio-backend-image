@@ -59,7 +59,8 @@ func (ur *userRepository) Update(ctx *context.Context, user *entities.User) *err
 
 func (ur *userRepository) GetUserByEmail(ctx *context.Context, email string) (*entities.User, *errs.XError) {
 	user := entities.User{}
-	res := ur.WithDB(ctx).Limit(1).
+	res := ur.WithDB(ctx).
+		Limit(1).
 		Where("is_active = ? AND email = ?", true, email).
 		Preload("UserChannelDetails", scopes.IsActive(), scopes.SelectFields("user_id", "user_channel_id")).
 		Find(&user)
@@ -74,8 +75,7 @@ func (ur *userRepository) GetAllUsers(ctx *context.Context, search string) ([]en
 	users := new([]entities.User)
 
 	res := ur.WithDB(ctx).
-		Scopes(scopes.Channel()).
-		Scopes(scopes.IsActive()).
+		Scopes(scopes.Channel(), scopes.IsActive()).
 		Scopes(scopes.ILike(search, "first_name", "last_name", "email")).
 		Scopes(scopes.AccessibleChannels(utils.GetAccessibleLocationIds(ctx))).
 		Scopes(db.Paginate(ctx)).

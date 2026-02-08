@@ -41,7 +41,12 @@ func (or *orderRepository) Update(ctx *context.Context, order *entities.Order) *
 
 func (or *orderRepository) Get(ctx *context.Context, id uint) (*entities.Order, *errs.XError) {
 	order := entities.Order{}
-	res := or.WithDB(ctx).
+	res := or.WithDB(ctx).Model(&entities.Order{}).
+		Select(`"stich"."Orders".*,
+			(SELECT COALESCE(SUM(quantity), 0) FROM "stich"."OrderItems"
+			 WHERE "stich"."OrderItems".order_id = "stich"."Orders".id) as order_quantity,
+			(SELECT COALESCE(SUM(total), 0) FROM "stich"."OrderItems"
+			 WHERE "stich"."OrderItems".order_id = "stich"."Orders".id) as order_value`).
 		Preload("Customer").
 		Preload("OrderTakenBy", scopes.SelectFields("first_name", "last_name")).
 		Preload("OrderItems.Person").

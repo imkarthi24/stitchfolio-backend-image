@@ -12,4 +12,6 @@ type MasterConfig struct {
 	UseDefault    bool   `json:"useDefault,omitempty"`
 	Description   string `json:"description,omitempty"`
 	Format        string `json:"format,omitempty"`
+
+	AuditFields
 }

@@ -11,6 +11,8 @@ type Customer struct {
 	WhatsappNumber string `json:"whatsappNumber,omitempty"`
 	Address        string `json:"address,omitempty"`
 
+	AuditFields
+
 	Persons   []Person  `json:"persons,omitempty"`
 	Enquiries []Enquiry `json:"enquiries,omitempty"`
 	Orders    []Order   `json:"orders,omitempty"`

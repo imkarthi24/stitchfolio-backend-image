@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	config_cache "github.com/imkarthi24/sf-backend/internal/cache"
 	"github.com/imkarthi24/sf-backend/internal/config"
+	"github.com/imkarthi24/sf-backend/internal/entities"
 	"github.com/imkarthi24/sf-backend/internal/repository"
 
 	// "github.com/loop-kar/pixie/db/migrator"
@@ -75,11 +76,12 @@ func (a *App) Migrate(ctx *context.Context, checkErr func(err error)) {
 		// &entities.Order{},
 		// &entities.OrderItem{},
 		// &entities.Person{},
+		&entities.Task{},
 		// &entities.UserChannelDetail{},
 		// &entities.UserConfig{},
 		// &entities.User{},
 		// &entities.WhatsappNotification{},
-
+		&entities.Task{},
 	}
 
 	//************************//
@@ -95,5 +97,5 @@ func (a *App) Migrate(ctx *context.Context, checkErr func(err error)) {
 
 	//migrator.Migrate(entityList, checkErr)
 
-	migrator.GenerateAlterMigration(entityList, "003_add_expense_entity")
+	migrator.GenerateAlterMigration(entityList, "004_add_task_entity")
 }
