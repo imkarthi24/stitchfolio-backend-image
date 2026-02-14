@@ -67,10 +67,6 @@ jobs:
             echo "Building and starting with Docker Compose..."
             docker compose -p ${{ env.COMPOSE_PROJECT }} build --no-cache
 
-            echo "Running migrations..."
-            docker compose -p ${{ env.COMPOSE_PROJECT }} run --rm backend \
-              ./app --configFile ./config/${{ env.CONFIG_FILE }} --migrate true
-
             echo "Starting backend + nginx..."
             docker compose -p ${{ env.COMPOSE_PROJECT }} up -d
 

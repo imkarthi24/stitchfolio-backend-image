@@ -14,7 +14,7 @@
 | `main` | Deploy Main    | `/root/stitchfolio_env/prod.env` | `stitchfolio-prod` | port **80**   |
 
 - **Trigger**: Push or merge to `dev` or `main` (or run manually via “Run workflow”).
-- **Steps**: Checkout → SSH → pull branch → write `.env` for compose → build → run migrations → `docker compose up -d` (backend + nginx).
+- **Steps**: Checkout → SSH → pull branch → write `.env` for compose → build → `docker compose up -d` (backend + nginx). Migrations are not run automatically; run them manually if needed.
 
 ## GitHub secrets
 
