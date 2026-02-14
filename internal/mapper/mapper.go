@@ -28,6 +28,10 @@ type Mapper interface {
 	MeasurementHistory(e requestModel.MeasurementHistory) (*entities.MeasurementHistory, error)
 	ExpenseTracker(e requestModel.ExpenseTracker) (*entities.Expense, error)
 	Task(e requestModel.Task) (*entities.Task, error)
+	Category(e requestModel.Category) (*entities.Category, error)
+	Product(e requestModel.Product) (*entities.Product, error)
+	Inventory(e requestModel.Inventory) (*entities.Inventory, error)
+	InventoryLog(e requestModel.InventoryLog) (*entities.InventoryLog, error)
 }
 
 type mapper struct{}
@@ -483,3 +487,54 @@ func (m *mapper) Task(e requestModel.Task) (*entities.Task, error) {
 		AssignedToId: e.AssignedToId,
 	}, nil
 }
+
+func (m *mapper) Category(e requestModel.Category) (*entities.Category, error) {
+	return &entities.Category{
+		Model: &entities.Model{ID: e.ID, IsActive: e.IsActive},
+		Name:  e.Name,
+	}, nil
+}
+
+func (m *mapper) Product(e requestModel.Product) (*entities.Product, error) {
+	return &entities.Product{
+		Model:        &entities.Model{ID: e.ID, IsActive: e.IsActive},
+		Name:         e.Name,
+		SKU:          e.SKU,
+		CategoryId:   e.CategoryId,
+		Description:  e.Description,
+		CostPrice:    e.CostPrice,
+		SellingPrice: e.SellingPrice,
+	}, nil
+}
+
+func (m *mapper) Inventory(e requestModel.Inventory) (*entities.Inventory, error) {
+	return &entities.Inventory{
+		Model:             &entities.Model{ID: e.ID, IsActive: e.IsActive},
+		ProductId:         e.ProductId,
+		LowStockThreshold: e.LowStockThreshold,
+	}, nil
+}
+
+func (m *mapper) InventoryLog(e requestModel.InventoryLog) (*entities.InventoryLog, error) {
+	var loggedAt time.Time
+	if e.LoggedAt != "" {
+		date, err := util.GenerateDateTimeFromString(&e.LoggedAt)
+		if err != nil {
+			return nil, err
+		}
+		loggedAt = *date
+	} else {
+		loggedAt = util.GetLocalTime()
+	}
+
+	return &entities.InventoryLog{
+		Model:      &entities.Model{ID: e.ID, IsActive: e.IsActive},
+		ProductId:  e.ProductId,
+		ChangeType: entities.InventoryLogChangeType(e.ChangeType),
+		Quantity:   e.Quantity,
+		Reason:     e.Reason,
+		Notes:      e.Notes,
+		LoggedAt:   loggedAt,
+	}, nil
+}
+

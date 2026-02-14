@@ -47,6 +47,14 @@ type ResponseMapper interface {
 	ExpenseTrackers(items []entities.Expense) ([]responseModel.ExpenseTracker, error)
 	Task(e *entities.Task) (*responseModel.Task, error)
 	Tasks(items []entities.Task) ([]responseModel.Task, error)
+	Category(e *entities.Category) (*responseModel.Category, error)
+	Categories(items []entities.Category) ([]responseModel.Category, error)
+	Product(e *entities.Product) (*responseModel.Product, error)
+	Products(items []entities.Product) ([]responseModel.Product, error)
+	Inventory(e *entities.Inventory) (*responseModel.Inventory, error)
+	Inventories(items []entities.Inventory) ([]responseModel.Inventory, error)
+	InventoryLog(e *entities.InventoryLog) (*responseModel.InventoryLog, error)
+	InventoryLogs(items []entities.InventoryLog) ([]responseModel.InventoryLog, error)
 }
 
 func ProvideResponseMapper() ResponseMapper {
@@ -694,3 +702,207 @@ func (m *responseMapper) Tasks(items []entities.Task) ([]responseModel.Task, err
 	}
 	return result, nil
 }
+
+func (m *responseMapper) Category(e *entities.Category) (*responseModel.Category, error) {
+	if e == nil {
+		return nil, nil
+	}
+
+	productCount := len(e.Products)
+
+	return &responseModel.Category{
+		ID:           e.ID,
+		IsActive:     e.IsActive,
+		Name:         e.Name,
+		ProductCount: productCount,
+		AuditFields: responseModel.AuditFields{
+			CreatedAt: e.CreatedAt,
+			UpdatedAt: e.UpdatedAt,
+			CreatedBy: e.CreatedBy,
+			UpdatedBy: e.UpdatedBy,
+		},
+	}, nil
+}
+
+func (m *responseMapper) Categories(items []entities.Category) ([]responseModel.Category, error) {
+	result := make([]responseModel.Category, 0)
+	for _, item := range items {
+		mappedItem, err := m.Category(&item)
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, *mappedItem)
+	}
+	return result, nil
+}
+
+func (m *responseMapper) Product(e *entities.Product) (*responseModel.Product, error) {
+	if e == nil {
+		return nil, nil
+	}
+
+	var category *responseModel.Category
+	var categoryName string
+	if e.Category != nil {
+		cat, err := m.Category(e.Category)
+		if err != nil {
+			return nil, err
+		}
+		category = cat
+		categoryName = e.Category.Name
+	}
+
+	var inventory *responseModel.Inventory
+	var currentStock int
+	var isLowStock bool
+	if e.Inventory != nil {
+		inv, err := m.Inventory(e.Inventory)
+		if err != nil {
+			return nil, err
+		}
+		inventory = inv
+		currentStock = e.Inventory.Quantity
+		isLowStock = e.Inventory.IsLowStock()
+	}
+
+	return &responseModel.Product{
+		ID:           e.ID,
+		IsActive:     e.IsActive,
+		Name:         e.Name,
+		SKU:          e.SKU,
+		CategoryId:   e.CategoryId,
+		Description:  e.Description,
+		CostPrice:    e.CostPrice,
+		SellingPrice: e.SellingPrice,
+		Category:     category,
+		Inventory:    inventory,
+		CurrentStock: currentStock,
+		IsLowStock:   isLowStock,
+		CategoryName: categoryName,
+		AuditFields: responseModel.AuditFields{
+			CreatedAt: e.CreatedAt,
+			UpdatedAt: e.UpdatedAt,
+			CreatedBy: e.CreatedBy,
+			UpdatedBy: e.UpdatedBy,
+		},
+	}, nil
+}
+
+func (m *responseMapper) Products(items []entities.Product) ([]responseModel.Product, error) {
+	result := make([]responseModel.Product, 0)
+	for _, item := range items {
+		mappedItem, err := m.Product(&item)
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, *mappedItem)
+	}
+	return result, nil
+}
+
+func (m *responseMapper) Inventory(e *entities.Inventory) (*responseModel.Inventory, error) {
+	if e == nil {
+		return nil, nil
+	}
+
+	var product *responseModel.Product
+	var productName string
+	var productSKU string
+	if e.Product != nil {
+		prod, err := m.Product(e.Product)
+		if err != nil {
+			return nil, err
+		}
+		product = prod
+		productName = e.Product.Name
+		productSKU = e.Product.SKU
+	}
+
+	isLowStock := e.IsLowStock()
+
+	return &responseModel.Inventory{
+		ID:                e.ID,
+		IsActive:          e.IsActive,
+		ProductId:         e.ProductId,
+		Quantity:          e.Quantity,
+		LowStockThreshold: e.LowStockThreshold,
+		UpdatedAt:         e.UpdatedAt,
+		Product:           product,
+		ProductName:       productName,
+		ProductSKU:        productSKU,
+		IsLowStock:        isLowStock,
+		AuditFields: responseModel.AuditFields{
+			CreatedAt: e.CreatedAt,
+			UpdatedAt: e.UpdatedAt,
+			CreatedBy: e.CreatedBy,
+			UpdatedBy: e.UpdatedBy,
+		},
+	}, nil
+}
+
+func (m *responseMapper) Inventories(items []entities.Inventory) ([]responseModel.Inventory, error) {
+	result := make([]responseModel.Inventory, 0)
+	for _, item := range items {
+		mappedItem, err := m.Inventory(&item)
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, *mappedItem)
+	}
+	return result, nil
+}
+
+func (m *responseMapper) InventoryLog(e *entities.InventoryLog) (*responseModel.InventoryLog, error) {
+	if e == nil {
+		return nil, nil
+	}
+
+	var product *responseModel.Product
+	var productName string
+	var productSKU string
+	if e.Product != nil {
+		prod, err := m.Product(e.Product)
+		if err != nil {
+			return nil, err
+		}
+		product = prod
+		productName = e.Product.Name
+		productSKU = e.Product.SKU
+	}
+
+	netChange := e.CalculateNetChange()
+
+	return &responseModel.InventoryLog{
+		ID:          e.ID,
+		IsActive:    e.IsActive,
+		ProductId:   e.ProductId,
+		ChangeType:  string(e.ChangeType),
+		Quantity:    e.Quantity,
+		Reason:      e.Reason,
+		Notes:       e.Notes,
+		LoggedAt:    e.LoggedAt,
+		Product:     product,
+		ProductName: productName,
+		ProductSKU:  productSKU,
+		NetChange:   netChange,
+		AuditFields: responseModel.AuditFields{
+			CreatedAt: e.CreatedAt,
+			UpdatedAt: e.UpdatedAt,
+			CreatedBy: e.CreatedBy,
+			UpdatedBy: e.UpdatedBy,
+		},
+	}, nil
+}
+
+func (m *responseMapper) InventoryLogs(items []entities.InventoryLog) ([]responseModel.InventoryLog, error) {
+	result := make([]responseModel.InventoryLog, 0)
+	for _, item := range items {
+		mappedItem, err := m.InventoryLog(&item)
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, *mappedItem)
+	}
+	return result, nil
+}
+

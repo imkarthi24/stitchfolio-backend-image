@@ -231,6 +231,47 @@ func InitRouter(handler baseHandler.BaseHandler, newRelic *newrelic.Application,
 			taskEndpoints.GET("", handler.TaskHandler.GetAllTasks)
 			taskEndpoints.DELETE(":id", handler.TaskHandler.Delete)
 		}
+
+		categoryEndpoints := appRouter.Group("category", router.VerifyJWT(srvConfig.JwtSecretKey))
+		{
+			categoryEndpoints.POST("", handler.CategoryHandler.SaveCategory)
+			categoryEndpoints.PUT(":id", handler.CategoryHandler.UpdateCategory)
+			categoryEndpoints.GET("autocomplete", handler.CategoryHandler.AutocompleteCategory)
+			categoryEndpoints.GET(":id", handler.CategoryHandler.Get)
+			categoryEndpoints.GET("", handler.CategoryHandler.GetAllCategories)
+			categoryEndpoints.DELETE(":id", handler.CategoryHandler.Delete)
+		}
+
+		productEndpoints := appRouter.Group("product", router.VerifyJWT(srvConfig.JwtSecretKey))
+		{
+			productEndpoints.POST("", handler.ProductHandler.SaveProduct)
+			productEndpoints.PUT(":id", handler.ProductHandler.UpdateProduct)
+			productEndpoints.GET("autocomplete", handler.ProductHandler.AutocompleteProduct)
+			productEndpoints.GET("low-stock", handler.ProductHandler.GetLowStockProducts)
+			productEndpoints.GET("sku", handler.ProductHandler.GetBySKU)
+			productEndpoints.GET(":id", handler.ProductHandler.Get)
+			productEndpoints.GET("", handler.ProductHandler.GetAllProducts)
+			productEndpoints.DELETE(":id", handler.ProductHandler.Delete)
+		}
+
+		inventoryEndpoints := appRouter.Group("inventory", router.VerifyJWT(srvConfig.JwtSecretKey))
+		{
+			inventoryEndpoints.POST("movement", handler.InventoryHandler.RecordStockMovement)
+			inventoryEndpoints.PUT(":id/threshold", handler.InventoryHandler.UpdateThreshold)
+			inventoryEndpoints.GET("low-stock", handler.InventoryHandler.GetLowStockItems)
+			inventoryEndpoints.GET("product/:productId", handler.InventoryHandler.GetByProductId)
+			inventoryEndpoints.GET(":id", handler.InventoryHandler.Get)
+			inventoryEndpoints.GET("", handler.InventoryHandler.GetAllInventories)
+		}
+
+		inventoryLogEndpoints := appRouter.Group("inventory-log", router.VerifyJWT(srvConfig.JwtSecretKey))
+		{
+			inventoryLogEndpoints.GET("change-type", handler.InventoryLogHandler.GetByChangeType)
+			inventoryLogEndpoints.GET("date-range", handler.InventoryLogHandler.GetByDateRange)
+			inventoryLogEndpoints.GET("product/:productId", handler.InventoryLogHandler.GetByProductId)
+			inventoryLogEndpoints.GET(":id", handler.InventoryLogHandler.Get)
+			inventoryLogEndpoints.GET("", handler.InventoryLogHandler.GetAllInventoryLogs)
+		}
 	}
 	return g
 }
