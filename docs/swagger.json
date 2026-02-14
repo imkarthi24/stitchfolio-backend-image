@@ -3582,6 +3582,10 @@
                 "createdAt": {
                     "type": "string"
                 },
+                "createdBy": {
+                    "description": "Transient fields for response mapping, not stored in DB",
+                    "type": "string"
+                },
                 "createdById": {
                     "type": "integer"
                 },
@@ -3599,6 +3603,9 @@
                     "type": "string"
                 },
                 "updatedAt": {
+                    "type": "string"
+                },
+                "updatedBy": {
                     "type": "string"
                 },
                 "updatedById": {
@@ -3655,6 +3662,10 @@
                 "createdAt": {
                     "type": "string"
                 },
+                "createdBy": {
+                    "description": "Transient fields for response mapping, not stored in DB",
+                    "type": "string"
+                },
                 "createdById": {
                     "type": "integer"
                 },
@@ -3703,6 +3714,9 @@
                 "updatedAt": {
                     "type": "string"
                 },
+                "updatedBy": {
+                    "type": "string"
+                },
                 "updatedById": {
                     "type": "integer"
                 },
@@ -3735,6 +3749,10 @@
                 "createdAt": {
                     "type": "string"
                 },
+                "createdBy": {
+                    "description": "Transient fields for response mapping, not stored in DB",
+                    "type": "string"
+                },
                 "createdById": {
                     "type": "integer"
                 },
@@ -3742,6 +3760,9 @@
                     "type": "boolean"
                 },
                 "updatedAt": {
+                    "type": "string"
+                },
+                "updatedBy": {
                     "type": "string"
                 },
                 "updatedById": {
@@ -3773,6 +3794,10 @@
                 "createdAt": {
                     "type": "string"
                 },
+                "createdBy": {
+                    "description": "Transient fields for response mapping, not stored in DB",
+                    "type": "string"
+                },
                 "createdById": {
                     "type": "integer"
                 },
@@ -3780,6 +3805,9 @@
                     "type": "boolean"
                 },
                 "updatedAt": {
+                    "type": "string"
+                },
+                "updatedBy": {
                     "type": "string"
                 },
                 "updatedById": {
@@ -4612,6 +4640,23 @@
                 "WARNING"
             ]
         },
+        "responseModel.AuditFields": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "createdBy": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "updatedBy": {
+                    "type": "string"
+                }
+            }
+        },
         "responseModel.Channel": {
             "type": "object",
             "properties": {
@@ -4629,6 +4674,10 @@
                     "type": "string"
                 },
                 "createdAt": {
+                    "type": "string"
+                },
+                "createdBy": {
+                    "description": "Transient fields for response mapping, not stored in DB",
                     "type": "string"
                 },
                 "createdById": {
@@ -4656,6 +4705,9 @@
                 "updatedAt": {
                     "type": "string"
                 },
+                "updatedBy": {
+                    "type": "string"
+                },
                 "updatedById": {
                     "type": "integer"
                 }
@@ -4677,12 +4729,6 @@
             "properties": {
                 "address": {
                     "type": "string"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
-                    "type": "integer"
                 },
                 "email": {
                     "type": "string"
@@ -4720,12 +4766,6 @@
                 "phoneNumber": {
                     "type": "string"
                 },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
-                    "type": "integer"
-                },
                 "whatsappNumber": {
                     "type": "string"
                 }
@@ -4754,12 +4794,6 @@
         "responseModel.DressType": {
             "type": "object",
             "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
-                    "type": "integer"
-                },
                 "description": {
                     "type": "string"
                 },
@@ -4774,24 +4808,12 @@
                 },
                 "name": {
                     "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
-                    "type": "integer"
                 }
             }
         },
         "responseModel.Enquiry": {
             "type": "object",
             "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
-                    "type": "integer"
-                },
                 "customer": {
                     "$ref": "#/definitions/responseModel.Customer"
                 },
@@ -4821,12 +4843,6 @@
                 },
                 "subject": {
                     "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
-                    "type": "integer"
                 }
             }
         },
@@ -4835,12 +4851,6 @@
             "properties": {
                 "callBackDate": {
                     "type": "string"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
-                    "type": "integer"
                 },
                 "customerComment": {
                     "type": "string"
@@ -4881,12 +4891,6 @@
                 "status": {
                     "type": "string"
                 },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
-                    "type": "integer"
-                },
                 "visitingDate": {
                     "type": "string"
                 }
@@ -4895,17 +4899,14 @@
         "responseModel.ExpenseTracker": {
             "type": "object",
             "properties": {
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
+                },
                 "billNumber": {
                     "type": "string"
                 },
                 "companyName": {
                     "type": "string"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
-                    "type": "integer"
                 },
                 "id": {
                     "type": "integer"
@@ -4927,23 +4928,14 @@
                 },
                 "purchaseDate": {
                     "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
-                    "type": "integer"
                 }
             }
         },
         "responseModel.Measurement": {
             "type": "object",
             "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
-                    "type": "integer"
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
                 },
                 "dressType": {
                     "$ref": "#/definitions/responseModel.DressType"
@@ -4971,12 +4963,6 @@
                     "type": "string"
                 },
                 "takenById": {
-                    "type": "integer"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
                     "type": "integer"
                 },
                 "values": {
@@ -5026,12 +5012,6 @@
                 "changedValues": {
                     "type": "string"
                 },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
-                    "type": "integer"
-                },
                 "id": {
                     "type": "integer"
                 },
@@ -5058,12 +5038,6 @@
                 },
                 "performedById": {
                     "type": "integer"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
-                    "type": "integer"
                 }
             }
         },
@@ -5073,11 +5047,8 @@
                 "additionalCharges": {
                     "type": "number"
                 },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
-                    "type": "integer"
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
                 },
                 "customer": {
                     "$ref": "#/definitions/responseModel.Customer"
@@ -5127,12 +5098,6 @@
                 },
                 "status": {
                     "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
-                    "type": "integer"
                 }
             }
         },
@@ -5144,12 +5109,6 @@
                 },
                 "changedFields": {
                     "type": "string"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
-                    "type": "integer"
                 },
                 "deliveredDate": {
                     "type": "string"
@@ -5187,12 +5146,6 @@
                 },
                 "status": {
                     "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
-                    "type": "integer"
                 }
             }
         },
@@ -5202,11 +5155,8 @@
                 "additionalCharges": {
                     "type": "number"
                 },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
-                    "type": "integer"
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
                 },
                 "deliveredDate": {
                     "type": "string"
@@ -5249,12 +5199,6 @@
                 },
                 "total": {
                     "type": "number"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
-                    "type": "integer"
                 }
             }
         },
@@ -5262,12 +5206,6 @@
             "type": "object",
             "properties": {
                 "age": {
-                    "type": "integer"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
                     "type": "integer"
                 },
                 "customer": {
@@ -5296,12 +5234,6 @@
                     "items": {
                         "$ref": "#/definitions/responseModel.Measurement"
                     }
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
-                    "type": "integer"
                 }
             }
         },
@@ -5311,14 +5243,11 @@
                 "assignedToId": {
                     "type": "integer"
                 },
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
+                },
                 "completedAt": {
                     "type": "string"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
-                    "type": "integer"
                 },
                 "description": {
                     "type": "string"
@@ -5343,24 +5272,12 @@
                 },
                 "title": {
                     "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
-                    "type": "integer"
                 }
             }
         },
         "responseModel.User": {
             "type": "object",
             "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
-                    "type": "integer"
-                },
                 "department": {
                     "type": "string"
                 },
@@ -5405,12 +5322,6 @@
                 },
                 "role": {
                     "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
-                    "type": "integer"
                 },
                 "userChannelDetails": {
                     "type": "array",
