@@ -14,8 +14,8 @@ env:
   DEPLOY_PATH: "/stitchfolio/backend-inventory"
   ENV_FILE: "/root/stitchfolio_env/dev.env"
   CONFIG_FILE: "dev.yaml"
-  NGINX_HTTP_PORT: "9001"
-  NGINX_HTTPS_PORT: "9002"
+  NGINX_HTTP_PORT: "9008"
+  NGINX_HTTPS_PORT: "9009"
   COMPOSE_PROJECT: "stitchfolio-inventory"
   BRANCH: "inventory"
 
