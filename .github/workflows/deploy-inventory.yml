@@ -1,7 +1,7 @@
 # Deploy backend + nginx to dev on push/merge to dev
 # Uses /stitchfolio/env/.dev.env and docker-compose (backend + nginx).
 
-name: Deploy Dev
+name: Deploy Inventory
 
 on:
   push:
