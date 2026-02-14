@@ -12,7 +12,7 @@ env:
   SSH_HOST: "31.97.202.6"
   SSH_USER: "root"
   DEPLOY_PATH: "/stitchfolio/backend-prod"
-  ENV_FILE: "/stitchfolio_env/prod.env"
+  ENV_FILE: "/root/stitchfolio_env/prod.env"
   CONFIG_FILE: "prod.yaml"
   NGINX_HOST_PORT: "80"
   COMPOSE_PROJECT: "stitchfolio-prod"
@@ -35,6 +35,11 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             set -e
+            export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:$PATH"
+            if ! command -v docker >/dev/null 2>&1; then
+              echo "ERROR: docker not found. Install Docker on the server and ensure it is in PATH."
+              exit 1
+            fi
             DEPLOY_PATH="${{ env.DEPLOY_PATH }}"
             BRANCH="${{ env.BRANCH }}"
             REPO_URL="git@github.com:${{ github.repository }}.git"

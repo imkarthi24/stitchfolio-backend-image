@@ -10,8 +10,8 @@
 
 | Branch | Workflow       | Env file                     | Compose project    | Nginx on host |
 |--------|----------------|------------------------------|--------------------|---------------|
-| `dev`  | Deploy Dev     | `/stitchfolio/env/.dev.env`  | `stitchfolio-dev`  | port **9001** |
-| `main` | Deploy Main    | `/stitchfolio/env/.prod.env` | `stitchfolio-prod` | port **80**   |
+| `dev`  | Deploy Dev     | `/root/stitchfolio_env/dev.env`  | `stitchfolio-dev`  | port **9001** |
+| `main` | Deploy Main    | `/root/stitchfolio_env/prod.env` | `stitchfolio-prod` | port **80**   |
 
 - **Trigger**: Push or merge to `dev` or `main` (or run manually via “Run workflow”).
 - **Steps**: Checkout → SSH → pull branch → write `.env` for compose → build → run migrations → `docker compose up -d` (backend + nginx).
@@ -25,8 +25,8 @@
 On `31.97.202.6`:
 
 1. **Env files** (already in place):
-   - `/stitchfolio/env/.dev.env`
-   - `/stitchfolio/env/.prod.env`
+   - `/root/stitchfolio_env/dev.env`
+   - `/root/stitchfolio_env/prod.env`
 
 2. **Deploy directories**: The workflow creates `/stitchfolio` and clones the repo into `/stitchfolio/backend-dev` or `/stitchfolio/backend-prod` on first run if those paths don’t exist. For a **private** repo, the server must be able to clone from GitHub (e.g. add the server’s SSH key as a deploy key in the repo). You can still create the dirs and clone manually if you prefer.
 
