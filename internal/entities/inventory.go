@@ -1,13 +1,11 @@
 package entities
 
-import "time"
-
 type Inventory struct {
 	*Model `mapstructure:",squash"`
 
-	ProductId         uint      `json:"productId" gorm:"unique;not null"`
-	Quantity          int       `json:"quantity" gorm:"not null;default:0"`
-	LowStockThreshold int       `json:"lowStockThreshold" gorm:"default:0"`
+	ProductId         uint `json:"productId" gorm:"unique;not null"`
+	Quantity          int  `json:"quantity" gorm:"not null;default:0"`
+	LowStockThreshold int  `json:"lowStockThreshold" gorm:"default:0"`
 
 	// Relations
 	Product *Product `gorm:"foreignKey:ProductId" json:"product,omitempty"`

@@ -905,4 +905,3 @@ func (m *responseMapper) InventoryLogs(items []entities.InventoryLog) ([]respons
 	}
 	return result, nil
 }
-

@@ -537,4 +537,3 @@ func (m *mapper) InventoryLog(e requestModel.InventoryLog) (*entities.InventoryL
 		LoggedAt:   loggedAt,
 	}, nil
 }
-

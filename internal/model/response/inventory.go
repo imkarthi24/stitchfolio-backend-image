@@ -13,17 +13,17 @@ type Inventory struct {
 	AuditFields
 
 	// Related data
-	Product      *Product `json:"product,omitempty"`
-	ProductName  string   `json:"productName,omitempty"`
-	ProductSKU   string   `json:"productSku,omitempty"`
-	IsLowStock   bool     `json:"isLowStock,omitempty"`
+	Product     *Product `json:"product,omitempty"`
+	ProductName string   `json:"productName,omitempty"`
+	ProductSKU  string   `json:"productSku,omitempty"`
+	IsLowStock  bool     `json:"isLowStock,omitempty"`
 }
 
 type LowStockItem struct {
-	ProductId         uint    `json:"productId"`
-	ProductName       string  `json:"productName"`
-	ProductSKU        string  `json:"productSku"`
-	CurrentStock      int     `json:"currentStock"`
-	LowStockThreshold int     `json:"lowStockThreshold"`
-	CategoryName      string  `json:"categoryName,omitempty"`
+	ProductId         uint   `json:"productId"`
+	ProductName       string `json:"productName"`
+	ProductSKU        string `json:"productSku"`
+	CurrentStock      int    `json:"currentStock"`
+	LowStockThreshold int    `json:"lowStockThreshold"`
+	CategoryName      string `json:"categoryName,omitempty"`
 }

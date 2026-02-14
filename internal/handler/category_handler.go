@@ -22,15 +22,15 @@ func ProvideCategoryHandler(svc service.CategoryService) *CategoryHandler {
 	return &CategoryHandler{categorySvc: svc}
 }
 
-// @Summary     Save Category
-// @Description Saves an instance of Category
-// @Tags        Category
-// @Accept      json
-// @Success     201       {object} response.Response
-// @Failure     400       {object} response.Response
-// @Failure     500       {object} response.Response
-// @Param       category  body     requestModel.Category true "category"
-// @Router      /category [post]
+// @Summary		Save Category
+// @Description	Saves an instance of Category
+// @Tags			Category
+// @Accept			json
+// @Success		201			{object}	response.Response
+// @Failure		400			{object}	response.Response
+// @Failure		500			{object}	response.Response
+// @Param			category	body		requestModel.Category	true	"category"
+// @Router			/category [post]
 func (h CategoryHandler) SaveCategory(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)
 	var category requestModel.Category
@@ -50,16 +50,16 @@ func (h CategoryHandler) SaveCategory(ctx *gin.Context) {
 	h.resp.SuccessResponse("Save success").FormatAndSend(&context, ctx, http.StatusCreated)
 }
 
-// @Summary     Update Category
-// @Description Updates an instance of Category
-// @Tags        Category
-// @Accept      json
-// @Success     202       {object} response.Response
-// @Failure     400       {object} response.Response
-// @Failure     500       {object} response.Response
-// @Param       category  body     requestModel.Category true "category"
-// @Param       id        path     int                   true "Category id"
-// @Router      /category/{id} [put]
+// @Summary		Update Category
+// @Description	Updates an instance of Category
+// @Tags			Category
+// @Accept			json
+// @Success		202			{object}	response.Response
+// @Failure		400			{object}	response.Response
+// @Failure		500			{object}	response.Response
+// @Param			category	body		requestModel.Category	true	"category"
+// @Param			id			path		int						true	"Category id"
+// @Router			/category/{id} [put]
 func (h CategoryHandler) UpdateCategory(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)
 	var category requestModel.Category
@@ -80,14 +80,14 @@ func (h CategoryHandler) UpdateCategory(ctx *gin.Context) {
 	h.resp.SuccessResponse("Update success").FormatAndSend(&context, ctx, http.StatusAccepted)
 }
 
-// @Summary     Get a specific Category
-// @Description Get an instance of Category
-// @Tags        Category
-// @Accept      json
-// @Success     200 {object} responseModel.Category
-// @Failure     400 {object} response.DataResponse
-// @Param       id  path     int true "Category id"
-// @Router      /category/{id} [get]
+// @Summary		Get a specific Category
+// @Description	Get an instance of Category
+// @Tags			Category
+// @Accept			json
+// @Success		200	{object}	responseModel.Category
+// @Failure		400	{object}	response.DataResponse
+// @Param			id	path		int	true	"Category id"
+// @Router			/category/{id} [get]
 func (h CategoryHandler) Get(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)
 
@@ -102,14 +102,14 @@ func (h CategoryHandler) Get(ctx *gin.Context) {
 	h.dataResp.DefaultSuccessResponse(category).FormatAndSend(&context, ctx, http.StatusOK)
 }
 
-// @Summary     Get all active categories
-// @Description Get all active categories
-// @Tags        Category
-// @Accept      json
-// @Success     200    {object} responseModel.Category
-// @Failure     400    {object} response.DataResponse
-// @Param       search query    string false "search"
-// @Router      /category [get]
+// @Summary		Get all active categories
+// @Description	Get all active categories
+// @Tags			Category
+// @Accept			json
+// @Success		200		{object}	responseModel.Category
+// @Failure		400		{object}	response.DataResponse
+// @Param			search	query		string	false	"search"
+// @Router			/category [get]
 func (h CategoryHandler) GetAllCategories(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)
 
@@ -125,14 +125,14 @@ func (h CategoryHandler) GetAllCategories(ctx *gin.Context) {
 	h.dataResp.DefaultSuccessResponse(categories).FormatAndSend(&context, ctx, http.StatusOK)
 }
 
-// @Summary     Delete Category
-// @Description Deletes an instance of Category
-// @Tags        Category
-// @Accept      json
-// @Success     200 {object} response.Response
-// @Failure     400 {object} response.Response
-// @Param       id  path     int true "category id"
-// @Router      /category/{id} [delete]
+// @Summary		Delete Category
+// @Description	Deletes an instance of Category
+// @Tags			Category
+// @Accept			json
+// @Success		200	{object}	response.Response
+// @Failure		400	{object}	response.Response
+// @Param			id	path		int	true	"category id"
+// @Router			/category/{id} [delete]
 func (h CategoryHandler) Delete(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)
 
@@ -146,14 +146,14 @@ func (h CategoryHandler) Delete(ctx *gin.Context) {
 	h.resp.SuccessResponse("Delete Success").FormatAndSend(&context, ctx, http.StatusOK)
 }
 
-// @Summary     Autocomplete for categories
-// @Description Autocomplete for categories
-// @Tags        Category
-// @Accept      json
-// @Success     200    {object} responseModel.CategoryAutoComplete
-// @Failure     400    {object} response.DataResponse
-// @Param       search query    string false "search"
-// @Router      /category/autocomplete [get]
+// @Summary		Autocomplete for categories
+// @Description	Autocomplete for categories
+// @Tags			Category
+// @Accept			json
+// @Success		200		{object}	responseModel.CategoryAutoComplete
+// @Failure		400		{object}	response.DataResponse
+// @Param			search	query		string	false	"search"
+// @Router			/category/autocomplete [get]
 func (h CategoryHandler) AutocompleteCategory(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)
 

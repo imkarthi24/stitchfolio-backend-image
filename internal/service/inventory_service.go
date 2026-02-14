@@ -19,7 +19,7 @@ type InventoryService interface {
 	GetByProductId(*context.Context, uint) (*responseModel.Inventory, *errs.XError)
 	UpdateThreshold(*context.Context, requestModel.Inventory, uint) *errs.XError
 	GetLowStockItems(*context.Context) ([]responseModel.LowStockItem, *errs.XError)
-	
+
 	// Stock movement operations
 	RecordStockMovement(*context.Context, requestModel.StockMovementRequest) (*responseModel.StockMovementResponse, *errs.XError)
 }
@@ -147,9 +147,9 @@ func (svc inventoryService) RecordStockMovement(ctx *context.Context, request re
 	}
 
 	changeType := entities.InventoryLogChangeType(request.ChangeType)
-	if changeType != entities.InventoryLogChangeTypeIN && 
-	   changeType != entities.InventoryLogChangeTypeOUT && 
-	   changeType != entities.InventoryLogChangeTypeADJUST {
+	if changeType != entities.InventoryLogChangeTypeIN &&
+		changeType != entities.InventoryLogChangeTypeOUT &&
+		changeType != entities.InventoryLogChangeTypeADJUST {
 		return nil, errs.NewXError(errs.INVALID_REQUEST, "Invalid change type. Must be IN, OUT, or ADJUST", nil)
 	}
 

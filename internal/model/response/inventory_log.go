@@ -15,12 +15,12 @@ type InventoryLog struct {
 	AuditFields
 
 	// Related data
-	Product       *Product `json:"product,omitempty"`
-	ProductName   string   `json:"productName,omitempty"`
-	ProductSKU    string   `json:"productSku,omitempty"`
-	NetChange     int      `json:"netChange,omitempty"`     // Calculated net change
-	StockAfter    int      `json:"stockAfter,omitempty"`    // Stock quantity after this movement
-	LoggedByName  string   `json:"loggedByName,omitempty"`  // User who logged
+	Product      *Product `json:"product,omitempty"`
+	ProductName  string   `json:"productName,omitempty"`
+	ProductSKU   string   `json:"productSku,omitempty"`
+	NetChange    int      `json:"netChange,omitempty"`    // Calculated net change
+	StockAfter   int      `json:"stockAfter,omitempty"`   // Stock quantity after this movement
+	LoggedByName string   `json:"loggedByName,omitempty"` // User who logged
 }
 
 type StockMovementResponse struct {

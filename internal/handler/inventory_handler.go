@@ -22,14 +22,14 @@ func ProvideInventoryHandler(svc service.InventoryService) *InventoryHandler {
 	return &InventoryHandler{inventorySvc: svc}
 }
 
-// @Summary     Get a specific Inventory
-// @Description Get an instance of Inventory
-// @Tags        Inventory
-// @Accept      json
-// @Success     200 {object} responseModel.Inventory
-// @Failure     400 {object} response.DataResponse
-// @Param       id  path     int true "Inventory id"
-// @Router      /inventory/{id} [get]
+// @Summary		Get a specific Inventory
+// @Description	Get an instance of Inventory
+// @Tags			Inventory
+// @Accept			json
+// @Success		200	{object}	responseModel.Inventory
+// @Failure		400	{object}	response.DataResponse
+// @Param			id	path		int	true	"Inventory id"
+// @Router			/inventory/{id} [get]
 func (h InventoryHandler) Get(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)
 
@@ -44,14 +44,14 @@ func (h InventoryHandler) Get(ctx *gin.Context) {
 	h.dataResp.DefaultSuccessResponse(inventory).FormatAndSend(&context, ctx, http.StatusOK)
 }
 
-// @Summary     Get all inventories
-// @Description Get all inventory records
-// @Tags        Inventory
-// @Accept      json
-// @Success     200    {object} responseModel.Inventory
-// @Failure     400    {object} response.DataResponse
-// @Param       search query    string false "search"
-// @Router      /inventory [get]
+// @Summary		Get all inventories
+// @Description	Get all inventory records
+// @Tags			Inventory
+// @Accept			json
+// @Success		200		{object}	responseModel.Inventory
+// @Failure		400		{object}	response.DataResponse
+// @Param			search	query		string	false	"search"
+// @Router			/inventory [get]
 func (h InventoryHandler) GetAllInventories(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)
 
@@ -67,14 +67,14 @@ func (h InventoryHandler) GetAllInventories(ctx *gin.Context) {
 	h.dataResp.DefaultSuccessResponse(inventories).FormatAndSend(&context, ctx, http.StatusOK)
 }
 
-// @Summary     Get inventory by product ID
-// @Description Get inventory for a specific product
-// @Tags        Inventory
-// @Accept      json
-// @Success     200       {object} responseModel.Inventory
-// @Failure     400       {object} response.DataResponse
-// @Param       productId path     int true "Product ID"
-// @Router      /inventory/product/{productId} [get]
+// @Summary		Get inventory by product ID
+// @Description	Get inventory for a specific product
+// @Tags			Inventory
+// @Accept			json
+// @Success		200			{object}	responseModel.Inventory
+// @Failure		400			{object}	response.DataResponse
+// @Param			productId	path		int	true	"Product ID"
+// @Router			/inventory/product/{productId} [get]
 func (h InventoryHandler) GetByProductId(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)
 
@@ -89,16 +89,16 @@ func (h InventoryHandler) GetByProductId(ctx *gin.Context) {
 	h.dataResp.DefaultSuccessResponse(inventory).FormatAndSend(&context, ctx, http.StatusOK)
 }
 
-// @Summary     Update low stock threshold
-// @Description Update the low stock threshold for a product
-// @Tags        Inventory
-// @Accept      json
-// @Success     202       {object} response.Response
-// @Failure     400       {object} response.Response
-// @Failure     500       {object} response.Response
-// @Param       inventory body     requestModel.Inventory true "inventory"
-// @Param       id        path     int                    true "Inventory id"
-// @Router      /inventory/{id}/threshold [put]
+// @Summary		Update low stock threshold
+// @Description	Update the low stock threshold for a product
+// @Tags			Inventory
+// @Accept			json
+// @Success		202			{object}	response.Response
+// @Failure		400			{object}	response.Response
+// @Failure		500			{object}	response.Response
+// @Param			inventory	body		requestModel.Inventory	true	"inventory"
+// @Param			id			path		int						true	"Inventory id"
+// @Router			/inventory/{id}/threshold [put]
 func (h InventoryHandler) UpdateThreshold(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)
 	var inventory requestModel.Inventory
@@ -119,13 +119,13 @@ func (h InventoryHandler) UpdateThreshold(ctx *gin.Context) {
 	h.resp.SuccessResponse("Threshold updated successfully").FormatAndSend(&context, ctx, http.StatusAccepted)
 }
 
-// @Summary     Get low stock items
-// @Description Get all items with stock below threshold
-// @Tags        Inventory
-// @Accept      json
-// @Success     200 {object} responseModel.LowStockItem
-// @Failure     400 {object} response.DataResponse
-// @Router      /inventory/low-stock [get]
+// @Summary		Get low stock items
+// @Description	Get all items with stock below threshold
+// @Tags			Inventory
+// @Accept			json
+// @Success		200	{object}	responseModel.LowStockItem
+// @Failure		400	{object}	response.DataResponse
+// @Router			/inventory/low-stock [get]
 func (h InventoryHandler) GetLowStockItems(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)
 
@@ -138,15 +138,15 @@ func (h InventoryHandler) GetLowStockItems(ctx *gin.Context) {
 	h.dataResp.DefaultSuccessResponse(items).FormatAndSend(&context, ctx, http.StatusOK)
 }
 
-// @Summary     Record stock movement
-// @Description Record a stock IN, OUT, or ADJUST movement
-// @Tags        Inventory
-// @Accept      json
-// @Success     201      {object} responseModel.StockMovementResponse
-// @Failure     400      {object} response.DataResponse
-// @Failure     500      {object} response.DataResponse
-// @Param       movement body     requestModel.StockMovementRequest true "stock movement"
-// @Router      /inventory/movement [post]
+// @Summary		Record stock movement
+// @Description	Record a stock IN, OUT, or ADJUST movement
+// @Tags			Inventory
+// @Accept			json
+// @Success		201			{object}	responseModel.StockMovementResponse
+// @Failure		400			{object}	response.DataResponse
+// @Failure		500			{object}	response.DataResponse
+// @Param			movement	body		requestModel.StockMovementRequest	true	"stock movement"
+// @Router			/inventory/movement [post]
 func (h InventoryHandler) RecordStockMovement(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)
 	var movement requestModel.StockMovementRequest

@@ -300,6 +300,15 @@ definitions:
       personId:
         type: integer
     type: object
+  requestModel.Category:
+    properties:
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      name:
+        type: string
+    type: object
   requestModel.Channel:
     properties:
       id:
@@ -434,6 +443,17 @@ definitions:
         type: number
       purchaseDate:
         type: string
+    type: object
+  requestModel.Inventory:
+    properties:
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      lowStockThreshold:
+        type: integer
+      productId:
+        type: integer
     type: object
   requestModel.Login:
     properties:
@@ -600,6 +620,47 @@ definitions:
         type: boolean
       lastName:
         type: string
+    type: object
+  requestModel.Product:
+    properties:
+      categoryId:
+        type: integer
+      costPrice:
+        type: number
+      description:
+        type: string
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      name:
+        type: string
+      sellingPrice:
+        type: number
+      sku:
+        type: string
+    type: object
+  requestModel.StockMovementRequest:
+    properties:
+      adminOverride:
+        description: Allow OUT even if stock insufficient
+        type: boolean
+      changeType:
+        description: IN, OUT, ADJUST
+        type: string
+      notes:
+        type: string
+      productId:
+        type: integer
+      quantity:
+        type: integer
+      reason:
+        type: string
+    required:
+    - changeType
+    - productId
+    - quantity
+    - reason
     type: object
   requestModel.SwitchBranch:
     properties:
@@ -773,6 +834,33 @@ definitions:
       updatedAt:
         type: string
       updatedBy:
+        type: string
+    type: object
+  responseModel.Category:
+    properties:
+      createdAt:
+        type: string
+      createdBy:
+        type: string
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      name:
+        type: string
+      productCount:
+        description: Count of products in this category
+        type: integer
+      updatedAt:
+        type: string
+      updatedBy:
+        type: string
+    type: object
+  responseModel.CategoryAutoComplete:
+    properties:
+      id:
+        type: integer
+      name:
         type: string
     type: object
   responseModel.Channel:
@@ -988,6 +1076,96 @@ definitions:
       price:
         type: number
       purchaseDate:
+        type: string
+    type: object
+  responseModel.Inventory:
+    properties:
+      createdAt:
+        type: string
+      createdBy:
+        type: string
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      isLowStock:
+        type: boolean
+      lowStockThreshold:
+        type: integer
+      product:
+        allOf:
+        - $ref: '#/definitions/responseModel.Product'
+        description: Related data
+      productId:
+        type: integer
+      productName:
+        type: string
+      productSku:
+        type: string
+      quantity:
+        type: integer
+      updatedAt:
+        type: string
+      updatedBy:
+        type: string
+    type: object
+  responseModel.InventoryLog:
+    properties:
+      changeType:
+        type: string
+      createdAt:
+        type: string
+      createdBy:
+        type: string
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      loggedAt:
+        type: string
+      loggedByName:
+        description: User who logged
+        type: string
+      netChange:
+        description: Calculated net change
+        type: integer
+      notes:
+        type: string
+      product:
+        allOf:
+        - $ref: '#/definitions/responseModel.Product'
+        description: Related data
+      productId:
+        type: integer
+      productName:
+        type: string
+      productSku:
+        type: string
+      quantity:
+        type: integer
+      reason:
+        type: string
+      stockAfter:
+        description: Stock quantity after this movement
+        type: integer
+      updatedAt:
+        type: string
+      updatedBy:
+        type: string
+    type: object
+  responseModel.LowStockItem:
+    properties:
+      categoryName:
+        type: string
+      currentStock:
+        type: integer
+      lowStockThreshold:
+        type: integer
+      productId:
+        type: integer
+      productName:
+        type: string
+      productSku:
         type: string
     type: object
   responseModel.Measurement:
@@ -1218,6 +1396,76 @@ definitions:
       updatedBy:
         type: string
     type: object
+  responseModel.Product:
+    properties:
+      category:
+        allOf:
+        - $ref: '#/definitions/responseModel.Category'
+        description: Related data
+      categoryId:
+        type: integer
+      categoryName:
+        description: Flattened category name
+        type: string
+      costPrice:
+        type: number
+      createdAt:
+        type: string
+      createdBy:
+        type: string
+      currentStock:
+        description: From inventory
+        type: integer
+      description:
+        type: string
+      id:
+        type: integer
+      inventory:
+        $ref: '#/definitions/responseModel.Inventory'
+      isActive:
+        type: boolean
+      isLowStock:
+        description: Stock alert flag
+        type: boolean
+      name:
+        type: string
+      sellingPrice:
+        type: number
+      sku:
+        type: string
+      updatedAt:
+        type: string
+      updatedBy:
+        type: string
+    type: object
+  responseModel.ProductAutoComplete:
+    properties:
+      currentStock:
+        type: integer
+      id:
+        type: integer
+      isLowStock:
+        type: boolean
+      name:
+        type: string
+      sku:
+        type: string
+    type: object
+  responseModel.StockMovementResponse:
+    properties:
+      changeAmount:
+        type: integer
+      message:
+        type: string
+      newStock:
+        type: integer
+      previousStock:
+        type: integer
+      productId:
+        type: integer
+      success:
+        type: boolean
+    type: object
   responseModel.Task:
     properties:
       assignedToId:
@@ -1332,6 +1580,154 @@ paths:
       summary: Switch a record from one channel to another
       tags:
       - Admin
+  /category:
+    get:
+      consumes:
+      - application/json
+      description: Get all active categories
+      parameters:
+      - description: search
+        in: query
+        name: search
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.Category'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get all active categories
+      tags:
+      - Category
+    post:
+      consumes:
+      - application/json
+      description: Saves an instance of Category
+      parameters:
+      - description: category
+        in: body
+        name: category
+        required: true
+        schema:
+          $ref: '#/definitions/requestModel.Category'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Save Category
+      tags:
+      - Category
+  /category/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes an instance of Category
+      parameters:
+      - description: category id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Delete Category
+      tags:
+      - Category
+    get:
+      consumes:
+      - application/json
+      description: Get an instance of Category
+      parameters:
+      - description: Category id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.Category'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get a specific Category
+      tags:
+      - Category
+    put:
+      consumes:
+      - application/json
+      description: Updates an instance of Category
+      parameters:
+      - description: category
+        in: body
+        name: category
+        required: true
+        schema:
+          $ref: '#/definitions/requestModel.Category'
+      - description: Category id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Update Category
+      tags:
+      - Category
+  /category/autocomplete:
+    get:
+      consumes:
+      - application/json
+      description: Autocomplete for categories
+      parameters:
+      - description: search
+        in: query
+        name: search
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.CategoryAutoComplete'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Autocomplete for categories
+      tags:
+      - Category
   /channel:
     get:
       consumes:
@@ -2145,6 +2541,273 @@ paths:
       summary: Health endpoint
       tags:
       - Health
+  /inventory:
+    get:
+      consumes:
+      - application/json
+      description: Get all inventory records
+      parameters:
+      - description: search
+        in: query
+        name: search
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.Inventory'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get all inventories
+      tags:
+      - Inventory
+  /inventory-log:
+    get:
+      consumes:
+      - application/json
+      description: Get all inventory log records
+      parameters:
+      - description: search
+        in: query
+        name: search
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.InventoryLog'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get all inventory logs
+      tags:
+      - InventoryLog
+  /inventory-log/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get an instance of Inventory Log
+      parameters:
+      - description: Inventory Log id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.InventoryLog'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get a specific Inventory Log
+      tags:
+      - InventoryLog
+  /inventory-log/change-type:
+    get:
+      consumes:
+      - application/json
+      description: Get all inventory logs filtered by change type (IN, OUT, ADJUST)
+      parameters:
+      - description: Change Type
+        enum:
+        - IN
+        - OUT
+        - ADJUST
+        in: query
+        name: changeType
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.InventoryLog'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get inventory logs by change type
+      tags:
+      - InventoryLog
+  /inventory-log/date-range:
+    get:
+      consumes:
+      - application/json
+      description: Get all inventory logs within a date range
+      parameters:
+      - description: Start Date (YYYY-MM-DD)
+        in: query
+        name: startDate
+        type: string
+      - description: End Date (YYYY-MM-DD)
+        in: query
+        name: endDate
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.InventoryLog'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get inventory logs by date range
+      tags:
+      - InventoryLog
+  /inventory-log/product/{productId}:
+    get:
+      consumes:
+      - application/json
+      description: Get all inventory logs for a specific product
+      parameters:
+      - description: Product ID
+        in: path
+        name: productId
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.InventoryLog'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get inventory logs by product ID
+      tags:
+      - InventoryLog
+  /inventory/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get an instance of Inventory
+      parameters:
+      - description: Inventory id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.Inventory'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get a specific Inventory
+      tags:
+      - Inventory
+  /inventory/{id}/threshold:
+    put:
+      consumes:
+      - application/json
+      description: Update the low stock threshold for a product
+      parameters:
+      - description: inventory
+        in: body
+        name: inventory
+        required: true
+        schema:
+          $ref: '#/definitions/requestModel.Inventory'
+      - description: Inventory id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Update low stock threshold
+      tags:
+      - Inventory
+  /inventory/low-stock:
+    get:
+      consumes:
+      - application/json
+      description: Get all items with stock below threshold
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.LowStockItem'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get low stock items
+      tags:
+      - Inventory
+  /inventory/movement:
+    post:
+      consumes:
+      - application/json
+      description: Record a stock IN, OUT, or ADJUST movement
+      parameters:
+      - description: stock movement
+        in: body
+        name: movement
+        required: true
+        schema:
+          $ref: '#/definitions/requestModel.StockMovementRequest'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/responseModel.StockMovementResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Record stock movement
+      tags:
+      - Inventory
+  /inventory/product/{productId}:
+    get:
+      consumes:
+      - application/json
+      description: Get inventory for a specific product
+      parameters:
+      - description: Product ID
+        in: path
+        name: productId
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.Inventory'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get inventory by product ID
+      tags:
+      - Inventory
   /masterConfig:
     post:
       consumes:
@@ -3080,6 +3743,194 @@ paths:
       summary: Get persons by customer id
       tags:
       - Person
+  /product:
+    get:
+      consumes:
+      - application/json
+      description: Get all active products with current stock
+      parameters:
+      - description: search
+        in: query
+        name: search
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.Product'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get all active products
+      tags:
+      - Product
+    post:
+      consumes:
+      - application/json
+      description: Saves an instance of Product
+      parameters:
+      - description: product
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/requestModel.Product'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Save Product
+      tags:
+      - Product
+  /product/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes an instance of Product
+      parameters:
+      - description: product id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Delete Product
+      tags:
+      - Product
+    get:
+      consumes:
+      - application/json
+      description: Get an instance of Product with inventory
+      parameters:
+      - description: Product id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.Product'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get a specific Product
+      tags:
+      - Product
+    put:
+      consumes:
+      - application/json
+      description: Updates an instance of Product
+      parameters:
+      - description: product
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/requestModel.Product'
+      - description: Product id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Update Product
+      tags:
+      - Product
+  /product/autocomplete:
+    get:
+      consumes:
+      - application/json
+      description: Autocomplete for products with stock info
+      parameters:
+      - description: search
+        in: query
+        name: search
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.ProductAutoComplete'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Autocomplete for products
+      tags:
+      - Product
+  /product/low-stock:
+    get:
+      consumes:
+      - application/json
+      description: Get all products with stock below threshold
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.Product'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get low stock products
+      tags:
+      - Product
+  /product/sku:
+    get:
+      consumes:
+      - application/json
+      description: Get product details by SKU
+      parameters:
+      - description: Product SKU
+        in: query
+        name: sku
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responseModel.Product'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.DataResponse'
+      summary: Get product by SKU
+      tags:
+      - Product
   /task:
     get:
       consumes:
