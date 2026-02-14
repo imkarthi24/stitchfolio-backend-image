@@ -1,0 +1,59 @@
+# Deploy backend + nginx to production on push/merge to main
+# Uses /stitchfolio/env/.prod.env and docker-compose (backend + nginx).
+
+name: Deploy Main
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  SSH_HOST: "72.61.254.64"
+  SSH_USER: "root"
+  DEPLOY_PATH: "/stitchfolio/backend-prod"
+  ENV_FILE: "/stitchfolio/env/.prod.env"
+  CONFIG_FILE: "prod.yaml"
+  NGINX_HOST_PORT: "80"
+  COMPOSE_PROJECT: "stitchfolio-prod"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Deploy to production server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ env.SSH_HOST }}
+          username: ${{ env.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+            cd ${{ env.DEPLOY_PATH }}
+
+            echo "Pulling latest from main..."
+            git fetch origin main
+            git checkout main
+            git pull origin main
+
+            echo "Writing .env for compose..."
+            echo "ENV_FILE_PATH=${{ env.ENV_FILE }}" > .env
+            echo "CONFIG_FILE=${{ env.CONFIG_FILE }}" >> .env
+            echo "NGINX_HOST_PORT=${{ env.NGINX_HOST_PORT }}" >> .env
+
+            echo "Building and starting with Docker Compose..."
+            docker compose -p ${{ env.COMPOSE_PROJECT }} build --no-cache
+
+            echo "Running migrations..."
+            docker compose -p ${{ env.COMPOSE_PROJECT }} run --rm backend \
+              ./app --configFile ./config/${{ env.CONFIG_FILE }} --migrate true
+
+            echo "Starting backend + nginx..."
+            docker compose -p ${{ env.COMPOSE_PROJECT }} up -d
+
+            echo "Production deployment complete."

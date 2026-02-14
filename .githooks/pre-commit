@@ -1,0 +1,6 @@
+#!/bin/sh
+set -e
+echo "Running make pre-commit (wire, swagger, build)..."
+make pre-commit
+git add internal/di/wire_gen.go docs/ 2>/dev/null || true
+echo "Pre-commit passed. Generated files staged if changed."

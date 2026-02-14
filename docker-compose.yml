@@ -1,0 +1,20 @@
+# Backend + nginx. On the server, create a .env with ENV_FILE_PATH, CONFIG_FILE, NGINX_HOST_PORT.
+# See .env.example and .github/DEPLOYMENT.md.
+
+services:
+  backend:
+    build: .
+    env_file: ${ENV_FILE_PATH}
+    command: ["./app", "--configFile", "./config/${CONFIG_FILE}"]
+    restart: unless-stopped
+    # No host ports; nginx is the only entrypoint.
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "${NGINX_HOST_PORT:-80}:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+    restart: unless-stopped
