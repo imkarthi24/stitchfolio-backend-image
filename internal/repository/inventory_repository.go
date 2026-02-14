@@ -30,7 +30,6 @@ func ProvideInventoryRepository(customDB GormDAL) InventoryRepository {
 }
 
 func (ir *inventoryRepository) Create(ctx *context.Context, inventory *entities.Inventory) *errs.XError {
-	inventory.UpdatedAt = time.Now()
 	res := ir.WithDB(ctx).Create(&inventory)
 	if res.Error != nil {
 		return errs.NewXError(errs.DATABASE, "Unable to create inventory", res.Error)
@@ -39,7 +38,6 @@ func (ir *inventoryRepository) Create(ctx *context.Context, inventory *entities.
 }
 
 func (ir *inventoryRepository) Update(ctx *context.Context, inventory *entities.Inventory) *errs.XError {
-	inventory.UpdatedAt = time.Now()
 	return ir.GormDAL.Update(ctx, *inventory)
 }
 

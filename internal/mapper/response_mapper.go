@@ -826,7 +826,6 @@ func (m *responseMapper) Inventory(e *entities.Inventory) (*responseModel.Invent
 		ProductId:         e.ProductId,
 		Quantity:          e.Quantity,
 		LowStockThreshold: e.LowStockThreshold,
-		UpdatedAt:         e.UpdatedAt,
 		Product:           product,
 		ProductName:       productName,
 		ProductSKU:        productSKU,
