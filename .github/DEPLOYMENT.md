@@ -47,7 +47,7 @@ On `31.97.202.6`:
      ```bash
      SSL_CERT_DIR=/etc/letsencrypt/live/your-domain.com
      ```
-     Replace `your-domain.com` with the domain you used for that environment (e.g. `api.stitchfolio.com` for prod, `dev-api.stitchfolio.com` for dev). The workflow appends `.env.ssl` to `.env` on each deploy so `SSL_CERT_DIR` is picked up by compose.
+     Replace `your-domain.com` with the domain you used for that environment (e.g. `api.noktahq.in`). The workflow appends `.env.ssl` to `.env` on each deploy so `SSL_CERT_DIR` is picked up by compose. Compose also mounts `/etc/letsencrypt/archive` so Let’s Encrypt symlinks in `live/` resolve inside the nginx container.
    - **Port 443**: Open port 443 (and 80 for redirect) on the server firewall, e.g. `ufw allow 443 && ufw allow 80 && ufw reload`.
 
 5. **Ports**: Dev is exposed on **9001** (HTTP→HTTPS redirect) and **9002** (HTTPS). Prod is on **80** (redirect) and **443** (HTTPS). Only nginx is exposed; the backend is internal.

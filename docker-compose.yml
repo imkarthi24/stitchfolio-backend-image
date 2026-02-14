@@ -17,6 +17,8 @@ services:
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       - ${SSL_CERT_DIR}:/etc/nginx/ssl:ro
+      # Let's Encrypt symlinks in live/ point to ../../archive/; mount archive so they resolve
+      - /etc/letsencrypt/archive:/etc/archive:ro
     depends_on:
       - backend
     restart: unless-stopped
