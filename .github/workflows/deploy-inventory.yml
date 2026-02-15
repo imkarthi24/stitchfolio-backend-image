@@ -11,11 +11,11 @@ on:
 env:
   SSH_HOST: "31.97.202.6"
   SSH_USER: "root"
-  DEPLOY_PATH: "/stitchfolio/backend-inventory"
+  DEPLOY_PATH: "/stitchfolio/backend-dev"
   ENV_FILE: "/root/stitchfolio_env/dev.env"
   CONFIG_FILE: "dev.yaml"
-  NGINX_HTTP_PORT: "9008"
-  NGINX_HTTPS_PORT: "9009"
+  NGINX_HTTP_PORT: "9001"
+  NGINX_HTTPS_PORT: "9002"
   COMPOSE_PROJECT: "stitchfolio-inventory"
   BRANCH: "inventory"
 
