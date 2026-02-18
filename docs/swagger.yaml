@@ -633,6 +633,8 @@ definitions:
         type: integer
       isActive:
         type: boolean
+      lowStockThreshold:
+        type: integer
       name:
         type: string
       sellingPrice:

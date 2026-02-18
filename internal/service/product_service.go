@@ -59,7 +59,7 @@ func (svc productService) SaveProduct(ctx *context.Context, product requestModel
 		Model:             &entities.Model{IsActive: true},
 		ProductId:         dbProduct.ID,
 		Quantity:          0,
-		LowStockThreshold: 0,
+		LowStockThreshold: product.LowStockThreshold,
 	}
 
 	errr = svc.inventoryRepo.Create(ctx, inventory)
@@ -73,7 +73,7 @@ func (svc productService) SaveProduct(ctx *context.Context, product requestModel
 func (svc productService) UpdateProduct(ctx *context.Context, product requestModel.Product, id uint) *errs.XError {
 	dbProduct, err := svc.mapper.Product(product)
 	if err != nil {
-		return errs.NewXError(errs.INVALID_REQUEST, "Unable to update product", err)
+		return errs.NewXError(errs.INVALID_REQUEST, "Unable to update product and threshold", err)
 	}
 
 	dbProduct.ID = id
@@ -81,6 +81,12 @@ func (svc productService) UpdateProduct(ctx *context.Context, product requestMod
 	if errr != nil {
 		return errr
 	}
+
+	errr = svc.inventoryRepo.UpdateThreshold(ctx, id, product.LowStockThreshold)
+	if errr != nil {
+		return errr
+	}
+
 	return nil
 }
 

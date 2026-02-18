@@ -5368,6 +5368,9 @@ const docTemplate = `{
                 "isActive": {
                     "type": "boolean"
                 },
+                "lowStockThreshold": {
+                    "type": "integer"
+                },
                 "name": {
                     "type": "string"
                 },
