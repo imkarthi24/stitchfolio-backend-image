@@ -727,6 +727,120 @@
                 }
             }
         },
+        "/dashboard/order": {
+            "get": {
+                "description": "Returns order dashboard: by status, overdue/at-risk, revenue, deliveries due, recent deliveries, by taken-by, count in period, recent activity.",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Order dashboard",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Start date (YYYY-MM-DD)",
+                        "name": "from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "End date (YYYY-MM-DD)",
+                        "name": "to",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.OrderDashboardResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/dashboard/stats": {
+            "get": {
+                "description": "Returns stats dashboard: revenue, pipeline value, enquiries by status/source, conversion, expenses, new customers, task completion, low stock, top referrers.",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Stats dashboard",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Start date (YYYY-MM-DD)",
+                        "name": "from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "End date (YYYY-MM-DD)",
+                        "name": "to",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.StatsDashboardResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/dashboard/task": {
+            "get": {
+                "description": "Returns task dashboard: overdue, due today/next 7 days, by assignee, high priority, reminders, completion rate, recent completions.",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Task dashboard",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Filter by assignee user ID",
+                        "name": "assigneeId",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.TaskDashboardResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/dress-type": {
             "get": {
                 "description": "Get all active dress types",
@@ -4548,15 +4662,6 @@
                 "SUPERADMIN": "to be used for the owner of the application (customer)",
                 "SYSTEM_ADMIN": "to be used for managing system only,not exposed"
             },
-            "x-enum-descriptions": [
-                "to be used for managing system only,not exposed",
-                "to be used by developer, only read access in PROD",
-                "to be used for the owner of the application (customer)",
-                "to be used by the application administrator",
-                "",
-                "",
-                ""
-            ],
             "x-enum-varnames": [
                 "SYSTEM_ADMIN",
                 "DEV",
@@ -4773,25 +4878,6 @@
                 "UNANTICIPATED": "Unanticipated error.",
                 "VALIDATION": "Input validation error."
             },
-            "x-enum-descriptions": [
-                "Unclassified error. This value is not printed in the error message.",
-                "Invalid operation for this type of item.",
-                "External I/O error such as network failure.",
-                "Item already exists.",
-                "Item does not exist.",
-                "Information withheld.",
-                "Internal error or inconsistency.",
-                "Link target does not exist.",
-                "Error from database.",
-                "Input validation error.",
-                "Unanticipated error.",
-                "Invalid Request",
-                "SMTP Error",
-                "SMTP Error",
-                "Storage Error",
-                "Insufficient Access",
-                "Duplicate Transaction"
-            ],
             "x-enum-varnames": [
                 "OTHER",
                 "INVALID",
@@ -5652,6 +5738,20 @@
                 "WARNING"
             ]
         },
+        "responseModel.AssigneeTaskCount": {
+            "type": "object",
+            "properties": {
+                "incomplete": {
+                    "type": "integer"
+                },
+                "userId": {
+                    "type": "integer"
+                },
+                "userName": {
+                    "type": "string"
+                }
+            }
+        },
         "responseModel.AuditFields": {
             "type": "object",
             "properties": {
@@ -5774,6 +5874,31 @@
                 },
                 "name": {
                     "type": "string"
+                }
+            }
+        },
+        "responseModel.CompletionRateStat": {
+            "type": "object",
+            "properties": {
+                "last30Days": {
+                    "$ref": "#/definitions/responseModel.CompletionRateWindow"
+                },
+                "last7Days": {
+                    "$ref": "#/definitions/responseModel.CompletionRateWindow"
+                }
+            }
+        },
+        "responseModel.CompletionRateWindow": {
+            "type": "object",
+            "properties": {
+                "completed": {
+                    "type": "integer"
+                },
+                "percent": {
+                    "type": "number"
+                },
+                "total": {
+                    "type": "integer"
                 }
             }
         },
@@ -5932,6 +6057,17 @@
                 },
                 "updatedBy": {
                     "type": "string"
+                }
+            }
+        },
+        "responseModel.EnquiryConversionStat": {
+            "type": "object",
+            "properties": {
+                "enquiriesInPeriod": {
+                    "type": "integer"
+                },
+                "ordersFromEnquiry": {
+                    "type": "integer"
                 }
             }
         },
@@ -6353,6 +6489,101 @@
                 }
             }
         },
+        "responseModel.OrderActivityItem": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "changedFields": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "orderId": {
+                    "type": "integer"
+                },
+                "performedAt": {
+                    "type": "string"
+                },
+                "performedBy": {
+                    "type": "string"
+                }
+            }
+        },
+        "responseModel.OrderDashboardList": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "orders": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responseModel.OrderSummary"
+                    }
+                }
+            }
+        },
+        "responseModel.OrderDashboardResponse": {
+            "type": "object",
+            "properties": {
+                "deliveriesDueThisWeek": {
+                    "description": "by ExpectedDeliveryDate",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/responseModel.OrderDashboardList"
+                        }
+                    ]
+                },
+                "orderCountInPeriod": {
+                    "description": "last 7/30 days",
+                    "type": "integer"
+                },
+                "ordersByStatus": {
+                    "description": "count per status DRAFT → DELIVERED, CANCELLED",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responseModel.StatusCountStat"
+                    }
+                },
+                "ordersByTakenBy": {
+                    "description": "count per OrderTakenById",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responseModel.UserOrderCount"
+                    }
+                },
+                "overdueAtRiskOrders": {
+                    "description": "ExpectedDeliveryDate passed or soon, not DELIVERED",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/responseModel.OrderDashboardList"
+                        }
+                    ]
+                },
+                "recentDeliveries": {
+                    "description": "DeliveredDate last 7/30 days",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/responseModel.OrderDashboardList"
+                        }
+                    ]
+                },
+                "recentOrderActivity": {
+                    "description": "from OrderHistory",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responseModel.OrderActivityItem"
+                    }
+                },
+                "revenueInPeriod": {
+                    "description": "sum OrderValue + AdditionalCharges in period",
+                    "type": "number"
+                }
+            }
+        },
         "responseModel.OrderHistory": {
             "type": "object",
             "properties": {
@@ -6463,6 +6694,38 @@
                 },
                 "total": {
                     "type": "number"
+                }
+            }
+        },
+        "responseModel.OrderSummary": {
+            "type": "object",
+            "properties": {
+                "additionalCharges": {
+                    "type": "number"
+                },
+                "customerName": {
+                    "type": "string"
+                },
+                "deliveredDate": {
+                    "type": "string"
+                },
+                "expectedDeliveryDate": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "orderTakenBy": {
+                    "type": "string"
+                },
+                "orderTakenById": {
+                    "type": "integer"
+                },
+                "orderValue": {
+                    "type": "number"
+                },
+                "status": {
+                    "type": "string"
                 }
             }
         },
@@ -6597,6 +6860,107 @@
                 }
             }
         },
+        "responseModel.ReferrerCountStat": {
+            "type": "object",
+            "properties": {
+                "enquiriesCount": {
+                    "type": "integer"
+                },
+                "referrer": {
+                    "type": "string"
+                },
+                "referrerPhone": {
+                    "type": "string"
+                }
+            }
+        },
+        "responseModel.SourceCountStat": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "source": {
+                    "type": "string"
+                }
+            }
+        },
+        "responseModel.StatsDashboardResponse": {
+            "type": "object",
+            "properties": {
+                "enquiriesBySource": {
+                    "description": "Enquiry.Source",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responseModel.SourceCountStat"
+                    }
+                },
+                "enquiriesByStatus": {
+                    "description": "new / accepted / callback / closed",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responseModel.StatusCountStat"
+                    }
+                },
+                "enquiryOrderConversion": {
+                    "description": "orders linked to customers who had enquiries in period",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/responseModel.EnquiryConversionStat"
+                        }
+                    ]
+                },
+                "expenseTotalInPeriod": {
+                    "description": "Expense.PurchaseDate + Price",
+                    "type": "number"
+                },
+                "lowStockItems": {
+                    "description": "Inventory.Quantity \u003c= LowStockThreshold",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responseModel.LowStockItem"
+                    }
+                },
+                "newCustomersInPeriod": {
+                    "description": "Customer.CreatedAt in range",
+                    "type": "integer"
+                },
+                "orderPipelineValue": {
+                    "description": "sum value for orders not CANCELLED/DELIVERED",
+                    "type": "number"
+                },
+                "revenueInPeriod": {
+                    "description": "delivered orders in period",
+                    "type": "number"
+                },
+                "taskCompletionInPeriod": {
+                    "description": "completed vs created in period",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/responseModel.CompletionRateStat"
+                        }
+                    ]
+                },
+                "topReferrers": {
+                    "description": "Enquiry.ReferredBy + count",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responseModel.ReferrerCountStat"
+                    }
+                }
+            }
+        },
+        "responseModel.StatusCountStat": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
         "responseModel.StockMovementResponse": {
             "type": "object",
             "properties": {
@@ -6643,6 +7007,120 @@
                 },
                 "isActive": {
                     "type": "boolean"
+                },
+                "isCompleted": {
+                    "type": "boolean"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "reminderDate": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "responseModel.TaskDashboardResponse": {
+            "type": "object",
+            "properties": {
+                "completionRate": {
+                    "description": "% completed in last 7/30 days",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/responseModel.CompletionRateStat"
+                        }
+                    ]
+                },
+                "dueNext7Days": {
+                    "description": "due in next 7 days",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/responseModel.TaskDashboardTaskList"
+                        }
+                    ]
+                },
+                "dueToday": {
+                    "description": "due today",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/responseModel.TaskDashboardTaskList"
+                        }
+                    ]
+                },
+                "highPriorityIncomplete": {
+                    "description": "Priority set, not done",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/responseModel.TaskDashboardTaskList"
+                        }
+                    ]
+                },
+                "incompleteByAssignee": {
+                    "description": "count per user",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responseModel.AssigneeTaskCount"
+                    }
+                },
+                "overdueTasks": {
+                    "description": "DueDate \u003c today, IsCompleted = false",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/responseModel.TaskDashboardTaskList"
+                        }
+                    ]
+                },
+                "recentCompletions": {
+                    "description": "last N tasks with CompletedAt",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responseModel.TaskSummary"
+                    }
+                },
+                "upcomingReminders": {
+                    "description": "ReminderDate in next 24–48h",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/responseModel.TaskDashboardTaskList"
+                        }
+                    ]
+                }
+            }
+        },
+        "responseModel.TaskDashboardTaskList": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "tasks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responseModel.TaskSummary"
+                    }
+                }
+            }
+        },
+        "responseModel.TaskSummary": {
+            "type": "object",
+            "properties": {
+                "assignedTo": {
+                    "description": "display name",
+                    "type": "string"
+                },
+                "assignedToId": {
+                    "type": "integer"
+                },
+                "completedAt": {
+                    "type": "string"
+                },
+                "dueDate": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
                 },
                 "isCompleted": {
                     "type": "boolean"
@@ -6737,6 +7215,20 @@
                 },
                 "name": {
                     "type": "string"
+                }
+            }
+        },
+        "responseModel.UserOrderCount": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "integer"
                 }
             }
         }

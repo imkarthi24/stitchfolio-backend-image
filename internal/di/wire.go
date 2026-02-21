@@ -58,6 +58,7 @@ var handlerSet = wire.NewSet(
 	handler.ProvideProductHandler,
 	handler.ProvideInventoryHandler,
 	handler.ProvideInventoryLogHandler,
+	handler.ProvideDashboardHandler,
 )
 var logSet = wire.NewSet(
 	ProvideNewRelic,
@@ -100,6 +101,7 @@ var svcSet = wire.NewSet(
 	service.ProvideProductService,
 	service.ProvideInventoryService,
 	service.ProvideInventoryLogService,
+	service.ProvideDashboardService,
 )
 
 var baseSvc = wire.NewSet(
@@ -129,6 +131,7 @@ var repoSet = wire.NewSet(
 	repository.ProvideProductRepository,
 	repository.ProvideInventoryRepository,
 	repository.ProvideInventoryLogRepository,
+	repository.ProvideDashboardRepository,
 )
 
 var cronSet = wire.NewSet(

@@ -272,6 +272,13 @@ func InitRouter(handler baseHandler.BaseHandler, newRelic *newrelic.Application,
 			inventoryLogEndpoints.GET(":id", handler.InventoryLogHandler.Get)
 			inventoryLogEndpoints.GET("", handler.InventoryLogHandler.GetAllInventoryLogs)
 		}
+
+		dashboardEndpoints := appRouter.Group("dashboard", router.VerifyJWT(srvConfig.JwtSecretKey))
+		{
+			dashboardEndpoints.GET("task", handler.DashboardHandler.GetTaskDashboard)
+			dashboardEndpoints.GET("order", handler.DashboardHandler.GetOrderDashboard)
+			dashboardEndpoints.GET("stats", handler.DashboardHandler.GetStatsDashboard)
+		}
 	}
 	return g
 }

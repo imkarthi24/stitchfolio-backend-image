@@ -22,15 +22,15 @@ func ProvideProductHandler(svc service.ProductService) *ProductHandler {
 	return &ProductHandler{productSvc: svc}
 }
 
-// @Summary		Save Product
-// @Description	Saves an instance of Product
-// @Tags			Product
-// @Accept			json
-// @Success		201		{object}	response.Response
-// @Failure		400		{object}	response.Response
-// @Failure		500		{object}	response.Response
-// @Param			product	body		requestModel.Product	true	"product"
-// @Router			/product [post]
+//	@Summary		Save Product
+//	@Description	Saves an instance of Product
+//	@Tags			Product
+//	@Accept			json
+//	@Success		201		{object}	response.Response
+//	@Failure		400		{object}	response.Response
+//	@Failure		500		{object}	response.Response
+//	@Param			product	body		requestModel.Product	true	"product"
+//	@Router			/product [post]
 func (h ProductHandler) SaveProduct(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)
 	var product requestModel.Product
@@ -50,16 +50,16 @@ func (h ProductHandler) SaveProduct(ctx *gin.Context) {
 	h.resp.SuccessResponse("Save success").FormatAndSend(&context, ctx, http.StatusCreated)
 }
 
-// @Summary		Update Product
-// @Description	Updates an instance of Product
-// @Tags			Product
-// @Accept			json
-// @Success		202		{object}	response.Response
-// @Failure		400		{object}	response.Response
-// @Failure		500		{object}	response.Response
-// @Param			product	body		requestModel.Product	true	"product"
-// @Param			id		path		int						true	"Product id"
-// @Router			/product/{id} [put]
+//	@Summary		Update Product
+//	@Description	Updates an instance of Product
+//	@Tags			Product
+//	@Accept			json
+//	@Success		202		{object}	response.Response
+//	@Failure		400		{object}	response.Response
+//	@Failure		500		{object}	response.Response
+//	@Param			product	body		requestModel.Product	true	"product"
+//	@Param			id		path		int						true	"Product id"
+//	@Router			/product/{id} [put]
 func (h ProductHandler) UpdateProduct(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)
 	var product requestModel.Product
@@ -80,14 +80,14 @@ func (h ProductHandler) UpdateProduct(ctx *gin.Context) {
 	h.resp.SuccessResponse("Update success").FormatAndSend(&context, ctx, http.StatusAccepted)
 }
 
-// @Summary		Get a specific Product
-// @Description	Get an instance of Product with inventory
-// @Tags			Product
-// @Accept			json
-// @Success		200	{object}	responseModel.Product
-// @Failure		400	{object}	response.DataResponse
-// @Param			id	path		int	true	"Product id"
-// @Router			/product/{id} [get]
+//	@Summary		Get a specific Product
+//	@Description	Get an instance of Product with inventory
+//	@Tags			Product
+//	@Accept			json
+//	@Success		200	{object}	responseModel.Product
+//	@Failure		400	{object}	response.DataResponse
+//	@Param			id	path		int	true	"Product id"
+//	@Router			/product/{id} [get]
 func (h ProductHandler) Get(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)
 
@@ -102,14 +102,14 @@ func (h ProductHandler) Get(ctx *gin.Context) {
 	h.dataResp.DefaultSuccessResponse(product).FormatAndSend(&context, ctx, http.StatusOK)
 }
 
-// @Summary		Get all active products
-// @Description	Get all active products with current stock
-// @Tags			Product
-// @Accept			json
-// @Success		200		{object}	responseModel.Product
-// @Failure		400		{object}	response.DataResponse
-// @Param			search	query		string	false	"search"
-// @Router			/product [get]
+//	@Summary		Get all active products
+//	@Description	Get all active products with current stock
+//	@Tags			Product
+//	@Accept			json
+//	@Success		200		{object}	responseModel.Product
+//	@Failure		400		{object}	response.DataResponse
+//	@Param			search	query		string	false	"search"
+//	@Router			/product [get]
 func (h ProductHandler) GetAllProducts(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)
 
@@ -125,14 +125,14 @@ func (h ProductHandler) GetAllProducts(ctx *gin.Context) {
 	h.dataResp.DefaultSuccessResponse(products).FormatAndSend(&context, ctx, http.StatusOK)
 }
 
-// @Summary		Delete Product
-// @Description	Deletes an instance of Product
-// @Tags			Product
-// @Accept			json
-// @Success		200	{object}	response.Response
-// @Failure		400	{object}	response.Response
-// @Param			id	path		int	true	"product id"
-// @Router			/product/{id} [delete]
+//	@Summary		Delete Product
+//	@Description	Deletes an instance of Product
+//	@Tags			Product
+//	@Accept			json
+//	@Success		200	{object}	response.Response
+//	@Failure		400	{object}	response.Response
+//	@Param			id	path		int	true	"product id"
+//	@Router			/product/{id} [delete]
 func (h ProductHandler) Delete(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)
 
@@ -146,14 +146,14 @@ func (h ProductHandler) Delete(ctx *gin.Context) {
 	h.resp.SuccessResponse("Delete Success").FormatAndSend(&context, ctx, http.StatusOK)
 }
 
-// @Summary		Autocomplete for products
-// @Description	Autocomplete for products with stock info
-// @Tags			Product
-// @Accept			json
-// @Success		200		{object}	responseModel.ProductAutoComplete
-// @Failure		400		{object}	response.DataResponse
-// @Param			search	query		string	false	"search"
-// @Router			/product/autocomplete [get]
+//	@Summary		Autocomplete for products
+//	@Description	Autocomplete for products with stock info
+//	@Tags			Product
+//	@Accept			json
+//	@Success		200		{object}	responseModel.ProductAutoComplete
+//	@Failure		400		{object}	response.DataResponse
+//	@Param			search	query		string	false	"search"
+//	@Router			/product/autocomplete [get]
 func (h ProductHandler) AutocompleteProduct(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)
 
@@ -169,14 +169,14 @@ func (h ProductHandler) AutocompleteProduct(ctx *gin.Context) {
 	h.dataResp.DefaultSuccessResponse(products).FormatAndSend(&context, ctx, http.StatusOK)
 }
 
-// @Summary		Get product by SKU
-// @Description	Get product details by SKU
-// @Tags			Product
-// @Accept			json
-// @Success		200	{object}	responseModel.Product
-// @Failure		400	{object}	response.DataResponse
-// @Param			sku	query		string	true	"Product SKU"
-// @Router			/product/sku [get]
+//	@Summary		Get product by SKU
+//	@Description	Get product details by SKU
+//	@Tags			Product
+//	@Accept			json
+//	@Success		200	{object}	responseModel.Product
+//	@Failure		400	{object}	response.DataResponse
+//	@Param			sku	query		string	true	"Product SKU"
+//	@Router			/product/sku [get]
 func (h ProductHandler) GetBySKU(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)
 
@@ -196,13 +196,13 @@ func (h ProductHandler) GetBySKU(ctx *gin.Context) {
 	h.dataResp.DefaultSuccessResponse(product).FormatAndSend(&context, ctx, http.StatusOK)
 }
 
-// @Summary		Get low stock products
-// @Description	Get all products with stock below threshold
-// @Tags			Product
-// @Accept			json
-// @Success		200	{object}	responseModel.Product
-// @Failure		400	{object}	response.DataResponse
-// @Router			/product/low-stock [get]
+//	@Summary		Get low stock products
+//	@Description	Get all products with stock below threshold
+//	@Tags			Product
+//	@Accept			json
+//	@Success		200	{object}	responseModel.Product
+//	@Failure		400	{object}	response.DataResponse
+//	@Router			/product/low-stock [get]
 func (h ProductHandler) GetLowStockProducts(ctx *gin.Context) {
 	context := util.CopyContextFromGin(ctx)
 
