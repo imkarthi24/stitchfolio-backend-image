@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/imkarthi24/sf-backend/internal/entities"
+	"github.com/imkarthi24/sf-backend/internal/repository/scopes"
 	"github.com/loop-kar/pixie/db"
 	"github.com/loop-kar/pixie/errs"
 )
@@ -38,7 +39,9 @@ func (oir *orderItemRepository) Update(ctx *context.Context, orderItem *entities
 
 func (oir *orderItemRepository) Get(ctx *context.Context, id uint) (*entities.OrderItem, *errs.XError) {
 	orderItem := entities.OrderItem{}
-	res := oir.WithDB(ctx).Preload("Order").Find(&orderItem, id)
+	res := oir.WithDB(ctx).
+		Scopes(scopes.WithAuditInfo()).
+		Preload("Order").Find(&orderItem, id)
 	if res.Error != nil {
 		return nil, errs.NewXError(errs.DATABASE, "Unable to find order item", res.Error)
 	}

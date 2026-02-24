@@ -6,6 +6,7 @@ server:
   jwtSecretKey: ${JWT_SECRET_KEY}
   jwtExpiryMinutes: ${JWT_EXPIRY_MINUTES}
   secretKey: ${SECRET_KEY}
+  environment: development
 
 database:
   host: ${DB_HOST}
@@ -13,8 +14,7 @@ database:
   port: 5432
   user: ${DB_USER}
   password: ${DB_PASSWORD}
-  schema: ${DB_SCHEMA}
-  logLevel: ${DB_LOG_LEVEL}
+  schema: ${DB_SCHEMA}  
 
 smtp:
   username: ${SMTP_USER}
@@ -26,8 +26,11 @@ site:
   urlScheme: ${SITE_URL_SCHEME}
   baseUrl: ${SITE_BASE_URL}  
 
-log:
+logger:
+  provider : ${LOG_PROVIDER}
   license: ${NEW_RELIC_LICENSE_KEY}
+  logLevel: ${LOG_LEVEL}
+
 
 s3Config:
   region: ${S3_REGION}

@@ -1,0 +1,76 @@
+# Deploy backend + nginx to production on push/merge to main
+# Uses /stitchfolio/env/.prod.env and docker-compose (backend + nginx).
+
+name: Deploy Main
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  SSH_HOST: "31.97.202.6"
+  SSH_USER: "root"
+  DEPLOY_PATH: "/stitchfolio/backend-prod"
+  ENV_FILE: "/root/stitchfolio_env/prod.env"
+  CONFIG_FILE: "prod.yaml"
+  NGINX_HTTP_PORT: "80"
+  NGINX_HTTPS_PORT: "443"
+  COMPOSE_PROJECT: "stitchfolio-prod"
+  BRANCH: "main"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Deploy to production server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ env.SSH_HOST }}
+          username: ${{ env.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+            export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:$PATH"
+            if ! command -v docker >/dev/null 2>&1; then
+              echo "ERROR: docker not found. Install Docker on the server and ensure it is in PATH."
+              exit 1
+            fi
+            DEPLOY_PATH="${{ env.DEPLOY_PATH }}"
+            BRANCH="${{ env.BRANCH }}"
+            REPO_URL="git@github.com:${{ github.repository }}.git"
+
+            if [ ! -d "$DEPLOY_PATH" ]; then
+              echo "Deploy path not found. Creating and cloning..."
+              mkdir -p /stitchfolio
+              git clone "$REPO_URL" "$DEPLOY_PATH"
+              cd "$DEPLOY_PATH"
+              git checkout "$BRANCH"
+            else
+              cd "$DEPLOY_PATH"
+            fi
+
+            echo "Pulling latest from $BRANCH..."
+            git fetch origin "$BRANCH"
+            git checkout "$BRANCH"
+            git pull origin "$BRANCH"
+
+            echo "Writing .env for compose..."
+            echo "ENV_FILE_PATH=${{ env.ENV_FILE }}" > .env
+            echo "CONFIG_FILE=${{ env.CONFIG_FILE }}" >> .env
+            echo "NGINX_HTTP_PORT=${{ env.NGINX_HTTP_PORT }}" >> .env
+            echo "NGINX_HTTPS_PORT=${{ env.NGINX_HTTPS_PORT }}" >> .env
+            if [ -f .env.ssl ]; then cat .env.ssl >> .env; fi
+
+            echo "Building and starting with Docker Compose..."
+            docker compose -p ${{ env.COMPOSE_PROJECT }} build --no-cache
+
+            echo "Starting backend + nginx..."
+            docker compose -p ${{ env.COMPOSE_PROJECT }} up -d
+
+            echo "Production deployment complete."

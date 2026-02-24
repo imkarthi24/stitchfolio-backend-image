@@ -14,7 +14,6 @@ import (
 	"github.com/imkarthi24/sf-backend/internal/cron"
 	"github.com/imkarthi24/sf-backend/internal/handler"
 	baseHandler "github.com/imkarthi24/sf-backend/internal/handler/base"
-	"github.com/imkarthi24/sf-backend/internal/log/newreliclog"
 	"github.com/imkarthi24/sf-backend/internal/mapper"
 	"github.com/imkarthi24/sf-backend/internal/repository"
 	"github.com/imkarthi24/sf-backend/internal/router"
@@ -57,7 +56,7 @@ var handlerSet = wire.NewSet(
 	handler.ProvideTaskHandler,
 )
 var logSet = wire.NewSet(
-	newreliclog.ProvideNewRelic,
+	ProvideNewRelic,
 )
 
 var routerSet = wire.NewSet(

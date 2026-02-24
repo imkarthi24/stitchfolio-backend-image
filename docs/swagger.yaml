@@ -26,6 +26,9 @@ definitions:
         type: integer
       createdAt:
         type: string
+      createdBy:
+        description: Transient fields for response mapping, not stored in DB
+        type: string
       createdById:
         type: integer
       isActive:
@@ -38,6 +41,8 @@ definitions:
       status:
         type: string
       updatedAt:
+        type: string
+      updatedBy:
         type: string
       updatedById:
         type: integer
@@ -84,6 +89,9 @@ definitions:
         type: integer
       createdAt:
         type: string
+      createdBy:
+        description: Transient fields for response mapping, not stored in DB
+        type: string
       createdById:
         type: integer
       department:
@@ -116,6 +124,8 @@ definitions:
         $ref: '#/definitions/entities.RoleType'
       updatedAt:
         type: string
+      updatedBy:
+        type: string
       updatedById:
         type: integer
       userChannelDetails:
@@ -140,11 +150,16 @@ definitions:
         type: integer
       createdAt:
         type: string
+      createdBy:
+        description: Transient fields for response mapping, not stored in DB
+        type: string
       createdById:
         type: integer
       isActive:
         type: boolean
       updatedAt:
+        type: string
+      updatedBy:
         type: string
       updatedById:
         type: integer
@@ -168,11 +183,16 @@ definitions:
         type: string
       createdAt:
         type: string
+      createdBy:
+        description: Transient fields for response mapping, not stored in DB
+        type: string
       createdById:
         type: integer
       isActive:
         type: boolean
       updatedAt:
+        type: string
+      updatedBy:
         type: string
       updatedById:
         type: integer
@@ -744,6 +764,17 @@ definitions:
     - SUCCESS
     - FAILURE
     - WARNING
+  responseModel.AuditFields:
+    properties:
+      createdAt:
+        type: string
+      createdBy:
+        type: string
+      updatedAt:
+        type: string
+      updatedBy:
+        type: string
+    type: object
   responseModel.Channel:
     properties:
       ID:
@@ -758,6 +789,9 @@ definitions:
       channelOwnerLastName:
         type: string
       createdAt:
+        type: string
+      createdBy:
+        description: Transient fields for response mapping, not stored in DB
         type: string
       createdById:
         type: integer
@@ -776,6 +810,8 @@ definitions:
         type: string
       updatedAt:
         type: string
+      updatedBy:
+        type: string
       updatedById:
         type: integer
     type: object
@@ -792,8 +828,8 @@ definitions:
         type: string
       createdAt:
         type: string
-      createdById:
-        type: integer
+      createdBy:
+        type: string
       email:
         type: string
       enquiries:
@@ -820,8 +856,8 @@ definitions:
         type: string
       updatedAt:
         type: string
-      updatedById:
-        type: integer
+      updatedBy:
+        type: string
       whatsappNumber:
         type: string
     type: object
@@ -842,8 +878,8 @@ definitions:
     properties:
       createdAt:
         type: string
-      createdById:
-        type: integer
+      createdBy:
+        type: string
       description:
         type: string
       id:
@@ -856,15 +892,15 @@ definitions:
         type: string
       updatedAt:
         type: string
-      updatedById:
-        type: integer
+      updatedBy:
+        type: string
     type: object
   responseModel.Enquiry:
     properties:
       createdAt:
         type: string
-      createdById:
-        type: integer
+      createdBy:
+        type: string
       customer:
         $ref: '#/definitions/responseModel.Customer'
       customerId:
@@ -887,8 +923,8 @@ definitions:
         type: string
       updatedAt:
         type: string
-      updatedById:
-        type: integer
+      updatedBy:
+        type: string
     type: object
   responseModel.EnquiryHistory:
     properties:
@@ -896,8 +932,8 @@ definitions:
         type: string
       createdAt:
         type: string
-      createdById:
-        type: integer
+      createdBy:
+        type: string
       customerComment:
         type: string
       employee:
@@ -926,21 +962,19 @@ definitions:
         type: string
       updatedAt:
         type: string
-      updatedById:
-        type: integer
+      updatedBy:
+        type: string
       visitingDate:
         type: string
     type: object
   responseModel.ExpenseTracker:
     properties:
+      auditFields:
+        $ref: '#/definitions/responseModel.AuditFields'
       billNumber:
         type: string
       companyName:
         type: string
-      createdAt:
-        type: string
-      createdById:
-        type: integer
       id:
         type: integer
       isActive:
@@ -955,17 +989,11 @@ definitions:
         type: number
       purchaseDate:
         type: string
-      updatedAt:
-        type: string
-      updatedById:
-        type: integer
     type: object
   responseModel.Measurement:
     properties:
-      createdAt:
-        type: string
-      createdById:
-        type: integer
+      auditFields:
+        $ref: '#/definitions/responseModel.AuditFields'
       dressType:
         $ref: '#/definitions/responseModel.DressType'
       dressTypeId:
@@ -984,10 +1012,6 @@ definitions:
         description: first_name + last_name
         type: string
       takenById:
-        type: integer
-      updatedAt:
-        type: string
-      updatedById:
         type: integer
       values:
         items:
@@ -1022,8 +1046,8 @@ definitions:
         type: string
       createdAt:
         type: string
-      createdById:
-        type: integer
+      createdBy:
+        type: string
       id:
         type: integer
       isActive:
@@ -1044,17 +1068,15 @@ definitions:
         type: integer
       updatedAt:
         type: string
-      updatedById:
-        type: integer
+      updatedBy:
+        type: string
     type: object
   responseModel.Order:
     properties:
       additionalCharges:
         type: number
-      createdAt:
-        type: string
-      createdById:
-        type: integer
+      auditFields:
+        $ref: '#/definitions/responseModel.AuditFields'
       customer:
         $ref: '#/definitions/responseModel.Customer'
       customerId:
@@ -1089,10 +1111,6 @@ definitions:
         type: number
       status:
         type: string
-      updatedAt:
-        type: string
-      updatedById:
-        type: integer
     type: object
   responseModel.OrderHistory:
     properties:
@@ -1102,8 +1120,8 @@ definitions:
         type: string
       createdAt:
         type: string
-      createdById:
-        type: integer
+      createdBy:
+        type: string
       deliveredDate:
         type: string
       expectedDeliveryDate:
@@ -1131,17 +1149,15 @@ definitions:
         type: string
       updatedAt:
         type: string
-      updatedById:
-        type: integer
+      updatedBy:
+        type: string
     type: object
   responseModel.OrderItem:
     properties:
       additionalCharges:
         type: number
-      createdAt:
-        type: string
-      createdById:
-        type: integer
+      auditFields:
+        $ref: '#/definitions/responseModel.AuditFields'
       deliveredDate:
         type: string
       description:
@@ -1170,10 +1186,6 @@ definitions:
         type: integer
       total:
         type: number
-      updatedAt:
-        type: string
-      updatedById:
-        type: integer
     type: object
   responseModel.Person:
     properties:
@@ -1181,8 +1193,8 @@ definitions:
         type: integer
       createdAt:
         type: string
-      createdById:
-        type: integer
+      createdBy:
+        type: string
       customer:
         $ref: '#/definitions/responseModel.Customer'
       customerId:
@@ -1203,19 +1215,17 @@ definitions:
         type: array
       updatedAt:
         type: string
-      updatedById:
-        type: integer
+      updatedBy:
+        type: string
     type: object
   responseModel.Task:
     properties:
       assignedToId:
         type: integer
+      auditFields:
+        $ref: '#/definitions/responseModel.AuditFields'
       completedAt:
         type: string
-      createdAt:
-        type: string
-      createdById:
-        type: integer
       description:
         type: string
       dueDate:
@@ -1232,17 +1242,13 @@ definitions:
         type: string
       title:
         type: string
-      updatedAt:
-        type: string
-      updatedById:
-        type: integer
     type: object
   responseModel.User:
     properties:
       createdAt:
         type: string
-      createdById:
-        type: integer
+      createdBy:
+        type: string
       department:
         type: string
       email:
@@ -1275,8 +1281,8 @@ definitions:
         type: string
       updatedAt:
         type: string
-      updatedById:
-        type: integer
+      updatedBy:
+        type: string
       userChannelDetails:
         items:
           $ref: '#/definitions/responseModel.UserChannelDetail'

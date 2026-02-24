@@ -13,6 +13,5 @@ type ExpenseTracker struct {
 	Price        float64    `json:"price,omitempty"`
 	Location     *string    `json:"location,omitempty"`
 	Notes        *string    `json:"notes,omitempty"`
-
-	AuditFields
+	AuditFields  `json:"auditFields"`
 }

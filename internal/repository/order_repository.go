@@ -48,6 +48,7 @@ func (or *orderRepository) Get(ctx *context.Context, id uint) (*entities.Order, 
 			(SELECT COALESCE(SUM(total), 0) FROM "stich"."OrderItems"
 			 WHERE "stich"."OrderItems".order_id = "stich"."Orders".id) as order_value`).
 		Preload("Customer").
+		Scopes(scopes.WithAuditInfo()).
 		Preload("OrderTakenBy", scopes.SelectFields("first_name", "last_name")).
 		Preload("OrderItems.Measurement", scopes.SelectFields("person_id", "dress_type_id")).
 		Preload("OrderItems.Measurement.Person", scopes.SelectFields("first_name", "last_name")).

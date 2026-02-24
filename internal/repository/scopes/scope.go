@@ -18,7 +18,12 @@ func IsActive(params ...string) func(db *gorm.DB) *gorm.DB {
 
 	if len(params) == 0 {
 		return func(db *gorm.DB) *gorm.DB {
-			return db.Where("is_active", true)
+			stmt := &gorm.Statement{DB: db}
+			if err := stmt.Parse(db.Statement.Model); err != nil {
+				return db
+			}
+			tableName := stmt.Schema.Table
+			return db.Where(fmt.Sprintf("%s.is_active", tableName), true)
 		}
 	}
 
@@ -61,7 +66,13 @@ func Channel(params ...string) func(db *gorm.DB) *gorm.DB {
 				return db
 			}
 
-			return db.Where("channel_id", channelId)
+			stmt := &gorm.Statement{DB: db}
+			if err := stmt.Parse(db.Statement.Model); err != nil {
+				return db
+			}
+			tableName := stmt.Schema.Table
+
+			return db.Where(fmt.Sprintf("%s.channel_id", tableName), channelId)
 
 		}
 	}
@@ -154,4 +165,26 @@ func SelectFields(params ...string) func(db *gorm.DB) *gorm.DB {
 		return db.Select("id", params)
 	}
 
+}
+
+// WithAuditInfo adds the created_by and updated_by fields to the select clause by performing left joins with the Users table.
+// It takes the table name as a parameter to construct the join conditions and select clause.
+// We can also pass the alias of the table if the query is using any alias, for example "E" in case of orders table. In that case the created_by and updated_by fields will be added as "o.created_by" and "o.updated_by"
+func WithAuditInfo() func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+
+		stmt := &gorm.Statement{DB: db}
+		if err := stmt.Parse(db.Statement.Model); err != nil {
+			return db
+		}
+		tableName := stmt.TableExpr.SQL
+		return db.
+			Joins(`LEFT JOIN "stich"."Users" cu ON cu.id = ` + tableName + `.created_by_id`).
+			Joins(`LEFT JOIN "stich"."Users" uu ON uu.id = ` + tableName + `.updated_by_id`).
+			Select(`
+				` + tableName + `.*,
+				COALESCE(cu.first_name || ' ' || cu.last_name, '') AS created_by,
+				COALESCE(uu.first_name || ' ' || uu.last_name, '') AS updated_by
+			`)
+	}
 }

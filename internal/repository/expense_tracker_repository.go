@@ -42,6 +42,7 @@ func (etr *expenseTrackerRepository) Update(ctx *context.Context, expenseTracker
 func (etr *expenseTrackerRepository) Get(ctx *context.Context, id uint) (*entities.Expense, *errs.XError) {
 	expenseTracker := entities.Expense{}
 	res := etr.WithDB(ctx).
+		Scopes(scopes.WithAuditInfo()).
 		Scopes(scopes.Channel(), scopes.IsActive()).
 		Find(&expenseTracker, id)
 	if res.Error != nil {

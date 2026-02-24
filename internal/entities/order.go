@@ -37,7 +37,7 @@ type Order struct {
 
 	OrderItems []OrderItem `gorm:"foreignKey:OrderId" json:"orderItems"`
 
-	// Calculated fields (populated via SQL subqueries, not stored in DB)
+	// Transient/Calculated fields (populated via SQL subqueries, not stored in DB)
 	OrderQuantity int     `gorm:"->" json:"-"`
 	OrderValue    float64 `gorm:"->" json:"-"`
 }

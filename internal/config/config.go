@@ -20,7 +20,7 @@ type AppConfig struct {
 	SMTP     SMTPConfig     `mapstructure:"smtp"`
 	Site     SiteConfig     `mapstructure:"site"`
 	Config   Config         `mapstructure:"config"`
-	NewRelic NewRelicConfig `mapstructure:"log"`
+	Logger   LogConfig      `mapstructure:"logger"`
 	S3Config S3Config       `mapstructure:"s3Config"`
 }
 
@@ -32,6 +32,7 @@ type ServerConfig struct {
 	JwtSecretKey     string `mapstructure:"jwtSecretKey"`
 	JwtExpiryMinutes int64  `mapstructure:"jwtExpiryMinutes"`
 	SecretKey        string `mapstructure:"secretKey"`
+	Environment      string `mapstructure:"environment"`
 }
 
 type SMTPConfig struct {
@@ -59,11 +60,12 @@ type DatabaseConfig struct {
 	Username string `mapstructure:"user"`
 	Password string `mapstructure:"password"`
 	Schema   string `mapstructure:"schema"`
-	LogLevel string `mapstructure:"logLevel"`
 }
 
-type NewRelicConfig struct {
-	License string `mapstructure:"license"`
+type LogConfig struct {
+	License  string `mapstructure:"license"`
+	Provider string `mapstructure:"provider"`
+	LogLevel string `mapstructure:"logLevel"`
 }
 
 type S3Config struct {
@@ -109,6 +111,7 @@ func LoadConfig(configReader io.ReadCloser) (AppConfig, error) {
 		"server.jwtExpiryMinutes": "JWT_EXPIRY_MINUTES",
 		"server.secretKey":        "SECRET_KEY",
 		"server.AppName":          "APP_NAME",
+		"server.environment":      "ENVIRONMENT",
 
 		"database.host":     "DB_HOST",
 		"database.name":     "DB_NAME",
@@ -116,7 +119,6 @@ func LoadConfig(configReader io.ReadCloser) (AppConfig, error) {
 		"database.user":     "DB_USER",
 		"database.password": "DB_PASSWORD",
 		"database.schema":   "DB_SCHEMA",
-		"database.logLevel": "DB_LOG_LEVEL",
 
 		"smtp.username":   "SMTP_USER",
 		"smtp.password":   "SMTP_PASSWORD",
@@ -130,7 +132,9 @@ func LoadConfig(configReader io.ReadCloser) (AppConfig, error) {
 
 		"config.useJobService": "USE_JOB_SERVICE",
 
-		"log.license": "NEW_RELIC_LICENSE_KEY",
+		"logger.license":  "NEW_RELIC_LICENSE_KEY",
+		"logger.provider": "LOG_PROVIDER",
+		"logger.logLevel": "LOG_LEVEL",
 
 		"s3Config.region":          "S3_REGION",
 		"s3Config.bucket":          "S3_BUCKET",

@@ -19,6 +19,10 @@ type Model struct {
 	//Channel Id must be create only since it will interfere with update operations
 	//Use tx.Exec as raw query to update the channelId as done in channel after-create hook
 	ChannelId uint `gorm:"<-:create" json:"channelId,omitempty"`
+
+	// Transient fields for response mapping, not stored in DB
+	CreatedBy string `gorm:"->" json:"createdBy,omitempty"`
+	UpdatedBy string `gorm:"->" json:"updatedBy,omitempty"`
 }
 
 func (u *Model) BeforeUpdate(tx *gorm.DB) (err error) {

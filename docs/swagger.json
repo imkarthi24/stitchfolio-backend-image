@@ -3582,6 +3582,10 @@
                 "createdAt": {
                     "type": "string"
                 },
+                "createdBy": {
+                    "description": "Transient fields for response mapping, not stored in DB",
+                    "type": "string"
+                },
                 "createdById": {
                     "type": "integer"
                 },
@@ -3599,6 +3603,9 @@
                     "type": "string"
                 },
                 "updatedAt": {
+                    "type": "string"
+                },
+                "updatedBy": {
                     "type": "string"
                 },
                 "updatedById": {
@@ -3655,6 +3662,10 @@
                 "createdAt": {
                     "type": "string"
                 },
+                "createdBy": {
+                    "description": "Transient fields for response mapping, not stored in DB",
+                    "type": "string"
+                },
                 "createdById": {
                     "type": "integer"
                 },
@@ -3703,6 +3714,9 @@
                 "updatedAt": {
                     "type": "string"
                 },
+                "updatedBy": {
+                    "type": "string"
+                },
                 "updatedById": {
                     "type": "integer"
                 },
@@ -3735,6 +3749,10 @@
                 "createdAt": {
                     "type": "string"
                 },
+                "createdBy": {
+                    "description": "Transient fields for response mapping, not stored in DB",
+                    "type": "string"
+                },
                 "createdById": {
                     "type": "integer"
                 },
@@ -3742,6 +3760,9 @@
                     "type": "boolean"
                 },
                 "updatedAt": {
+                    "type": "string"
+                },
+                "updatedBy": {
                     "type": "string"
                 },
                 "updatedById": {
@@ -3773,6 +3794,10 @@
                 "createdAt": {
                     "type": "string"
                 },
+                "createdBy": {
+                    "description": "Transient fields for response mapping, not stored in DB",
+                    "type": "string"
+                },
                 "createdById": {
                     "type": "integer"
                 },
@@ -3780,6 +3805,9 @@
                     "type": "boolean"
                 },
                 "updatedAt": {
+                    "type": "string"
+                },
+                "updatedBy": {
                     "type": "string"
                 },
                 "updatedById": {
@@ -4612,6 +4640,23 @@
                 "WARNING"
             ]
         },
+        "responseModel.AuditFields": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "createdBy": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "updatedBy": {
+                    "type": "string"
+                }
+            }
+        },
         "responseModel.Channel": {
             "type": "object",
             "properties": {
@@ -4629,6 +4674,10 @@
                     "type": "string"
                 },
                 "createdAt": {
+                    "type": "string"
+                },
+                "createdBy": {
+                    "description": "Transient fields for response mapping, not stored in DB",
                     "type": "string"
                 },
                 "createdById": {
@@ -4656,6 +4705,9 @@
                 "updatedAt": {
                     "type": "string"
                 },
+                "updatedBy": {
+                    "type": "string"
+                },
                 "updatedById": {
                     "type": "integer"
                 }
@@ -4681,8 +4733,8 @@
                 "createdAt": {
                     "type": "string"
                 },
-                "createdById": {
-                    "type": "integer"
+                "createdBy": {
+                    "type": "string"
                 },
                 "email": {
                     "type": "string"
@@ -4723,8 +4775,8 @@
                 "updatedAt": {
                     "type": "string"
                 },
-                "updatedById": {
-                    "type": "integer"
+                "updatedBy": {
+                    "type": "string"
                 },
                 "whatsappNumber": {
                     "type": "string"
@@ -4757,8 +4809,8 @@
                 "createdAt": {
                     "type": "string"
                 },
-                "createdById": {
-                    "type": "integer"
+                "createdBy": {
+                    "type": "string"
                 },
                 "description": {
                     "type": "string"
@@ -4778,8 +4830,8 @@
                 "updatedAt": {
                     "type": "string"
                 },
-                "updatedById": {
-                    "type": "integer"
+                "updatedBy": {
+                    "type": "string"
                 }
             }
         },
@@ -4789,8 +4841,8 @@
                 "createdAt": {
                     "type": "string"
                 },
-                "createdById": {
-                    "type": "integer"
+                "createdBy": {
+                    "type": "string"
                 },
                 "customer": {
                     "$ref": "#/definitions/responseModel.Customer"
@@ -4825,8 +4877,8 @@
                 "updatedAt": {
                     "type": "string"
                 },
-                "updatedById": {
-                    "type": "integer"
+                "updatedBy": {
+                    "type": "string"
                 }
             }
         },
@@ -4839,8 +4891,8 @@
                 "createdAt": {
                     "type": "string"
                 },
-                "createdById": {
-                    "type": "integer"
+                "createdBy": {
+                    "type": "string"
                 },
                 "customerComment": {
                     "type": "string"
@@ -4884,8 +4936,8 @@
                 "updatedAt": {
                     "type": "string"
                 },
-                "updatedById": {
-                    "type": "integer"
+                "updatedBy": {
+                    "type": "string"
                 },
                 "visitingDate": {
                     "type": "string"
@@ -4895,17 +4947,14 @@
         "responseModel.ExpenseTracker": {
             "type": "object",
             "properties": {
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
+                },
                 "billNumber": {
                     "type": "string"
                 },
                 "companyName": {
                     "type": "string"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
-                    "type": "integer"
                 },
                 "id": {
                     "type": "integer"
@@ -4927,23 +4976,14 @@
                 },
                 "purchaseDate": {
                     "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
-                    "type": "integer"
                 }
             }
         },
         "responseModel.Measurement": {
             "type": "object",
             "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
-                    "type": "integer"
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
                 },
                 "dressType": {
                     "$ref": "#/definitions/responseModel.DressType"
@@ -4971,12 +5011,6 @@
                     "type": "string"
                 },
                 "takenById": {
-                    "type": "integer"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
                     "type": "integer"
                 },
                 "values": {
@@ -5029,8 +5063,8 @@
                 "createdAt": {
                     "type": "string"
                 },
-                "createdById": {
-                    "type": "integer"
+                "createdBy": {
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -5062,8 +5096,8 @@
                 "updatedAt": {
                     "type": "string"
                 },
-                "updatedById": {
-                    "type": "integer"
+                "updatedBy": {
+                    "type": "string"
                 }
             }
         },
@@ -5073,11 +5107,8 @@
                 "additionalCharges": {
                     "type": "number"
                 },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
-                    "type": "integer"
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
                 },
                 "customer": {
                     "$ref": "#/definitions/responseModel.Customer"
@@ -5127,12 +5158,6 @@
                 },
                 "status": {
                     "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
-                    "type": "integer"
                 }
             }
         },
@@ -5148,8 +5173,8 @@
                 "createdAt": {
                     "type": "string"
                 },
-                "createdById": {
-                    "type": "integer"
+                "createdBy": {
+                    "type": "string"
                 },
                 "deliveredDate": {
                     "type": "string"
@@ -5191,8 +5216,8 @@
                 "updatedAt": {
                     "type": "string"
                 },
-                "updatedById": {
-                    "type": "integer"
+                "updatedBy": {
+                    "type": "string"
                 }
             }
         },
@@ -5202,11 +5227,8 @@
                 "additionalCharges": {
                     "type": "number"
                 },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
-                    "type": "integer"
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
                 },
                 "deliveredDate": {
                     "type": "string"
@@ -5249,12 +5271,6 @@
                 },
                 "total": {
                     "type": "number"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
-                    "type": "integer"
                 }
             }
         },
@@ -5267,8 +5283,8 @@
                 "createdAt": {
                     "type": "string"
                 },
-                "createdById": {
-                    "type": "integer"
+                "createdBy": {
+                    "type": "string"
                 },
                 "customer": {
                     "$ref": "#/definitions/responseModel.Customer"
@@ -5300,8 +5316,8 @@
                 "updatedAt": {
                     "type": "string"
                 },
-                "updatedById": {
-                    "type": "integer"
+                "updatedBy": {
+                    "type": "string"
                 }
             }
         },
@@ -5311,14 +5327,11 @@
                 "assignedToId": {
                     "type": "integer"
                 },
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
+                },
                 "completedAt": {
                     "type": "string"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
-                    "type": "integer"
                 },
                 "description": {
                     "type": "string"
@@ -5343,12 +5356,6 @@
                 },
                 "title": {
                     "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
-                    "type": "integer"
                 }
             }
         },
@@ -5358,8 +5365,8 @@
                 "createdAt": {
                     "type": "string"
                 },
-                "createdById": {
-                    "type": "integer"
+                "createdBy": {
+                    "type": "string"
                 },
                 "department": {
                     "type": "string"
@@ -5409,8 +5416,8 @@
                 "updatedAt": {
                     "type": "string"
                 },
-                "updatedById": {
-                    "type": "integer"
+                "updatedBy": {
+                    "type": "string"
                 },
                 "userChannelDetails": {
                     "type": "array",

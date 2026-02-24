@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -12,7 +13,8 @@ import (
 	"github.com/imkarthi24/sf-backend/internal/repository"
 
 	// "github.com/loop-kar/pixie/db/migrator"
-	pkgLog "github.com/loop-kar/pixie/log"
+
+	"github.com/loop-kar/pixie/log"
 	"github.com/newrelic/go-agent/v3/newrelic"
 
 	"github.com/loop-kar/pixie/db/migrator"
@@ -32,7 +34,23 @@ func (a *App) Start(ctx *context.Context, checkErr func(err error)) {
 	go func(ctx *context.Context) {
 
 		//App startup essentials
-		pkgLog.InitLogger(a.NewRelic)
+		config := log.PlogConfig{
+			Level:            a.AppConfig.Logger.LogLevel,
+			Environment:      a.AppConfig.Server.Environment,
+			OutputPaths:      []string{"stdout"},
+			EnableCaller:     true,
+			EnableStacktrace: true,
+			Provider:         a.AppConfig.Logger.Provider,
+		}
+		// Initialize with error handling
+		if err := log.InitLoggerWithConfig(a.NewRelic, config); err != nil {
+			fmt.Fprintf(os.Stderr, "Failed to initialize logger: %v\n", err)
+			os.Exit(1)
+		}
+
+		defer log.Sync()
+
+		log.Info(ctx, "App Service Started...")
 		config_cache.InitMasterConfig(a.MasterConfigRepository)
 
 		host := a.AppConfig.Server.Host
@@ -54,7 +72,8 @@ func (a *App) Shutdown(ctx *context.Context, checkErr func(err error)) {
 	err = dbConn.Close()
 	checkErr(err)
 
-	//	pkgLog.FromCtx(ctx).Info("App Service Stopped...")
+	log.Info(ctx, "App Service Shutdown...")
+	log.Sync()
 }
 
 func (a *App) Migrate(ctx *context.Context, checkErr func(err error)) {

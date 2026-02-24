@@ -1,0 +1,23 @@
+# Backend + nginx (HTTPS). Set ENV_FILE_PATH, CONFIG_FILE, NGINX_HTTP_PORT, NGINX_HTTPS_PORT, SSL_CERT_DIR.
+# See .env.example and .github/DEPLOYMENT.md.
+
+services:
+  backend:
+    build: .
+    env_file: ${ENV_FILE_PATH}
+    command: ["./app", "--configFile", "./config/${CONFIG_FILE}"]
+    restart: unless-stopped
+    # No host ports; nginx is the only entrypoint.
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "${NGINX_HTTP_PORT:-80}:80"
+      - "${NGINX_HTTPS_PORT:-443}:443"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ${SSL_CERT_DIR}:/etc/nginx/ssl:ro
+      - /etc/letsencrypt/archive:/etc/archive:ro
+    depends_on:
+      - backend
+    restart: unless-stopped

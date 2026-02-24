@@ -6,22 +6,22 @@ import (
 	"github.com/imkarthi24/sf-backend/internal/config"
 	"github.com/imkarthi24/sf-backend/internal/constants"
 	baseHandler "github.com/imkarthi24/sf-backend/internal/handler/base"
-	"github.com/imkarthi24/sf-backend/internal/log/newreliclog"
 	router "github.com/imkarthi24/sf-backend/internal/router/middleware"
 	"github.com/loop-kar/pixie/middleware"
+	"github.com/newrelic/go-agent/v3/newrelic"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
 	docs "github.com/imkarthi24/sf-backend/docs"
 )
 
-func InitRouter(handler baseHandler.BaseHandler, srvConfig config.ServerConfig) *gin.Engine {
+func InitRouter(handler baseHandler.BaseHandler, newRelic *newrelic.Application, srvConfig config.ServerConfig) *gin.Engine {
 
 	g := gin.Default()
 	g.Use(gin.Recovery())
 
 	// Middlewares
-	g.Use(middleware.NewRelicMiddleWare(newreliclog.Get()))
+	g.Use(middleware.NewRelicMiddleWare(newRelic))
 	g.Use(middleware.LogMiddleware())
 
 	g.Use(middleware.Security())

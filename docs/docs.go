@@ -3588,6 +3588,10 @@ const docTemplate = `{
                 "createdAt": {
                     "type": "string"
                 },
+                "createdBy": {
+                    "description": "Transient fields for response mapping, not stored in DB",
+                    "type": "string"
+                },
                 "createdById": {
                     "type": "integer"
                 },
@@ -3605,6 +3609,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updatedAt": {
+                    "type": "string"
+                },
+                "updatedBy": {
                     "type": "string"
                 },
                 "updatedById": {
@@ -3661,6 +3668,10 @@ const docTemplate = `{
                 "createdAt": {
                     "type": "string"
                 },
+                "createdBy": {
+                    "description": "Transient fields for response mapping, not stored in DB",
+                    "type": "string"
+                },
                 "createdById": {
                     "type": "integer"
                 },
@@ -3709,6 +3720,9 @@ const docTemplate = `{
                 "updatedAt": {
                     "type": "string"
                 },
+                "updatedBy": {
+                    "type": "string"
+                },
                 "updatedById": {
                     "type": "integer"
                 },
@@ -3741,6 +3755,10 @@ const docTemplate = `{
                 "createdAt": {
                     "type": "string"
                 },
+                "createdBy": {
+                    "description": "Transient fields for response mapping, not stored in DB",
+                    "type": "string"
+                },
                 "createdById": {
                     "type": "integer"
                 },
@@ -3748,6 +3766,9 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "updatedAt": {
+                    "type": "string"
+                },
+                "updatedBy": {
                     "type": "string"
                 },
                 "updatedById": {
@@ -3779,6 +3800,10 @@ const docTemplate = `{
                 "createdAt": {
                     "type": "string"
                 },
+                "createdBy": {
+                    "description": "Transient fields for response mapping, not stored in DB",
+                    "type": "string"
+                },
                 "createdById": {
                     "type": "integer"
                 },
@@ -3786,6 +3811,9 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "updatedAt": {
+                    "type": "string"
+                },
+                "updatedBy": {
                     "type": "string"
                 },
                 "updatedById": {
@@ -4618,6 +4646,23 @@ const docTemplate = `{
                 "WARNING"
             ]
         },
+        "responseModel.AuditFields": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "createdBy": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "updatedBy": {
+                    "type": "string"
+                }
+            }
+        },
         "responseModel.Channel": {
             "type": "object",
             "properties": {
@@ -4635,6 +4680,10 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "createdAt": {
+                    "type": "string"
+                },
+                "createdBy": {
+                    "description": "Transient fields for response mapping, not stored in DB",
                     "type": "string"
                 },
                 "createdById": {
@@ -4662,6 +4711,9 @@ const docTemplate = `{
                 "updatedAt": {
                     "type": "string"
                 },
+                "updatedBy": {
+                    "type": "string"
+                },
                 "updatedById": {
                     "type": "integer"
                 }
@@ -4687,8 +4739,8 @@ const docTemplate = `{
                 "createdAt": {
                     "type": "string"
                 },
-                "createdById": {
-                    "type": "integer"
+                "createdBy": {
+                    "type": "string"
                 },
                 "email": {
                     "type": "string"
@@ -4729,8 +4781,8 @@ const docTemplate = `{
                 "updatedAt": {
                     "type": "string"
                 },
-                "updatedById": {
-                    "type": "integer"
+                "updatedBy": {
+                    "type": "string"
                 },
                 "whatsappNumber": {
                     "type": "string"
@@ -4763,8 +4815,8 @@ const docTemplate = `{
                 "createdAt": {
                     "type": "string"
                 },
-                "createdById": {
-                    "type": "integer"
+                "createdBy": {
+                    "type": "string"
                 },
                 "description": {
                     "type": "string"
@@ -4784,8 +4836,8 @@ const docTemplate = `{
                 "updatedAt": {
                     "type": "string"
                 },
-                "updatedById": {
-                    "type": "integer"
+                "updatedBy": {
+                    "type": "string"
                 }
             }
         },
@@ -4795,8 +4847,8 @@ const docTemplate = `{
                 "createdAt": {
                     "type": "string"
                 },
-                "createdById": {
-                    "type": "integer"
+                "createdBy": {
+                    "type": "string"
                 },
                 "customer": {
                     "$ref": "#/definitions/responseModel.Customer"
@@ -4831,8 +4883,8 @@ const docTemplate = `{
                 "updatedAt": {
                     "type": "string"
                 },
-                "updatedById": {
-                    "type": "integer"
+                "updatedBy": {
+                    "type": "string"
                 }
             }
         },
@@ -4845,8 +4897,8 @@ const docTemplate = `{
                 "createdAt": {
                     "type": "string"
                 },
-                "createdById": {
-                    "type": "integer"
+                "createdBy": {
+                    "type": "string"
                 },
                 "customerComment": {
                     "type": "string"
@@ -4890,8 +4942,8 @@ const docTemplate = `{
                 "updatedAt": {
                     "type": "string"
                 },
-                "updatedById": {
-                    "type": "integer"
+                "updatedBy": {
+                    "type": "string"
                 },
                 "visitingDate": {
                     "type": "string"
@@ -4901,17 +4953,14 @@ const docTemplate = `{
         "responseModel.ExpenseTracker": {
             "type": "object",
             "properties": {
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
+                },
                 "billNumber": {
                     "type": "string"
                 },
                 "companyName": {
                     "type": "string"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
-                    "type": "integer"
                 },
                 "id": {
                     "type": "integer"
@@ -4933,23 +4982,14 @@ const docTemplate = `{
                 },
                 "purchaseDate": {
                     "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
-                    "type": "integer"
                 }
             }
         },
         "responseModel.Measurement": {
             "type": "object",
             "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
-                    "type": "integer"
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
                 },
                 "dressType": {
                     "$ref": "#/definitions/responseModel.DressType"
@@ -4977,12 +5017,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "takenById": {
-                    "type": "integer"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
                     "type": "integer"
                 },
                 "values": {
@@ -5035,8 +5069,8 @@ const docTemplate = `{
                 "createdAt": {
                     "type": "string"
                 },
-                "createdById": {
-                    "type": "integer"
+                "createdBy": {
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -5068,8 +5102,8 @@ const docTemplate = `{
                 "updatedAt": {
                     "type": "string"
                 },
-                "updatedById": {
-                    "type": "integer"
+                "updatedBy": {
+                    "type": "string"
                 }
             }
         },
@@ -5079,11 +5113,8 @@ const docTemplate = `{
                 "additionalCharges": {
                     "type": "number"
                 },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
-                    "type": "integer"
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
                 },
                 "customer": {
                     "$ref": "#/definitions/responseModel.Customer"
@@ -5133,12 +5164,6 @@ const docTemplate = `{
                 },
                 "status": {
                     "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
-                    "type": "integer"
                 }
             }
         },
@@ -5154,8 +5179,8 @@ const docTemplate = `{
                 "createdAt": {
                     "type": "string"
                 },
-                "createdById": {
-                    "type": "integer"
+                "createdBy": {
+                    "type": "string"
                 },
                 "deliveredDate": {
                     "type": "string"
@@ -5197,8 +5222,8 @@ const docTemplate = `{
                 "updatedAt": {
                     "type": "string"
                 },
-                "updatedById": {
-                    "type": "integer"
+                "updatedBy": {
+                    "type": "string"
                 }
             }
         },
@@ -5208,11 +5233,8 @@ const docTemplate = `{
                 "additionalCharges": {
                     "type": "number"
                 },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
-                    "type": "integer"
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
                 },
                 "deliveredDate": {
                     "type": "string"
@@ -5255,12 +5277,6 @@ const docTemplate = `{
                 },
                 "total": {
                     "type": "number"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
-                    "type": "integer"
                 }
             }
         },
@@ -5273,8 +5289,8 @@ const docTemplate = `{
                 "createdAt": {
                     "type": "string"
                 },
-                "createdById": {
-                    "type": "integer"
+                "createdBy": {
+                    "type": "string"
                 },
                 "customer": {
                     "$ref": "#/definitions/responseModel.Customer"
@@ -5306,8 +5322,8 @@ const docTemplate = `{
                 "updatedAt": {
                     "type": "string"
                 },
-                "updatedById": {
-                    "type": "integer"
+                "updatedBy": {
+                    "type": "string"
                 }
             }
         },
@@ -5317,14 +5333,11 @@ const docTemplate = `{
                 "assignedToId": {
                     "type": "integer"
                 },
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
+                },
                 "completedAt": {
                     "type": "string"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdById": {
-                    "type": "integer"
                 },
                 "description": {
                     "type": "string"
@@ -5349,12 +5362,6 @@ const docTemplate = `{
                 },
                 "title": {
                     "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedById": {
-                    "type": "integer"
                 }
             }
         },
@@ -5364,8 +5371,8 @@ const docTemplate = `{
                 "createdAt": {
                     "type": "string"
                 },
-                "createdById": {
-                    "type": "integer"
+                "createdBy": {
+                    "type": "string"
                 },
                 "department": {
                     "type": "string"
@@ -5415,8 +5422,8 @@ const docTemplate = `{
                 "updatedAt": {
                     "type": "string"
                 },
-                "updatedById": {
-                    "type": "integer"
+                "updatedBy": {
+                    "type": "string"
                 },
                 "userChannelDetails": {
                     "type": "array",

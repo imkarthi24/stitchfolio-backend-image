@@ -81,6 +81,7 @@ func (mr *measurementRepository) Get(ctx *context.Context, id uint) (*entities.M
 		Preload("Person").
 		Preload("DressType").
 		Preload("TakenBy", scopes.SelectFields("first_name", "last_name")).
+		Scopes(scopes.WithAuditInfo()).
 		Find(&measurement, id)
 	if res.Error != nil {
 		return nil, errs.NewXError(errs.DATABASE, "Unable to find measurement", res.Error)

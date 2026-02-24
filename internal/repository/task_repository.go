@@ -41,7 +41,8 @@ func (tr *taskRepository) Update(ctx *context.Context, task *entities.Task) *err
 
 func (tr *taskRepository) Get(ctx *context.Context, id uint) (*entities.Task, *errs.XError) {
 	task := entities.Task{}
-	res := tr.WithDB(ctx).
+	res := tr.WithDB(ctx).Model(task).
+		Scopes(scopes.WithAuditInfo()).
 		Scopes(scopes.Channel(), scopes.IsActive()).
 		Find(&task, id)
 	if res.Error != nil {
