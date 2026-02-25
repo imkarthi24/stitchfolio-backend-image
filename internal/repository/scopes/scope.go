@@ -18,6 +18,11 @@ func IsActive(params ...string) func(db *gorm.DB) *gorm.DB {
 
 	if len(params) == 0 {
 		return func(db *gorm.DB) *gorm.DB {
+
+			if db.Statement.Model == nil {
+				return db.Where("is_active")
+			}
+
 			stmt := &gorm.Statement{DB: db}
 			if err := stmt.Parse(db.Statement.Model); err != nil {
 				return db
@@ -64,6 +69,10 @@ func Channel(params ...string) func(db *gorm.DB) *gorm.DB {
 			//System Admin needs access to all Data
 			if channelId == 0 {
 				return db
+			}
+
+			if db.Statement.Model == nil {
+				return db.Where("channel_id = ?", channelId)
 			}
 
 			stmt := &gorm.Statement{DB: db}
