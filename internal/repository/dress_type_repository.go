@@ -48,7 +48,7 @@ func (dtr *dressTypeRepository) Get(ctx *context.Context, id uint) (*entities.Dr
 
 func (dtr *dressTypeRepository) GetAll(ctx *context.Context, search string) ([]entities.DressType, *errs.XError) {
 	var dressTypes []entities.DressType
-	res := dtr.WithDB(ctx).Table(entities.DressType{}.TableNameForQuery()).
+	res := dtr.WithDB(ctx).Model(entities.DressType{}).
 		Scopes(scopes.Channel(), scopes.IsActive()).
 		Scopes(scopes.ILike(search, "name")).
 		Scopes(db.Paginate(ctx)).

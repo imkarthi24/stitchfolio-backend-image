@@ -119,7 +119,7 @@ func (mr *measurementRepository) GetAll(
 			updated_at,
 			taken_by_id
 		`).
-		Scopes(scopes.IsActive(), scopes.Channel()).
+		Scopes(scopes.IsActive(), scopes.Channel("E")).
 		Order(`person_id, updated_at DESC`)
 
 	query := mr.WithDB(ctx).

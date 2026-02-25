@@ -55,7 +55,7 @@ func (ir *inventoryRepository) Get(ctx *context.Context, id uint) (*entities.Inv
 
 func (ir *inventoryRepository) GetAll(ctx *context.Context, search string) ([]entities.Inventory, *errs.XError) {
 	var inventories []entities.Inventory
-	res := ir.WithDB(ctx).Table(entities.Inventory{}.TableNameForQuery()).
+	res := ir.WithDB(ctx).Model(entities.Inventory{}).
 		Scopes(scopes.Channel(), scopes.IsActive()).
 		Scopes(db.Paginate(ctx)).
 		Preload("Product").

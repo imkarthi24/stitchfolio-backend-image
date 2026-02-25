@@ -58,7 +58,7 @@ func (cr *customerRepository) Get(ctx *context.Context, id uint) (*entities.Cust
 
 func (cr *customerRepository) GetAll(ctx *context.Context, search string) ([]entities.Customer, *errs.XError) {
 	var customers []entities.Customer
-	res := cr.WithDB(ctx).Table(entities.Customer{}.TableNameForQuery()).
+	res := cr.WithDB(ctx).Model(entities.Customer{}).
 		Scopes(scopes.Channel(), scopes.IsActive()).
 		Scopes(scopes.ILike(search, "first_name", "last_name", "email", "phone_number")).
 		Scopes(db.Paginate(ctx)).

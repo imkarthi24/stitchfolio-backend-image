@@ -51,7 +51,7 @@ func (cr *categoryRepository) Get(ctx *context.Context, id uint) (*entities.Cate
 
 func (cr *categoryRepository) GetAll(ctx *context.Context, search string) ([]entities.Category, *errs.XError) {
 	var categories []entities.Category
-	res := cr.WithDB(ctx).Table(entities.Category{}.TableNameForQuery()).
+	res := cr.WithDB(ctx).Model(entities.Category{}).
 		Scopes(scopes.Channel(), scopes.IsActive()).
 		Scopes(scopes.ILike(search, "name")).
 		Scopes(db.Paginate(ctx)).

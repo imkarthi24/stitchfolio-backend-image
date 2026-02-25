@@ -48,7 +48,7 @@ func (ilr *inventoryLogRepository) Get(ctx *context.Context, id uint) (*entities
 
 func (ilr *inventoryLogRepository) GetAll(ctx *context.Context, search string) ([]entities.InventoryLog, *errs.XError) {
 	var logs []entities.InventoryLog
-	res := ilr.WithDB(ctx).Table(entities.InventoryLog{}.TableNameForQuery()).
+	res := ilr.WithDB(ctx).Model(entities.InventoryLog{}).
 		Scopes(scopes.Channel(), scopes.IsActive()).
 		Scopes(db.Paginate(ctx)).
 		Preload("Product").

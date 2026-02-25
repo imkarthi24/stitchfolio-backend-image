@@ -413,7 +413,10 @@ Repository GetAll Request
          ↓
 ┌────────────────────────────────────────┐
 │  Apply Scopes Chain:                   │
-│  .Table(Customer{}.TableNameForQuery()) │
+│  .Model(Customer{})                    │
+│  (Use .Table(TableNameForQuery()) only  │
+│   for raw SQL; then use Channel("E"),  │
+│   IsActive("E").)                      │
 └──────────────┬─────────────────────────┘
                │
                ↓

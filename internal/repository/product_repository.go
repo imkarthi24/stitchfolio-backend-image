@@ -54,7 +54,7 @@ func (pr *productRepository) Get(ctx *context.Context, id uint) (*entities.Produ
 
 func (pr *productRepository) GetAll(ctx *context.Context, search string) ([]entities.Product, *errs.XError) {
 	var products []entities.Product
-	res := pr.WithDB(ctx).Table(entities.Product{}.TableNameForQuery()).
+	res := pr.WithDB(ctx).Model(entities.Product{}).
 		Scopes(scopes.Channel(), scopes.IsActive()).
 		Scopes(scopes.ILike(search, "name", "sku", "description")).
 		Scopes(db.Paginate(ctx)).
