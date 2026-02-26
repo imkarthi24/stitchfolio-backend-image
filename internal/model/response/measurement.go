@@ -31,5 +31,5 @@ type MeasurementBrowse struct {
 	CustomerId uint   `json:"customerId"`
 	DressTypes string `json:"dressTypes"` // CSV of DressType names
 	UpdatedAt  string `json:"updatedAt,omitempty"`
-	UpdatedBy  string `json:"updatedById,omitempty"`
+	UpdatedBy  string `json:"updatedBy,omitempty"`
 }
