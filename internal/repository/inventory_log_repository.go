@@ -63,7 +63,7 @@ func (ilr *inventoryLogRepository) GetAll(ctx *context.Context, search string) (
 
 func (ilr *inventoryLogRepository) GetByProductId(ctx *context.Context, productId uint) ([]entities.InventoryLog, *errs.XError) {
 	var logs []entities.InventoryLog
-	res := ilr.WithDB(ctx).
+	res := ilr.WithDB(ctx).Model(entities.InventoryLog{}).
 		Scopes(scopes.Channel(), scopes.IsActive()).
 		Scopes(scopes.WithAuditInfo()).
 		Where("product_id = ?", productId).
@@ -78,8 +78,9 @@ func (ilr *inventoryLogRepository) GetByProductId(ctx *context.Context, productI
 
 func (ilr *inventoryLogRepository) GetByChangeType(ctx *context.Context, changeType entities.InventoryLogChangeType) ([]entities.InventoryLog, *errs.XError) {
 	var logs []entities.InventoryLog
-	res := ilr.WithDB(ctx).
+	res := ilr.WithDB(ctx).Model(entities.InventoryLog{}).
 		Scopes(scopes.Channel(), scopes.IsActive()).
+		Scopes(scopes.WithAuditInfo()).
 		Where("change_type = ?", changeType).
 		Preload("Product").
 		Order("logged_at DESC").
@@ -92,8 +93,9 @@ func (ilr *inventoryLogRepository) GetByChangeType(ctx *context.Context, changeT
 
 func (ilr *inventoryLogRepository) GetByDateRange(ctx *context.Context, startDate string, endDate string) ([]entities.InventoryLog, *errs.XError) {
 	var logs []entities.InventoryLog
-	query := ilr.WithDB(ctx).
+	query := ilr.WithDB(ctx).Model(entities.InventoryLog{}).
 		Scopes(scopes.Channel(), scopes.IsActive()).
+		Scopes(scopes.WithAuditInfo()).
 		Preload("Product").
 		Order("logged_at DESC")
 

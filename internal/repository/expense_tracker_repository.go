@@ -41,7 +41,7 @@ func (etr *expenseTrackerRepository) Update(ctx *context.Context, expenseTracker
 
 func (etr *expenseTrackerRepository) Get(ctx *context.Context, id uint) (*entities.Expense, *errs.XError) {
 	expenseTracker := entities.Expense{}
-	res := etr.WithDB(ctx).
+	res := etr.WithDB(ctx).Model(expenseTracker).
 		Scopes(scopes.WithAuditInfo()).
 		Scopes(scopes.Channel(), scopes.IsActive()).
 		Find(&expenseTracker, id)
@@ -60,11 +60,12 @@ func (etr *expenseTrackerRepository) GetAll(ctx *context.Context, search string)
 		filter = filterValue.(string)
 	}
 
-	res := etr.WithDB(ctx).
+	res := etr.WithDB(ctx).Model(entities.Expense{}).
 		Scopes(scopes.Channel(), scopes.IsActive()).
 		Scopes(scopes.GetExpenseTrackers_Search(search)).
 		Scopes(scopes.GetExpenseTrackers_Filter(filter)).
 		Scopes(db.Paginate(ctx)).
+		Scopes(scopes.WithAuditInfo()).
 		Find(&expenseTrackers)
 	if res.Error != nil {
 		return nil, errs.NewXError(errs.DATABASE, "Unable to find expense trackers", res.Error)
