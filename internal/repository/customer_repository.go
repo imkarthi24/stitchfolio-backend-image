@@ -62,6 +62,7 @@ func (cr *customerRepository) GetAll(ctx *context.Context, search string) ([]ent
 	res := cr.WithDB(ctx).Model(entities.Customer{}).
 		Scopes(scopes.Channel(), scopes.IsActive()).
 		Scopes(scopes.ILike(search, "first_name", "last_name", "email", "phone_number")).
+		Scopes(scopes.WithAuditInfo()).
 		Scopes(db.Paginate(ctx)).
 		Find(&customers)
 	if res.Error != nil {
