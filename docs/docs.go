@@ -15,6 +15,11 @@ const docTemplate = `{
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
+    "security": [
+        {
+            "BearerAuth": []
+        }
+    ],
     "paths": {
         "/admin/switch-branch": {
             "post": {
@@ -41,19 +46,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -87,7 +92,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -116,19 +121,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -162,7 +167,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -197,7 +202,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -233,19 +238,19 @@ const docTemplate = `{
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -272,13 +277,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -312,7 +317,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -341,19 +346,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -387,7 +392,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -422,7 +427,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -458,19 +463,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -497,13 +502,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -537,7 +542,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -566,19 +571,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -612,7 +617,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -647,7 +652,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -683,19 +688,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -722,13 +727,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -768,7 +773,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -808,7 +813,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -842,7 +847,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -876,7 +881,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -905,19 +910,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -952,7 +957,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -988,19 +993,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -1027,13 +1032,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -1067,7 +1072,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1096,19 +1101,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -1142,7 +1147,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1171,19 +1176,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -1218,7 +1223,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1253,7 +1258,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1288,7 +1293,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1324,19 +1329,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -1363,13 +1368,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -1407,19 +1412,129 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/expense-detail/{id}": {
+            "get": {
+                "description": "Get an expense detail by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ExpenseDetail"
+                ],
+                "summary": "Get ExpenseDetail",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ExpenseDetail id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.ExpenseDetail"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.DataResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Updates an expense detail",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ExpenseDetail"
+                ],
+                "summary": "Update ExpenseDetail",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ExpenseDetail id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "expense detail",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestModel.ExpenseDetail"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Accepted",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.Response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes an expense detail",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ExpenseDetail"
+                ],
+                "summary": "Delete ExpenseDetail",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ExpenseDetail id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -1453,7 +1568,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1482,19 +1597,99 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/expense-tracker/{expenseId}/expense-detail": {
+            "get": {
+                "description": "Get all expense details for an expense",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ExpenseDetail"
+                ],
+                "summary": "Get expense details by expense id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Expense id",
+                        "name": "expenseId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/responseModel.ExpenseDetail"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.DataResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Saves an expense detail for an expense",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ExpenseDetail"
+                ],
+                "summary": "Save ExpenseDetail",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Expense id",
+                        "name": "expenseId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "expense detail",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestModel.ExpenseDetail"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -1529,7 +1724,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1565,19 +1760,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -1604,13 +1799,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -1661,7 +1856,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1695,7 +1890,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1735,7 +1930,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1775,7 +1970,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1810,7 +2005,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1845,7 +2040,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1871,7 +2066,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1908,13 +2103,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1949,7 +2144,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1984,7 +2179,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -2022,19 +2217,19 @@ const docTemplate = `{
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2065,19 +2260,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2105,13 +2300,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2140,13 +2335,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2180,13 +2375,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2215,13 +2410,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2257,19 +2452,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2303,7 +2498,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -2332,19 +2527,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2378,7 +2573,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -2407,19 +2602,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2454,7 +2649,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -2489,7 +2684,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -2523,19 +2718,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2567,19 +2762,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2614,7 +2809,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -2650,19 +2845,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2689,13 +2884,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2735,7 +2930,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -2764,19 +2959,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2810,7 +3005,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -2839,19 +3034,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2886,7 +3081,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -2921,7 +3116,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -2955,7 +3150,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -2984,19 +3179,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3031,7 +3226,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3067,19 +3262,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3106,13 +3301,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3147,7 +3342,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3183,19 +3378,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3222,13 +3417,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3262,7 +3457,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3291,19 +3486,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3338,7 +3533,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3373,7 +3568,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3409,19 +3604,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3448,13 +3643,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3488,7 +3683,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3517,19 +3712,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3563,7 +3758,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3589,7 +3784,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3624,7 +3819,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3659,7 +3854,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3695,19 +3890,19 @@ const docTemplate = `{
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3734,13 +3929,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3777,7 +3972,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3806,19 +4001,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3853,7 +4048,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3889,19 +4084,19 @@ const docTemplate = `{
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3928,13 +4123,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3968,7 +4163,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3997,19 +4192,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -4079,19 +4274,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -4151,19 +4346,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -4190,13 +4385,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -4227,19 +4422,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -4274,7 +4469,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -4312,19 +4507,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -4350,13 +4545,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -4387,7 +4582,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -4433,13 +4628,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -4496,7 +4691,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -4532,19 +4727,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -4571,13 +4766,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -4585,29 +4780,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "db.Pagination": {
-            "type": "object",
-            "properties": {
-                "currentPage": {
-                    "type": "integer"
-                },
-                "size": {
-                    "type": "integer"
-                },
-                "skipPagination": {
-                    "type": "boolean"
-                },
-                "sort": {
-                    "type": "string"
-                },
-                "totalPages": {
-                    "type": "integer"
-                },
-                "totalRecords": {
-                    "type": "integer"
-                }
-            }
-        },
         "entities.Channel": {
             "type": "object",
             "properties": {
@@ -4845,82 +5017,6 @@ const docTemplate = `{
                 }
             }
         },
-        "errs.ErrorType": {
-            "type": "string",
-            "enum": [
-                "OTHER",
-                "INVALID",
-                "IO",
-                "EXIST",
-                "NOT_EXIST",
-                "PRIVATE",
-                "INTERNAL",
-                "BROKEN_LINK",
-                "DATABASE",
-                "VALIDATION",
-                "UNANTICIPATED",
-                "INVALID_REQUEST",
-                "SMTP_ERROR",
-                "EMAIL_ERROR",
-                "STORAGE",
-                "INSUFFICIENT_ACCESS",
-                "CUSTOMER_DUPLICATE_TRANSACTION"
-            ],
-            "x-enum-comments": {
-                "BROKEN_LINK": "Link target does not exist.",
-                "CUSTOMER_DUPLICATE_TRANSACTION": "Duplicate Transaction",
-                "DATABASE": "Error from database.",
-                "EMAILERROR": "SMTP Error",
-                "EXIST": "Item already exists.",
-                "INSUFFICIENT_ACCESS": "Insufficient Access",
-                "INTERNAL": "Internal error or inconsistency.",
-                "INVALID": "Invalid operation for this type of item.",
-                "INVALID_REQUEST": "Invalid Request",
-                "IO": "External I/O error such as network failure.",
-                "NOT_EXIST": "Item does not exist.",
-                "OTHER": "Unclassified error. This value is not printed in the error message.",
-                "PRIVATE": "Information withheld.",
-                "SMTPERROR": "SMTP Error",
-                "STORAGE": "Storage Error",
-                "UNANTICIPATED": "Unanticipated error.",
-                "VALIDATION": "Input validation error."
-            },
-            "x-enum-varnames": [
-                "OTHER",
-                "INVALID",
-                "IO",
-                "EXIST",
-                "NOT_EXIST",
-                "PRIVATE",
-                "INTERNAL",
-                "BROKEN_LINK",
-                "DATABASE",
-                "VALIDATION",
-                "UNANTICIPATED",
-                "INVALID_REQUEST",
-                "SMTPERROR",
-                "EMAILERROR",
-                "STORAGE",
-                "INSUFFICIENT_ACCESS",
-                "CUSTOMER_DUPLICATE_TRANSACTION"
-            ]
-        },
-        "errs.XError": {
-            "type": "object",
-            "properties": {
-                "error": {},
-                "errorCode": {
-                    "type": "string"
-                },
-                "errorType": {
-                    "$ref": "#/definitions/errs.ErrorType"
-                },
-                "params": {
-                    "type": "array",
-                    "items": {}
-                }
-            }
-        },
         "requestModel.BulkMeasurementItem": {
             "type": "object",
             "properties": {
@@ -5136,6 +5232,26 @@ const docTemplate = `{
                 }
             }
         },
+        "requestModel.ExpenseDetail": {
+            "type": "object",
+            "properties": {
+                "expenseId": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "source": {
+                    "type": "string"
+                }
+            }
+        },
         "requestModel.ExpenseTracker": {
             "type": "object",
             "properties": {
@@ -5144,6 +5260,12 @@ const docTemplate = `{
                 },
                 "companyName": {
                     "type": "string"
+                },
+                "expenseDetails": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/requestModel.ExpenseDetail"
+                    }
                 },
                 "id": {
                     "type": "integer"
@@ -5697,54 +5819,6 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse": {
-            "type": "object",
-            "properties": {
-                "data": {},
-                "error": {
-                    "$ref": "#/definitions/errs.XError"
-                },
-                "message": {
-                    "type": "string"
-                },
-                "pageMetaData": {
-                    "$ref": "#/definitions/db.Pagination"
-                },
-                "type": {
-                    "$ref": "#/definitions/response.ResponseType"
-                }
-            }
-        },
-        "response.Response": {
-            "type": "object",
-            "properties": {
-                "error": {
-                    "$ref": "#/definitions/errs.XError"
-                },
-                "message": {
-                    "type": "string"
-                },
-                "pageMetaData": {
-                    "$ref": "#/definitions/db.Pagination"
-                },
-                "type": {
-                    "$ref": "#/definitions/response.ResponseType"
-                }
-            }
-        },
-        "response.ResponseType": {
-            "type": "string",
-            "enum": [
-                "Success",
-                "Failure",
-                "Warning"
-            ],
-            "x-enum-varnames": [
-                "SUCCESS",
-                "FAILURE",
-                "WARNING"
-            ]
-        },
         "responseModel.AssigneeTaskCount": {
             "type": "object",
             "properties": {
@@ -5970,6 +6044,20 @@ const docTemplate = `{
                 }
             }
         },
+        "responseModel.DataResponse": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "error": {},
+                "message": {
+                    "type": "string"
+                },
+                "pageMetaData": {},
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
         "responseModel.DressType": {
             "type": "object",
             "properties": {
@@ -6095,6 +6183,29 @@ const docTemplate = `{
                 }
             }
         },
+        "responseModel.ExpenseDetail": {
+            "type": "object",
+            "properties": {
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
+                },
+                "expenseId": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "source": {
+                    "type": "string"
+                }
+            }
+        },
         "responseModel.ExpenseTracker": {
             "type": "object",
             "properties": {
@@ -6106,6 +6217,12 @@ const docTemplate = `{
                 },
                 "companyName": {
                     "type": "string"
+                },
+                "expenseDetails": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responseModel.ExpenseDetail"
+                    }
                 },
                 "id": {
                     "type": "integer"
@@ -6779,6 +6896,19 @@ const docTemplate = `{
                 }
             }
         },
+        "responseModel.Response": {
+            "type": "object",
+            "properties": {
+                "error": {},
+                "message": {
+                    "type": "string"
+                },
+                "pageMetaData": {},
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
         "responseModel.SourceCountStat": {
             "type": "object",
             "properties": {
@@ -7124,6 +7254,13 @@ const docTemplate = `{
                     "type": "integer"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Token",
+            "in": "header"
         }
     }
 }`
