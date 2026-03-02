@@ -8,6 +8,11 @@
     },
     "host": "localhost:9000",
     "basePath": "/api/sf/v1",
+    "security": [
+        {
+            "BearerAuth": []
+        }
+    ],
     "paths": {
         "/admin/switch-branch": {
             "post": {
@@ -34,19 +39,19 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -80,7 +85,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -109,19 +114,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -155,7 +160,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -190,7 +195,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -226,19 +231,19 @@
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -265,13 +270,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -305,7 +310,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -334,19 +339,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -380,7 +385,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -415,7 +420,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -451,19 +456,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -490,13 +495,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -530,7 +535,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -559,19 +564,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -605,7 +610,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -640,7 +645,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -676,19 +681,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -715,13 +720,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -761,7 +766,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -801,7 +806,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -835,7 +840,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -869,7 +874,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -898,19 +903,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -945,7 +950,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -981,19 +986,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -1020,13 +1025,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -1060,7 +1065,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1089,19 +1094,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -1135,7 +1140,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1164,19 +1169,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -1211,7 +1216,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1246,7 +1251,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1281,7 +1286,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1317,19 +1322,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -1356,13 +1361,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -1400,19 +1405,129 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/expense-detail/{id}": {
+            "get": {
+                "description": "Get an expense detail by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ExpenseDetail"
+                ],
+                "summary": "Get ExpenseDetail",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ExpenseDetail id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.ExpenseDetail"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.DataResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Updates an expense detail",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ExpenseDetail"
+                ],
+                "summary": "Update ExpenseDetail",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ExpenseDetail id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "expense detail",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestModel.ExpenseDetail"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Accepted",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.Response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes an expense detail",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ExpenseDetail"
+                ],
+                "summary": "Delete ExpenseDetail",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ExpenseDetail id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -1446,7 +1561,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1475,19 +1590,99 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/expense-tracker/{expenseId}/expense-detail": {
+            "get": {
+                "description": "Get all expense details for an expense",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ExpenseDetail"
+                ],
+                "summary": "Get expense details by expense id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Expense id",
+                        "name": "expenseId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/responseModel.ExpenseDetail"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.DataResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Saves an expense detail for an expense",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ExpenseDetail"
+                ],
+                "summary": "Save ExpenseDetail",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Expense id",
+                        "name": "expenseId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "expense detail",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestModel.ExpenseDetail"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -1522,7 +1717,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1558,19 +1753,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -1597,13 +1792,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -1654,7 +1849,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1688,7 +1883,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1728,7 +1923,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1768,7 +1963,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1803,7 +1998,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1838,7 +2033,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1864,7 +2059,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1901,13 +2096,13 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1942,7 +2137,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -1977,7 +2172,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -2015,19 +2210,19 @@
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2058,19 +2253,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2098,13 +2293,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2133,13 +2328,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2173,13 +2368,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2208,13 +2403,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2250,19 +2445,19 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2296,7 +2491,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -2325,19 +2520,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2371,7 +2566,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -2400,19 +2595,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2447,7 +2642,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -2482,7 +2677,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -2516,19 +2711,19 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2560,19 +2755,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2607,7 +2802,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -2643,19 +2838,19 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2682,13 +2877,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2728,7 +2923,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -2757,19 +2952,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2803,7 +2998,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -2832,19 +3027,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -2879,7 +3074,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -2914,7 +3109,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -2948,7 +3143,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -2977,19 +3172,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3024,7 +3219,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3060,19 +3255,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3099,13 +3294,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3140,7 +3335,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3176,19 +3371,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3215,13 +3410,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3255,7 +3450,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3284,19 +3479,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3331,7 +3526,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3366,7 +3561,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3402,19 +3597,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3441,13 +3636,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3481,7 +3676,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3510,19 +3705,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3556,7 +3751,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3582,7 +3777,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3617,7 +3812,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3652,7 +3847,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3688,19 +3883,19 @@
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3727,13 +3922,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3770,7 +3965,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3799,19 +3994,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3846,7 +4041,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3882,19 +4077,19 @@
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3921,13 +4116,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -3961,7 +4156,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -3990,19 +4185,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -4072,19 +4267,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -4144,19 +4339,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -4183,13 +4378,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -4220,19 +4415,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -4267,7 +4462,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -4305,19 +4500,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -4343,13 +4538,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -4380,7 +4575,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -4426,13 +4621,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -4489,7 +4684,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse"
+                            "$ref": "#/definitions/responseModel.DataResponse"
                         }
                     }
                 }
@@ -4525,19 +4720,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -4564,13 +4759,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/responseModel.Response"
                         }
                     }
                 }
@@ -4578,29 +4773,6 @@
         }
     },
     "definitions": {
-        "db.Pagination": {
-            "type": "object",
-            "properties": {
-                "currentPage": {
-                    "type": "integer"
-                },
-                "size": {
-                    "type": "integer"
-                },
-                "skipPagination": {
-                    "type": "boolean"
-                },
-                "sort": {
-                    "type": "string"
-                },
-                "totalPages": {
-                    "type": "integer"
-                },
-                "totalRecords": {
-                    "type": "integer"
-                }
-            }
-        },
         "entities.Channel": {
             "type": "object",
             "properties": {
@@ -4838,82 +5010,6 @@
                 }
             }
         },
-        "errs.ErrorType": {
-            "type": "string",
-            "enum": [
-                "OTHER",
-                "INVALID",
-                "IO",
-                "EXIST",
-                "NOT_EXIST",
-                "PRIVATE",
-                "INTERNAL",
-                "BROKEN_LINK",
-                "DATABASE",
-                "VALIDATION",
-                "UNANTICIPATED",
-                "INVALID_REQUEST",
-                "SMTP_ERROR",
-                "EMAIL_ERROR",
-                "STORAGE",
-                "INSUFFICIENT_ACCESS",
-                "CUSTOMER_DUPLICATE_TRANSACTION"
-            ],
-            "x-enum-comments": {
-                "BROKEN_LINK": "Link target does not exist.",
-                "CUSTOMER_DUPLICATE_TRANSACTION": "Duplicate Transaction",
-                "DATABASE": "Error from database.",
-                "EMAILERROR": "SMTP Error",
-                "EXIST": "Item already exists.",
-                "INSUFFICIENT_ACCESS": "Insufficient Access",
-                "INTERNAL": "Internal error or inconsistency.",
-                "INVALID": "Invalid operation for this type of item.",
-                "INVALID_REQUEST": "Invalid Request",
-                "IO": "External I/O error such as network failure.",
-                "NOT_EXIST": "Item does not exist.",
-                "OTHER": "Unclassified error. This value is not printed in the error message.",
-                "PRIVATE": "Information withheld.",
-                "SMTPERROR": "SMTP Error",
-                "STORAGE": "Storage Error",
-                "UNANTICIPATED": "Unanticipated error.",
-                "VALIDATION": "Input validation error."
-            },
-            "x-enum-varnames": [
-                "OTHER",
-                "INVALID",
-                "IO",
-                "EXIST",
-                "NOT_EXIST",
-                "PRIVATE",
-                "INTERNAL",
-                "BROKEN_LINK",
-                "DATABASE",
-                "VALIDATION",
-                "UNANTICIPATED",
-                "INVALID_REQUEST",
-                "SMTPERROR",
-                "EMAILERROR",
-                "STORAGE",
-                "INSUFFICIENT_ACCESS",
-                "CUSTOMER_DUPLICATE_TRANSACTION"
-            ]
-        },
-        "errs.XError": {
-            "type": "object",
-            "properties": {
-                "error": {},
-                "errorCode": {
-                    "type": "string"
-                },
-                "errorType": {
-                    "$ref": "#/definitions/errs.ErrorType"
-                },
-                "params": {
-                    "type": "array",
-                    "items": {}
-                }
-            }
-        },
         "requestModel.BulkMeasurementItem": {
             "type": "object",
             "properties": {
@@ -5129,6 +5225,26 @@
                 }
             }
         },
+        "requestModel.ExpenseDetail": {
+            "type": "object",
+            "properties": {
+                "expenseId": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "source": {
+                    "type": "string"
+                }
+            }
+        },
         "requestModel.ExpenseTracker": {
             "type": "object",
             "properties": {
@@ -5137,6 +5253,12 @@
                 },
                 "companyName": {
                     "type": "string"
+                },
+                "expenseDetails": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/requestModel.ExpenseDetail"
+                    }
                 },
                 "id": {
                     "type": "integer"
@@ -5690,54 +5812,6 @@
                 }
             }
         },
-        "response.DataResponse": {
-            "type": "object",
-            "properties": {
-                "data": {},
-                "error": {
-                    "$ref": "#/definitions/errs.XError"
-                },
-                "message": {
-                    "type": "string"
-                },
-                "pageMetaData": {
-                    "$ref": "#/definitions/db.Pagination"
-                },
-                "type": {
-                    "$ref": "#/definitions/response.ResponseType"
-                }
-            }
-        },
-        "response.Response": {
-            "type": "object",
-            "properties": {
-                "error": {
-                    "$ref": "#/definitions/errs.XError"
-                },
-                "message": {
-                    "type": "string"
-                },
-                "pageMetaData": {
-                    "$ref": "#/definitions/db.Pagination"
-                },
-                "type": {
-                    "$ref": "#/definitions/response.ResponseType"
-                }
-            }
-        },
-        "response.ResponseType": {
-            "type": "string",
-            "enum": [
-                "Success",
-                "Failure",
-                "Warning"
-            ],
-            "x-enum-varnames": [
-                "SUCCESS",
-                "FAILURE",
-                "WARNING"
-            ]
-        },
         "responseModel.AssigneeTaskCount": {
             "type": "object",
             "properties": {
@@ -5772,11 +5846,8 @@
         "responseModel.Category": {
             "type": "object",
             "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdBy": {
-                    "type": "string"
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
                 },
                 "id": {
                     "type": "integer"
@@ -5790,12 +5861,6 @@
                 "productCount": {
                     "description": "Count of products in this category",
                     "type": "integer"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedBy": {
-                    "type": "string"
                 }
             }
         },
@@ -5908,11 +5973,8 @@
                 "address": {
                     "type": "string"
                 },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdBy": {
-                    "type": "string"
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
                 },
                 "email": {
                     "type": "string"
@@ -5950,12 +6012,6 @@
                 "phoneNumber": {
                     "type": "string"
                 },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedBy": {
-                    "type": "string"
-                },
                 "whatsappNumber": {
                     "type": "string"
                 }
@@ -5981,14 +6037,25 @@
                 }
             }
         },
+        "responseModel.DataResponse": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "error": {},
+                "message": {
+                    "type": "string"
+                },
+                "pageMetaData": {},
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
         "responseModel.DressType": {
             "type": "object",
             "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdBy": {
-                    "type": "string"
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
                 },
                 "description": {
                     "type": "string"
@@ -6004,23 +6071,14 @@
                 },
                 "name": {
                     "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedBy": {
-                    "type": "string"
                 }
             }
         },
         "responseModel.Enquiry": {
             "type": "object",
             "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdBy": {
-                    "type": "string"
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
                 },
                 "customer": {
                     "$ref": "#/definitions/responseModel.Customer"
@@ -6051,12 +6109,6 @@
                 },
                 "subject": {
                     "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedBy": {
-                    "type": "string"
                 }
             }
         },
@@ -6074,13 +6126,10 @@
         "responseModel.EnquiryHistory": {
             "type": "object",
             "properties": {
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
+                },
                 "callBackDate": {
-                    "type": "string"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdBy": {
                     "type": "string"
                 },
                 "customerComment": {
@@ -6122,13 +6171,30 @@
                 "status": {
                     "type": "string"
                 },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedBy": {
-                    "type": "string"
-                },
                 "visitingDate": {
+                    "type": "string"
+                }
+            }
+        },
+        "responseModel.ExpenseDetail": {
+            "type": "object",
+            "properties": {
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
+                },
+                "expenseId": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "source": {
                     "type": "string"
                 }
             }
@@ -6144,6 +6210,12 @@
                 },
                 "companyName": {
                     "type": "string"
+                },
+                "expenseDetails": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responseModel.ExpenseDetail"
+                    }
                 },
                 "id": {
                     "type": "integer"
@@ -6171,11 +6243,8 @@
         "responseModel.Inventory": {
             "type": "object",
             "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdBy": {
-                    "type": "string"
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
                 },
                 "id": {
                     "type": "integer"
@@ -6211,22 +6280,16 @@
                 },
                 "updatedAt": {
                     "type": "string"
-                },
-                "updatedBy": {
-                    "type": "string"
                 }
             }
         },
         "responseModel.InventoryLog": {
             "type": "object",
             "properties": {
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
+                },
                 "changeType": {
-                    "type": "string"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdBy": {
                     "type": "string"
                 },
                 "id": {
@@ -6275,12 +6338,6 @@
                 "stockAfter": {
                     "description": "Stock quantity after this movement",
                     "type": "integer"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedBy": {
-                    "type": "string"
                 }
             }
         },
@@ -6374,7 +6431,7 @@
                 "updatedAt": {
                     "type": "string"
                 },
-                "updatedById": {
+                "updatedBy": {
                     "type": "string"
                 }
             }
@@ -6385,13 +6442,10 @@
                 "action": {
                     "type": "string"
                 },
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
+                },
                 "changedValues": {
-                    "type": "string"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdBy": {
                     "type": "string"
                 },
                 "id": {
@@ -6420,12 +6474,6 @@
                 },
                 "performedById": {
                     "type": "integer"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedBy": {
-                    "type": "string"
                 }
             }
         },
@@ -6593,12 +6641,6 @@
                 "changedFields": {
                     "type": "string"
                 },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdBy": {
-                    "type": "string"
-                },
                 "deliveredDate": {
                     "type": "string"
                 },
@@ -6634,12 +6676,6 @@
                     "type": "integer"
                 },
                 "status": {
-                    "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedBy": {
                     "type": "string"
                 }
             }
@@ -6735,12 +6771,6 @@
                 "age": {
                     "type": "integer"
                 },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdBy": {
-                    "type": "string"
-                },
                 "customer": {
                     "$ref": "#/definitions/responseModel.Customer"
                 },
@@ -6767,18 +6797,15 @@
                     "items": {
                         "$ref": "#/definitions/responseModel.Measurement"
                     }
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedBy": {
-                    "type": "string"
                 }
             }
         },
         "responseModel.Product": {
             "type": "object",
             "properties": {
+                "auditFields": {
+                    "$ref": "#/definitions/responseModel.AuditFields"
+                },
                 "category": {
                     "description": "Related data",
                     "allOf": [
@@ -6796,12 +6823,6 @@
                 },
                 "costPrice": {
                     "type": "number"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdBy": {
-                    "type": "string"
                 },
                 "currentStock": {
                     "description": "From inventory",
@@ -6830,12 +6851,6 @@
                     "type": "number"
                 },
                 "sku": {
-                    "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedBy": {
                     "type": "string"
                 }
             }
@@ -6870,6 +6885,19 @@
                     "type": "string"
                 },
                 "referrerPhone": {
+                    "type": "string"
+                }
+            }
+        },
+        "responseModel.Response": {
+            "type": "object",
+            "properties": {
+                "error": {},
+                "message": {
+                    "type": "string"
+                },
+                "pageMetaData": {},
+                "type": {
                     "type": "string"
                 }
             }
@@ -7139,12 +7167,6 @@
         "responseModel.User": {
             "type": "object",
             "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "createdBy": {
-                    "type": "string"
-                },
                 "department": {
                     "type": "string"
                 },
@@ -7190,12 +7212,6 @@
                 "role": {
                     "type": "string"
                 },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "updatedBy": {
-                    "type": "string"
-                },
                 "userChannelDetails": {
                     "type": "array",
                     "items": {
@@ -7231,6 +7247,13 @@
                     "type": "integer"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Token",
+            "in": "header"
         }
     }
 }
