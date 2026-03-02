@@ -4,7 +4,7 @@ type Measurement struct {
 	ID       uint `json:"id,omitempty"`
 	IsActive bool `json:"isActive,omitempty"`
 
-	Values RawMessage `json:"values,omitempty"`
+	Values json.RawMessage `json:"values,omitempty"`
 
 	PersonId   *uint   `json:"personId,omitempty"`
 	Person     *Person `json:"person,omitempty"`
